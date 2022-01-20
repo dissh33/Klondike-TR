@@ -2,7 +2,6 @@
 using ItemManagementService.Domain.Entities;
 
 namespace ItemManagementService.Application.Contracts;
-
-public interface IIconRepository : IBaseGenericRepository<Icon>
+public interface ICollectionItemRepository : IBaseGenericRepository<CollectionItem>
 {
 }

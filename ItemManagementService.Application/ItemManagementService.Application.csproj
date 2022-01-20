@@ -10,4 +10,16 @@
     <ProjectReference Include="..\ItemManagementService.Domain\ItemManagementService.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BuisnessLogic\Commands\" />
+    <Folder Include="BuisnessLogic\EventHandlers\" />
+    <Folder Include="BuisnessLogic\Dtos\" />
+    <Folder Include="BuisnessLogic\Validators\" />
+    <Folder Include="BuisnessLogic\Queries\" />
+    <Folder Include="BuisnessLogic\Dtos\Collections\" />
+    <Folder Include="BuisnessLogic\Dtos\CollectionItems\" />
+    <Folder Include="BuisnessLogic\Dtos\Icons\" />
+    <Folder Include="BuisnessLogic\Dtos\Materials\" />
+  </ItemGroup>
+
 </Project>
