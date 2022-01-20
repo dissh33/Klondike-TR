@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Domain.Entities;
+﻿namespace ItemManagementService.Domain;
 
 public class BaseEntity
 {

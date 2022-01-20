@@ -33,6 +33,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService.Api", "PriceRateForecastService.Api\PriceRateForecastService.Api.csproj", "{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE377AF8-98D0-4B6A-B566-9B95FBB517D3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.Domain", "ItemManagementService.Domain\ItemManagementService.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.Application", "ItemManagementService.Application\ItemManagementService.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.Infrastructure", "ItemManagementService.Infrastructure\ItemManagementService.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.DataBase", "ItemManagementService.DataBase\ItemManagementService.DataBase.csproj", "{69A33BD2-8CBE-4EA9-AAE0-0E9E83DA8E8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +88,22 @@ Global
 		{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D34D45F4-51C6-4CBC-83F8-43FB96D44976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D34D45F4-51C6-4CBC-83F8-43FB96D44976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D34D45F4-51C6-4CBC-83F8-43FB96D44976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D34D45F4-51C6-4CBC-83F8-43FB96D44976}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A33BD2-8CBE-4EA9-AAE0-0E9E83DA8E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A33BD2-8CBE-4EA9-AAE0-0E9E83DA8E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A33BD2-8CBE-4EA9-AAE0-0E9E83DA8E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A33BD2-8CBE-4EA9-AAE0-0E9E83DA8E8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +122,10 @@ Global
 		{977054F9-2F79-4399-9E4B-8180907E86AE} = {E0D79CA4-1047-4C6B-80D5-BCDCBEBA7267}
 		{666BFE3B-A412-4BE9-8853-AB10D25B5719} = {E0D79CA4-1047-4C6B-80D5-BCDCBEBA7267}
 		{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9} = {E0D79CA4-1047-4C6B-80D5-BCDCBEBA7267}
+		{D34D45F4-51C6-4CBC-83F8-43FB96D44976} = {EE6A981B-504B-4A2F-A440-BF0021785C4F}
+		{0F90B828-081D-4235-8D64-9ABBE9C9B5AF} = {EE6A981B-504B-4A2F-A440-BF0021785C4F}
+		{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C} = {EE6A981B-504B-4A2F-A440-BF0021785C4F}
+		{69A33BD2-8CBE-4EA9-AAE0-0E9E83DA8E8B} = {EE6A981B-504B-4A2F-A440-BF0021785C4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2EB99BF-658B-40A0-BA42-F02D33E92507}
