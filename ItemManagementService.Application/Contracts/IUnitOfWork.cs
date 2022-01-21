@@ -1,10 +1,11 @@
-﻿
+﻿using ItemManagementService.Domain.Entities;
+
 namespace ItemManagementService.Application.Contracts;
 
 public interface IUnitOfWork 
 {
-    public IIconRepository? IconRepository { get; }
-    public IMaterialRepository? MaterialRepository { get; }
-    public ICollectionRepository? CollectionRepository { get; }
-    public ICollectionItemRepository? CollectionItemRepository { get; }
+    IGenericRepository<Icon>? IconRepository { get; }
+    IGenericRepository<Material>? MaterialRepository { get; }
+    IGenericRepository<Collection>? CollectionRepository { get; }
+    IGenericRepository<CollectionItem>? CollectionItemRepository { get; }
 }

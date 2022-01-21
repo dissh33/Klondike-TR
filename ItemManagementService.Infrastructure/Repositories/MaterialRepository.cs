@@ -1,18 +1,17 @@
 ﻿using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
+public class MaterialRepository : Repository<Material>, IMaterialRepository
 {
     private readonly NpgsqlConnection _connection;
 
-    public MaterialRepository(IConfiguration configuration) : base(configuration)
+    public MaterialRepository(string connectionString) 
     {
-        _connection = new NpgsqlConnection(ConnectionString);
+        _connection = new NpgsqlConnection(connectionString);
     }
     public async Task<Material> GetById(int id, CancellationToken ct)
     {
@@ -51,5 +50,12 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         var cmd = DeleteCommand(id, ct);
 
         await _connection.ExecuteAsync(cmd);
+    }
+
+    override public void Dispose()
+    {
+        _connection.Close();
+        _connection.DisposeAsync();
+        base.Dispose();
     }
 }

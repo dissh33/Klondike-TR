@@ -2,6 +2,6 @@
 using ItemManagementService.Domain.Entities;
 
 namespace ItemManagementService.Application.Contracts;
-public interface IMaterialRepository : IBaseGenericRepository<Material>
+public interface IMaterialRepository : IGenericRepository<Material>
 {
 }

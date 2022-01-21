@@ -1,19 +1,45 @@
 ﻿using ItemManagementService.Application.Contracts;
-using Microsoft.Extensions.DependencyInjection;
+using ItemManagementService.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
-        private readonly IServiceProvider _serviceProvider;
+    protected readonly string ConnectionString;
 
-        public UnitOfWork(IServiceProvider serviceProvider)
+    public UnitOfWork(IConfiguration configuration)
+    {
+        ConnectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+
+    private IGenericRepository<Icon>? _iconRepository;
+    private IGenericRepository<Material>? _materialRepository;
+    private IGenericRepository<Collection>? _collectionRepository;
+    private IGenericRepository<CollectionItem>? _collectionItemRepository;
+
+    public IGenericRepository<Icon> IconRepository => _iconRepository ??= new IconRepository(ConnectionString);
+    public IGenericRepository<Material> MaterialRepository => _materialRepository ??= new MaterialRepository(ConnectionString);
+    public IGenericRepository<Collection> CollectionRepository => _collectionRepository ??= new CollectionRepository(ConnectionString);
+    public IGenericRepository<CollectionItem> CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(ConnectionString);
+   
+    private bool disposed = false;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
         {
-            _serviceProvider = serviceProvider;
+            _iconRepository?.Dispose();
+            _materialRepository?.Dispose();
+            _collectionRepository?.Dispose();
+            _collectionItemRepository?.Dispose();
         }
+        disposed = true;
+    }
 
-        public IIconRepository? IconRepository => _serviceProvider.GetService<IIconRepository>();
-        public IMaterialRepository? MaterialRepository => _serviceProvider.GetService<IMaterialRepository>();
-        public ICollectionRepository? CollectionRepository => _serviceProvider.GetService<ICollectionRepository>();
-        public ICollectionItemRepository? CollectionItemRepository => _serviceProvider.GetService<ICollectionItemRepository>();
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 }

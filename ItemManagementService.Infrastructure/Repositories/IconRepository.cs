@@ -1,18 +1,17 @@
 ﻿using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
-using Microsoft.Extensions.Configuration;
 using Npgsql;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class IconRepository : BaseRepository<Icon>, IIconRepository
+public class IconRepository : Repository<Icon>, IIconRepository
 {
     private readonly NpgsqlConnection _connection;
 
-    public IconRepository(IConfiguration configuration) : base(configuration)
+    public IconRepository(string connectionString)
     {
-        _connection = new NpgsqlConnection(ConnectionString);
+        _connection = new NpgsqlConnection(connectionString);
     }
 
     public async Task<Icon> GetById(int id, CancellationToken ct)
@@ -52,5 +51,12 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         var cmd = DeleteCommand(id, ct);
 
         await _connection.ExecuteAsync(cmd);
+    }
+
+    override public void Dispose()
+    {
+        _connection.Close();
+        _connection.DisposeAsync();
+        base.Dispose();
     }
 }
