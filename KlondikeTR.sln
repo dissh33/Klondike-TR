@@ -33,16 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService.Api", "PriceRateForecastService.Api\PriceRateForecastService.Api.csproj", "{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE377AF8-98D0-4B6A-B566-9B95FBB517D3}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Domain", "ItemManagementService.Domain\ItemManagementService.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.Domain", "ItemManagementService.Domain\ItemManagementService.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Application", "ItemManagementService.Application\ItemManagementService.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.Application", "ItemManagementService.Application\ItemManagementService.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementService.Infrastructure", "ItemManagementService.Infrastructure\ItemManagementService.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Infrastructure", "ItemManagementService.Infrastructure\ItemManagementService.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ItemManagementService.Api\ItemManagementService.Api.csproj" />
     <ProjectReference Include="..\ItemManagementService.Domain\ItemManagementService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationLogic\Commands\" />
     <Folder Include="ApplicationLogic\EventHandlers\" />
     <Folder Include="ApplicationLogic\Dtos\" />
     <Folder Include="ApplicationLogic\Queries\" />
@@ -20,6 +20,11 @@
     <Folder Include="ApplicationLogic\Dtos\Icons\" />
     <Folder Include="ApplicationLogic\Dtos\Materials\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
 </Project>
