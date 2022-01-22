@@ -1,9 +1,14 @@
-
+using ItemManagementService.Application;
+using ItemManagementService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 #region Add services
+
+builder.Services.RegisterInfrastructureServices();
+
+builder.Services.RegisterApplicationServices();
 
 builder.Services.AddControllers();
 

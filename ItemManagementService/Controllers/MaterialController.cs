@@ -6,35 +6,35 @@ namespace ItemManagementService.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class IconsController : ControllerBase
+public class MaterialController : ControllerBase
 {
-    // GET: api/<IconsController>
+    // GET: api/<MaterialsController>
     [HttpGet]
     public IEnumerable<string> Get()
     {
         return new string[] { "value1", "value2" };
     }
 
-    // GET api/<IconsController>/5
+    // GET api/<MaterialsController>/5
     [HttpGet("{id}")]
     public string Get(int id)
     {
         return "value";
     }
 
-    // POST api/<IconsController>
+    // POST api/<MaterialsController>
     [HttpPost]
     public void Post([FromBody] string value)
     {
     }
 
-    // PUT api/<IconsController>/5
+    // PUT api/<MaterialsController>/5
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)
     {
     }
 
-    // DELETE api/<IconsController>/5
+    // DELETE api/<MaterialsController>/5
     [HttpDelete("{id}")]
     public void Delete(int id)
     {

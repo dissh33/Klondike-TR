@@ -14,7 +14,7 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
         _connection = new NpgsqlConnection(connectionString);
     }
 
-    public async Task<Collection> GetById(int id, CancellationToken ct)
+    public async Task<Collection> GetById(Guid id, CancellationToken ct)
     {
         var cmd = GetByIdCommand(id, ct);
 
@@ -32,7 +32,7 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
     {
         var cmd = InsertCommand(collection, ct);
 
-        var id = await _connection.ExecuteScalarAsync<int>(cmd);
+        var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
 
         return await GetById(id, ct);
     }
@@ -41,12 +41,12 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
     {
         var cmd = UpdateCommand(collection, ct);
 
-        var id = await _connection.ExecuteScalarAsync<int>(cmd);
+        var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
 
         return await GetById(id, ct);
     }
 
-    public async Task Delete(int id, CancellationToken ct)
+    public async Task Delete(Guid id, CancellationToken ct)
     {
         var cmd = DeleteCommand(id, ct);
 

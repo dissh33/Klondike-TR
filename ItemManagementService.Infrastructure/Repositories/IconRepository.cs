@@ -14,7 +14,7 @@ public class IconRepository : Repository<Icon>, IIconRepository
         _connection = new NpgsqlConnection(connectionString);
     }
 
-    public async Task<Icon> GetById(int id, CancellationToken ct)
+    public async Task<Icon> GetById(Guid id, CancellationToken ct)
     {
         var cmd = GetByIdCommand(id, ct);
         
@@ -30,9 +30,10 @@ public class IconRepository : Repository<Icon>, IIconRepository
 
     public async Task<Icon> Insert(Icon icon, CancellationToken ct)
     {
+        var sql = $"INSERT INTO {SchemaName}.{TableName} ({SelectColumns}) VALUES (@Title, @FileBinary, @FileName, @Id, @ExternalId) RETURNING id";
         var cmd = InsertCommand(icon, ct);
 
-        var id = await _connection.ExecuteScalarAsync<int>(cmd);
+        var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
 
         return await GetById(id, ct);
     }
@@ -41,16 +42,16 @@ public class IconRepository : Repository<Icon>, IIconRepository
     {
         var cmd = UpdateCommand(icon, ct);
 
-        var id = await _connection.ExecuteScalarAsync<int>(cmd);
+        var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
 
         return await GetById(id, ct);
     }
 
-    public async Task Delete(int id, CancellationToken ct)
+    public async Task<int> Delete(Guid id, CancellationToken ct)
     {
         var cmd = DeleteCommand(id, ct);
 
-        await _connection.ExecuteAsync(cmd);
+        return await _connection.ExecuteAsync(cmd);
     }
 
     override public void Dispose()

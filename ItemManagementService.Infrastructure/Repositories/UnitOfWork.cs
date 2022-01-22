@@ -6,35 +6,35 @@ namespace ItemManagementService.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    protected readonly string ConnectionString;
+    protected string ConnectionString { get; }
 
     public UnitOfWork(IConfiguration configuration)
     {
         ConnectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
-    private IGenericRepository<Icon>? _iconRepository;
-    private IGenericRepository<Material>? _materialRepository;
-    private IGenericRepository<Collection>? _collectionRepository;
-    private IGenericRepository<CollectionItem>? _collectionItemRepository;
+    private IIconRepository? _iconRepository;
+    private IMaterialRepository? _materialRepository;
+    private ICollectionRepository? _collectionRepository;
+    private ICollectionItemRepository? _collectionItemRepository;
 
-    public IGenericRepository<Icon> IconRepository => _iconRepository ??= new IconRepository(ConnectionString);
-    public IGenericRepository<Material> MaterialRepository => _materialRepository ??= new MaterialRepository(ConnectionString);
-    public IGenericRepository<Collection> CollectionRepository => _collectionRepository ??= new CollectionRepository(ConnectionString);
-    public IGenericRepository<CollectionItem> CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(ConnectionString);
+    public IIconRepository IconRepository => _iconRepository ??= new IconRepository(ConnectionString);
+    public IMaterialRepository MaterialRepository => _materialRepository ??= new MaterialRepository(ConnectionString);
+    public ICollectionRepository CollectionRepository => _collectionRepository ??= new CollectionRepository(ConnectionString);
+    public ICollectionItemRepository CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(ConnectionString);
    
-    private bool disposed = false;
+    private bool _disposed = false;
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposed && disposing)
+        if (!_disposed && disposing)
         {
             _iconRepository?.Dispose();
             _materialRepository?.Dispose();
             _collectionRepository?.Dispose();
             _collectionItemRepository?.Dispose();
         }
-        disposed = true;
+        _disposed = true;
     }
 
     public void Dispose()

@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS "public"."icon" (
   "id" uuid NOT NULL,
   "external_id" varchar(255),
   "title" varchar(255),
-  "binary" bytea NOT NULL,
+  "file_binary" bytea NOT NULL,
+  "file_name" varchar(255),
   PRIMARY KEY ("id")
 );
 

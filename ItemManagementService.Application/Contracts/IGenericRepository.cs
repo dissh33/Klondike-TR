@@ -2,6 +2,7 @@
 
 namespace ItemManagementService.Application.Contracts;
 
-public interface IGenericRepository<T> : IDisposable where T : BaseEntity
+public interface IGenericRepository<T> : IDisposable 
+    where T : BaseEntity
 {
 }

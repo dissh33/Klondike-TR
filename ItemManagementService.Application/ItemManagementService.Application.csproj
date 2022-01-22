@@ -12,17 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationLogic\EventHandlers\" />
-    <Folder Include="ApplicationLogic\Dtos\" />
-    <Folder Include="ApplicationLogic\Queries\" />
-    <Folder Include="ApplicationLogic\Dtos\Collections\" />
-    <Folder Include="ApplicationLogic\Dtos\CollectionItems\" />
-    <Folder Include="ApplicationLogic\Dtos\Icons\" />
-    <Folder Include="ApplicationLogic\Dtos\Materials\" />
-    <Folder Include="Models\" />
+    <Folder Include="RequestsLogic\EventHandlers\" />
+    <Folder Include="RequestsLogic\Dtos\" />
+    <Folder Include="RequestsLogic\Dtos\Collections\" />
+    <Folder Include="RequestsLogic\Dtos\CollectionItems\" />
+    <Folder Include="RequestsLogic\Dtos\Icons\" />
+    <Folder Include="RequestsLogic\Dtos\Materials\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>

@@ -6,7 +6,7 @@ namespace ItemManagementService.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CollectionsController : ControllerBase
+public class CollectionController : ControllerBase
 {
     // GET: api/<CollectionsController>
     [HttpGet]

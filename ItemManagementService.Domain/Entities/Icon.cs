@@ -3,17 +3,20 @@
 public class Icon : BaseEntity
 {
     public string? Title { get; }
-    public byte[]? Binary { get; }
+    public byte[]? FileBinary { get; }
+    public string? FileName { get; }
 
-    public Icon(string? title, byte[]? binary) : base()
+    public Icon()
     {
-        Title = title;
-        Binary = binary;
+        
     }
 
-    public Icon(string? title, byte[]? binary, string? externalId = null) : base(externalId)
+    public Icon(string? title, byte[]? fileBinary, string? fileName, Guid? id = null, string? externalId = null)
     {
+        Id = id ?? Guid.NewGuid();
+        ExternalId = externalId;
         Title = title;
-        Binary = binary;
+        FileBinary = fileBinary ?? throw new ArgumentNullException();
+        FileName = fileName ?? throw new ArgumentNullException();
     }
 }
