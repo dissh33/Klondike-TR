@@ -1,6 +1,4 @@
-﻿using ItemManagementService.Domain.Entities;
-
-namespace ItemManagementService.Application.Contracts;
+﻿namespace ItemManagementService.Application.Contracts;
 
 public interface IUnitOfWork 
 {

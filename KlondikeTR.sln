@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfferConstructionService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfferConstructionService.Api", "OfferConstructionService.Api\OfferConstructionService.Api.csproj", "{A5328A94-2E7A-433E-A5B7-6A50524955D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService", "ItemManagementService\ItemManagementService.csproj", "{B8ADEDE5-8FA1-40B2-8854-436F85FB78AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Admin", "ItemManagementService.Admin\ItemManagementService.Admin.csproj", "{B8ADEDE5-8FA1-40B2-8854-436F85FB78AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Api", "ItemManagementService.Api\ItemManagementService.Api.csproj", "{8A331F57-9851-46FA-A354-F6BA3266179F}"
 EndProject

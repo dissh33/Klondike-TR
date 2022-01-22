@@ -1,5 +1,4 @@
-﻿using ItemManagementService.Api.Dtos;
-using MediatR;
+﻿using MediatR;
 
 namespace ItemManagementService.Api.Commands;
 

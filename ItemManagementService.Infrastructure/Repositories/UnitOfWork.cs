@@ -1,5 +1,4 @@
 ﻿using ItemManagementService.Application.Contracts;
-using ItemManagementService.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 
 namespace ItemManagementService.Infrastructure.Repositories;
