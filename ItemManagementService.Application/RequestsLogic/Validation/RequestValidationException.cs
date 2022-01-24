@@ -2,15 +2,15 @@
 
 namespace ItemManagementService.Application.RequestsLogic.Validation;
 
-public class ValidationException : Exception
+public class RequestValidationException : Exception
 {
-    public ValidationException()
+    public RequestValidationException()
         : base("One or more validation failures have occurred.")
     {
         Errors = new Dictionary<string, string[]>();
     }
 
-    public ValidationException(IEnumerable<ValidationFailure> failures)
+    public RequestValidationException(IEnumerable<ValidationFailure> failures)
         : this()
     {
         Errors = failures

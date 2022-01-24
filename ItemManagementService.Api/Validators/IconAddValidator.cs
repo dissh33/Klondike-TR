@@ -7,7 +7,7 @@ public class IconAddValidator : AbstractValidator<IconAddCommand>
 {
     public IconAddValidator()
     {
-        RuleFor(icon => icon.Title).MaximumLength(250);
-        RuleFor(icon => icon.FileBinary).NotEmpty();
+        RuleFor(icon => icon.Title).Length(3, 250);
+        RuleFor(icon => icon.File).NotEmpty();
     }
 }

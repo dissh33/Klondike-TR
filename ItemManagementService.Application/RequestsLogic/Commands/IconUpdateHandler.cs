@@ -18,10 +18,14 @@ public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto>
     }
     public async Task<IconDto> Handle(IconUpdateCommand request, CancellationToken ct)
     {
+        var fileStream = new MemoryStream();
+        await request.File!.CopyToAsync(fileStream, ct);
+        var binary = fileStream.GetBuffer();
+
         var entity = new Icon(
             request.Title,
-            request.FileBinary,
-            request.FileName,
+            binary,
+            request.File.FileName,
             request.Id
         );
 

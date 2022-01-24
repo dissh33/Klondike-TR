@@ -16,7 +16,7 @@ public class Icon : BaseEntity
         Id = id ?? Guid.NewGuid();
         ExternalId = externalId;
         Title = title;
-        FileBinary = fileBinary ?? throw new ArgumentNullException();
-        FileName = fileName ?? throw new ArgumentNullException();
+        FileBinary = fileBinary;
+        FileName = fileName;
     }
 }

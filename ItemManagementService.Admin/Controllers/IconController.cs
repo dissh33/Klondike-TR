@@ -4,8 +4,7 @@ using ItemManagementService.Api.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-
-namespace ItemManagementService.Controllers;
+namespace ItemManagementService.Admin.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -31,45 +30,17 @@ public class IconController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IconDto> Post([FromForm] string? title, IFormFile file, CancellationToken ct)
+    public async Task<IconDto> Post([FromForm] IconAddCommand requestModel, CancellationToken ct)
     {
-        var fileStream = new MemoryStream();
-        await file.CopyToAsync(fileStream, ct);
-        var binary = fileStream.GetBuffer();
-
-        var request = new IconAddCommand
-        {
-            Title = title,
-            FileBinary = binary,
-            FileName = file.FileName,
-        };
-
-        return await _mediator.Send(request, ct);
+        return await _mediator.Send(requestModel, ct);
     }
 
     [HttpPut("{id}")]
-    public async Task<IconDto> Put([FromRoute] Guid id, [FromForm] string? title, IFormFile? file, CancellationToken ct)
-    {
-        byte[]? binary = null;
-
-        if (file != null)
-        {
-            var fileStream = new MemoryStream();
-            await file.CopyToAsync(fileStream, ct);
-            binary = fileStream.GetBuffer(); 
-        }
-
-        var request = new IconUpdateCommand
-        {
-            Id = id,
-            Title = title,
-            FileBinary = binary,
-            FileName = file?.FileName,
-        };
-
-        return await _mediator.Send(request, ct);
+    public async Task<IconDto> Put([FromForm] IconUpdateCommand requestModel, CancellationToken ct)
+    { 
+        return await _mediator.Send(requestModel, ct);
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<int> Delete(Guid id, CancellationToken ct)
     {

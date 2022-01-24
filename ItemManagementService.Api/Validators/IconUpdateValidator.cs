@@ -8,6 +8,6 @@ public class IconUpdateValidator : AbstractValidator<IconUpdateCommand>
     public IconUpdateValidator()
     {
         RuleFor(icon => icon.Id).NotEmpty();
-        RuleFor(icon => icon.Title).MaximumLength(250);
+        RuleFor(icon => icon.Title).Length(3, 250);
     }
 }

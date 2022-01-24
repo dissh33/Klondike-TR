@@ -20,10 +20,14 @@ public class IconAddHandler : IRequestHandler<IconAddCommand, IconDto>
 
     public async Task<IconDto> Handle(IconAddCommand request, CancellationToken ct)
     {
+        var fileStream = new MemoryStream();
+        await request.File!.CopyToAsync(fileStream, ct);
+        var binary = fileStream.GetBuffer();
+
         var entity = new Icon(
             request.Title,
-            request.FileBinary,
-            request.FileName
+            binary,
+            request.File.FileName
         );
 
        var result = await _uow.IconRepository!.Insert(entity, ct);

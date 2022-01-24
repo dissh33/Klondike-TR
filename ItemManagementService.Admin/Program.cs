@@ -1,5 +1,10 @@
+using FluentValidation.AspNetCore;
+using ItemManagementService.Admin.Filters;
+using ItemManagementService.Api;
 using ItemManagementService.Application;
 using ItemManagementService.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +15,12 @@ builder.Services.RegisterInfrastructureServices();
 
 builder.Services.RegisterApplicationServices();
 
-builder.Services.AddControllers();
+builder.Services.RegisterRequestValidators();
+
+builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
+                .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+
+builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
