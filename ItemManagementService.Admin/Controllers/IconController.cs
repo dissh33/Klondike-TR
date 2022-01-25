@@ -18,32 +18,44 @@ public class IconController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<IconDto>> Get(CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<IconDto>>> Get(CancellationToken ct)
     {
-        return await _mediator.Send(new IconGetAllQuery(), ct);
+        var result = await _mediator.Send(new IconGetAllQuery(), ct);
+        return new JsonResult(result);
     }
     
     [HttpGet("{id}")]
-    public async Task<IconDto> Get(Guid id, CancellationToken ct)
+    public async Task<ActionResult<IconDto>> Get(Guid id, CancellationToken ct)
     {
-        return await _mediator.Send(new IconGetByIdQuery(id), ct);
+        var result = await _mediator.Send(new IconGetByIdQuery(id), ct);
+        return new JsonResult(result);
     }
-    
-    [HttpPost]
-    public async Task<IconDto> Post([FromForm] IconAddCommand requestModel, CancellationToken ct)
+
+    [HttpGet("{id}/file")]
+    public async Task<IActionResult> GetFile(Guid id, CancellationToken ct)
     {
-        return await _mediator.Send(requestModel, ct);
+        var result = await _mediator.Send(new IconGetFileQuery(id), ct);
+        return File(result.FileStream ?? Stream.Null, "application/octet-stream", result.FileName);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<IconDto>> Post([FromForm] IconAddCommand requestModel, CancellationToken ct)
+    {
+        var result = await _mediator.Send(requestModel, ct);
+        return new JsonResult(result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IconDto> Put([FromForm] IconUpdateCommand requestModel, CancellationToken ct)
+    public async Task<ActionResult<IconDto>> Put([FromForm] IconUpdateCommand requestModel, CancellationToken ct)
     { 
-        return await _mediator.Send(requestModel, ct);
+        var result = await _mediator.Send(requestModel, ct);
+        return new JsonResult(result);
     }
 
     [HttpDelete("{id}")]
-    public async Task<int> Delete(Guid id, CancellationToken ct)
+    public async Task<ActionResult<int>> Delete(Guid id, CancellationToken ct)
     {
-        return await _mediator.Send(new IconDeleteCommand(id), ct);
+        var result = await _mediator.Send(new IconDeleteCommand(id), ct);
+        return new JsonResult(result);
     }
 }

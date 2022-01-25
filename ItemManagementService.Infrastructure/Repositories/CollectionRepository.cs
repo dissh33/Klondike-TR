@@ -16,21 +16,21 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
 
     public async Task<Collection> GetById(Guid id, CancellationToken ct)
     {
-        var cmd = GetByIdCommand(id, ct);
+        var cmd = GetByIdBaseCommand(id, ct);
 
         return await _connection.QueryFirstOrDefaultAsync<Collection>(cmd);
     }
 
     public async Task<IEnumerable<Collection>> GetAll(CancellationToken ct)
     {
-        var cmd = GetAllCommand(ct);
+        var cmd = GetAllBaseCommand(ct);
 
         return await _connection.QueryAsync<Collection>(cmd);
     }
 
     public async Task<Collection> Insert(Collection collection, CancellationToken ct)
     {
-        var cmd = InsertCommand(collection, ct);
+        var cmd = InsertBaseCommand(collection, ct);
 
         var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
 
@@ -39,7 +39,7 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
 
     public async Task<Collection> Update(Collection collection, CancellationToken ct)
     {
-        var cmd = UpdateCommand(collection, ct);
+        var cmd = UpdateBaseCommand(collection, ct);
 
         var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
 
@@ -48,7 +48,7 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
 
     public async Task Delete(Guid id, CancellationToken ct)
     {
-        var cmd = DeleteCommand(id, ct);
+        var cmd = DeleteBaseCommand(id, ct);
 
         await _connection.ExecuteAsync(cmd);
     }

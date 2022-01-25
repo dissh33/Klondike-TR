@@ -13,9 +13,6 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
     protected const string SchemaName = "public";
 
     protected string TableName { get; }
-    protected string SelectColumns { get; }
-    protected string InsertColumns { get; }
-    protected string UpdateColumns { get; }
     
     static Repository()
     {
@@ -25,16 +22,13 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
     protected Repository()
     {
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
-        
-        var columnsList = GetColumns().ToList();
-        SelectColumns = string.Join(", ", columnsList.Select(InsertUnderscoreBeforeUpperCase));
-        InsertColumns = $"({SelectColumns}) VALUES ({string.Join(", ", columnsList.Select(e => "@" + e))})";
-        UpdateColumns = string.Join(", ", columnsList.Select(e => $"{InsertUnderscoreBeforeUpperCase(e)} = @{e}"));
     }
 
-    protected CommandDefinition GetByIdCommand(Guid id, CancellationToken ct)
+    protected CommandDefinition GetByIdBaseCommand(Guid id, CancellationToken ct)
     {
-        var sql = $"SELECT {SelectColumns} FROM {SchemaName}.{TableName} WHERE id = @id";
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var sql = $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id = @id";
 
         return new CommandDefinition(
             sql,
@@ -43,9 +37,11 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
             cancellationToken: ct);
     }
 
-    protected CommandDefinition GetAllCommand(CancellationToken ct)
+    protected CommandDefinition GetAllBaseCommand(CancellationToken ct)
     {
-        var sql = $"SELECT {SelectColumns} FROM {SchemaName}.{TableName}";
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var sql = $"SELECT {selectColumns} FROM {SchemaName}.{TableName}";
 
         return new CommandDefinition(
             sql,
@@ -53,9 +49,12 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
             cancellationToken: ct);
     }
 
-    protected CommandDefinition InsertCommand(T entity, CancellationToken ct)
+    protected CommandDefinition InsertBaseCommand(T entity, CancellationToken ct)
     {
-        var sql = $"INSERT INTO {SchemaName}.{TableName} {InsertColumns} RETURNING id";
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var insertColumns = $"({selectColumns}) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))})";
+
+        var sql = $"INSERT INTO {SchemaName}.{TableName} {insertColumns} RETURNING id";
         
         return new CommandDefinition(
             sql,
@@ -64,9 +63,11 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
             cancellationToken: ct);
     }
 
-    protected CommandDefinition UpdateCommand(T entity, CancellationToken ct)
+    protected CommandDefinition UpdateBaseCommand(T entity, CancellationToken ct)
     {
-        var sql = $"UPDATE {SchemaName}.{TableName} SET {UpdateColumns} WHERE id = @id RETURNING id";
+        var updateColumns = string.Join(", ", GetColumns().Select(e => $"{InsertUnderscoreBeforeUpperCase(e)} = @{e}"));
+
+        var sql = $"UPDATE {SchemaName}.{TableName} SET {updateColumns} WHERE id = @id RETURNING id";
 
         return new CommandDefinition(
             sql,
@@ -75,7 +76,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
             cancellationToken: ct);
     }
 
-    protected CommandDefinition DeleteCommand(Guid id, CancellationToken ct)
+    protected CommandDefinition DeleteBaseCommand(Guid id, CancellationToken ct)
     {
         var sql = $"DELETE FROM {SchemaName}.{TableName} WHERE id = @id";
 
@@ -86,22 +87,22 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
             cancellationToken: ct);
     }
 
-    private IEnumerable<string> GetColumns()
+    protected IEnumerable<string> GetColumns()
     {
         return typeof(T)
             .GetProperties()
             .Select(prop => prop.Name);
     }
 
-    private string InsertUnderscoreBeforeUpperCase(string str)
+    protected string InsertUnderscoreBeforeUpperCase(string str)
     {
         var sb = new StringBuilder();
 
         char previousChar = char.MinValue;
 
-        foreach (char c in str)
+        foreach (char ch in str)
         {
-            if (char.IsUpper(c))
+            if (char.IsUpper(ch))
             {
                 if (sb.Length != 0 && previousChar != ' ')
                 {
@@ -109,9 +110,9 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
                 }
             }
 
-            sb.Append(c);
+            sb.Append(ch);
 
-            previousChar = c;
+            previousChar = ch;
         }
 
         return sb.ToString().ToLower();

@@ -9,5 +9,6 @@ public class IconProfile : Profile
     public IconProfile()
     {
         CreateMap<Icon, IconDto>();
+        CreateMap<Icon, IconFileDto>();
     }
 }
