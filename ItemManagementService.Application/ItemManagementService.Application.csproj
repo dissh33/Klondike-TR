@@ -12,15 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RequestsLogic\EventHandlers\" />
-    <Folder Include="RequestsLogic\Dtos\" />
-    <Folder Include="RequestsLogic\Dtos\Collections\" />
-    <Folder Include="RequestsLogic\Dtos\CollectionItems\" />
-    <Folder Include="RequestsLogic\Dtos\Icons\" />
-    <Folder Include="RequestsLogic\Dtos\Materials\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation" Version="10.3.6" />

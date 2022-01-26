@@ -91,6 +91,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
     {
         return typeof(T)
             .GetProperties()
+            .Where(prop => prop.Name != "DomainEvents")
             .Select(prop => prop.Name);
     }
 
