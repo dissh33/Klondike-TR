@@ -2,7 +2,7 @@
 using ItemManagementService.Api.Dtos;
 using ItemManagementService.Domain.Entities;
 
-namespace ItemManagementService.Application.Mapping;
+namespace ItemManagementService.Application.RequestsLogic.Mapping;
 
 public class IconProfile : Profile
 {

@@ -1,6 +1,6 @@
 ﻿namespace ItemManagementService.Domain.Entities;
 
-public class Icon : BaseEntity, IHasDomainEvent
+public class Icon : BaseEntity
 {
     public string? Title { get; }
     public byte[]? FileBinary { get; }
@@ -19,6 +19,4 @@ public class Icon : BaseEntity, IHasDomainEvent
         FileBinary = fileBinary;
         FileName = fileName;
     }
-
-    public List<DomainEvent> DomainEvents { get; set; } = new();
 }

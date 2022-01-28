@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace ItemManagementService.Application.RequestsLogic.Validation;
+namespace ItemManagementService.Application.RequestsLogic.Exceptions;
 
 public class RequestValidationException : Exception
 {

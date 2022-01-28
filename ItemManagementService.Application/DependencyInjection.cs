@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using ItemManagementService.Application.RequestsLogic.Validation;
+using ItemManagementService.Application.RequestsLogic.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +14,7 @@ namespace ItemManagementService.Application
             services.AddMediatR(currentAssembly);
             services.AddAutoMapper(currentAssembly);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
     }
 }
