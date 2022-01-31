@@ -4,20 +4,19 @@ using ItemManagementService.Api;
 using ItemManagementService.Application;
 using ItemManagementService.Infrastructure;
 using Serilog;
-using Serilog.Events;
 
 
 #region HostBuilder
 
 var builder = WebApplication.CreateBuilder(args);
 
-var logger = new LoggerConfiguration()
+Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
 
-builder.Host.UseSerilog(logger);
+builder.Host.UseSerilog(Log.Logger);
 #endregion
 
 
@@ -55,6 +54,7 @@ if (app.Environment.IsProduction())
     app.UseHsts();
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
