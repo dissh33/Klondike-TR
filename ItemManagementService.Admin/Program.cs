@@ -4,9 +4,24 @@ using ItemManagementService.Api;
 using ItemManagementService.Application;
 using ItemManagementService.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using Serilog.Formatting.Compact;
+using Serilog.Formatting.Display;
+using Serilog.Formatting.Json;
 
+
+#region HostBuilder
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog(logger);
+#endregion
 
 
 #region Add services
@@ -43,6 +58,8 @@ if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
