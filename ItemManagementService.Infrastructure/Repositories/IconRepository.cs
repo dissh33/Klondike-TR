@@ -2,7 +2,6 @@
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
-using ItemManagementService.Infrastructure.Diagnostic;
 using ItemManagementService.Infrastructure.Logging;
 using Newtonsoft.Json;
 using Npgsql;

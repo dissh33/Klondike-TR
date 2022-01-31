@@ -11,9 +11,10 @@ public static class LogEventsDefinitions
     {
         if (logger.IsEnabled(LogEventLevel.Information))
         {
-            logger.Information("Executing Sql-command \n\t\t {@sql} \n\t\t with parameters {@parameters}", cmd.CommandText, cmd.Parameters);
+            logger.Information("\n\t Executing Sql-command \n\t {@sql}\n\t with parameters \n\t {@parameters}", cmd.CommandText, cmd.Parameters);
 
             var timer = Stopwatch.StartNew();
+
             var result = await action();
             logger.Information("Sql-command executed in {time}.", timer.Elapsed);
             return result;

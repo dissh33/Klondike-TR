@@ -3,11 +3,8 @@ using ItemManagementService.Admin.Filters;
 using ItemManagementService.Api;
 using ItemManagementService.Application;
 using ItemManagementService.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using Serilog.Formatting.Compact;
-using Serilog.Formatting.Display;
-using Serilog.Formatting.Json;
+using Serilog.Events;
 
 
 #region HostBuilder
@@ -35,8 +32,6 @@ builder.Services.RegisterRequestValidators();
 builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
                 .AddFluentValidation(options => options.AutomaticValidationEnabled = false);
 
-builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -48,6 +43,7 @@ var app = builder.Build();
 
 #region Configure pipeline
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -58,8 +54,6 @@ if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
-
-app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
