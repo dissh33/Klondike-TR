@@ -4,23 +4,34 @@ using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
+public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     protected const int SqlTimeout = 3600;
     protected const string SchemaName = "public";
 
-    protected string TableName { get; }
+    protected IDbTransaction Transaction { get; }
+    protected ILogger Logger { get; }
     
-    static Repository()
+    protected IDbConnection? Connection { get; }
+
+    protected string TableName { get; }
+
+    static BaseRepository()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
-    protected Repository()
+    protected BaseRepository(IDbTransaction transaction, ILogger logger)
     {
+        Transaction = transaction;
+        Logger = logger;
+
+        Connection = Transaction.Connection;
+
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
     }
 
@@ -33,6 +44,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
         return new CommandDefinition(
             sql,
             new { id },
+            transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
     }
@@ -45,6 +57,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
 
         return new CommandDefinition(
             sql,
+            transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
     }
@@ -59,6 +72,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
         return new CommandDefinition(
             sql,
             entity,
+            transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
     }
@@ -72,6 +86,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
         return new CommandDefinition(
             sql,
             entity,
+            transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
     }
@@ -83,6 +98,7 @@ public abstract class Repository<T> : IGenericRepository<T> where T : BaseEntity
         return new CommandDefinition(
             sql,
             new { id },
+            transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
     }

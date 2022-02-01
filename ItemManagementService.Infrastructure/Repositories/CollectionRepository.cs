@@ -1,38 +1,39 @@
-﻿using Dapper;
+﻿using System.Data;
+using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
 using Npgsql;
+using Serilog;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class CollectionRepository : Repository<Collection>, ICollectionRepository
+public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionRepository
 {
-    private readonly NpgsqlConnection _connection;
-
-    public CollectionRepository(string connectionString)
+    public CollectionBaseRepository(IDbTransaction transaction, ILogger logger)
+        : base(transaction, logger)
     {
-        _connection = new NpgsqlConnection(connectionString);
+
     }
 
     public async Task<Collection> GetById(Guid id, CancellationToken ct)
     {
         var cmd = GetByIdBaseCommand(id, ct);
 
-        return await _connection.QueryFirstOrDefaultAsync<Collection>(cmd);
+        return await Connection.QueryFirstOrDefaultAsync<Collection>(cmd);
     }
 
     public async Task<IEnumerable<Collection>> GetAll(CancellationToken ct)
     {
         var cmd = GetAllBaseCommand(ct);
 
-        return await _connection.QueryAsync<Collection>(cmd);
+        return await Connection.QueryAsync<Collection>(cmd);
     }
 
     public async Task<Collection> Insert(Collection collection, CancellationToken ct)
     {
         var cmd = InsertBaseCommand(collection, ct);
 
-        var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
+        var id = await Connection.ExecuteScalarAsync<Guid>(cmd);
 
         return await GetById(id, ct);
     }
@@ -41,7 +42,7 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
     {
         var cmd = UpdateBaseCommand(collection, ct);
 
-        var id = await _connection.ExecuteScalarAsync<Guid>(cmd);
+        var id = await Connection.ExecuteScalarAsync<Guid>(cmd);
 
         return await GetById(id, ct);
     }
@@ -50,13 +51,13 @@ public class CollectionRepository : Repository<Collection>, ICollectionRepositor
     {
         var cmd = DeleteBaseCommand(id, ct);
 
-        await _connection.ExecuteAsync(cmd);
+        await Connection.ExecuteAsync(cmd);
     }
 
     override public void Dispose()
     {
-        _connection.Close();
-        _connection.DisposeAsync();
+        Connection?.Close();
+        Connection?.Dispose();
         base.Dispose();
     }
 }
