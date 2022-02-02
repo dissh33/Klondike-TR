@@ -91,6 +91,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         if (!_disposed && disposing)
         {
             ResetRepositories();
+
+            _transaction.Dispose();
             _logger.Information("Dispose transaction {@id}", _transactionId);
         }
         _disposed = true;
