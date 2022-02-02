@@ -35,7 +35,10 @@ public class IconController : ControllerBase
     public async Task<IActionResult> GetFile(Guid id, CancellationToken ct)
     {
         var result = await _mediator.Send(new IconGetFileQuery(id), ct);
-        return File(result.FileStream ?? Stream.Null, "application/octet-stream", result.FileName);
+
+        var fileStream = new MemoryStream(result.FileBinary ?? Array.Empty<byte>());
+
+        return File(fileStream, "application/octet-stream", result.FileName);
     }
 
     [HttpPost]

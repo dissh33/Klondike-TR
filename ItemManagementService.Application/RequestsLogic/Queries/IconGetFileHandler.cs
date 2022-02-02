@@ -22,7 +22,6 @@ public class IconGetFileHandler : IRequestHandler<IconGetFileQuery, IconFileDto>
         var result = await _uow.IconRepository!.GetFile(request.Id, ct);
         
         var dto = _mapper.Map<IconFileDto>(result);
-        dto.FileStream = new MemoryStream(result.FileBinary!);
 
         return dto;
     }
