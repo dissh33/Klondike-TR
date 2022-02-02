@@ -42,8 +42,8 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         var sql = $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id = @id";
 
         return new CommandDefinition(
-            sql,
-            new { id },
+            commandText: sql,
+            parameters: new { id },
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
@@ -56,7 +56,7 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         var sql = $"SELECT {selectColumns} FROM {SchemaName}.{TableName}";
 
         return new CommandDefinition(
-            sql,
+            commandText: sql,
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
@@ -70,8 +70,8 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         var sql = $"INSERT INTO {SchemaName}.{TableName} {insertColumns} RETURNING id";
         
         return new CommandDefinition(
-            sql,
-            entity,
+            commandText: sql,
+            parameters: entity,
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
@@ -84,8 +84,8 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         var sql = $"UPDATE {SchemaName}.{TableName} SET {updateColumns} WHERE id = @id RETURNING id";
 
         return new CommandDefinition(
-            sql,
-            entity,
+            commandText: sql,
+            parameters: entity,
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
@@ -96,8 +96,8 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         var sql = $"DELETE FROM {SchemaName}.{TableName} WHERE id = @id";
 
         return new CommandDefinition(
-            sql,
-            new { id },
+            commandText: sql,
+            parameters: new { id },
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);

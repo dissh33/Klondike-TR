@@ -32,6 +32,8 @@ public class IconAddHandler : IRequestHandler<IconAddCommand, IconDto>
 
        var result = await _uow.IconRepository!.Insert(entity, ct);
 
+       _uow.Commit();
+
        return _mapper.Map<IconDto>(result);
     }
 }

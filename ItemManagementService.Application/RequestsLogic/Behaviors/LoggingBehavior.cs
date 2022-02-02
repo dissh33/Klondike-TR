@@ -3,11 +3,11 @@ using Serilog;
 
 namespace ItemManagementService.Application.RequestsLogic.Behaviors;
 
-public class LoggingMiddleWare<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
+public class LoggingBehavior<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
     private readonly ILogger _logger;
 
-    public LoggingMiddleWare(ILogger logger)
+    public LoggingBehavior(ILogger logger)
     {
         _logger = logger;
     }

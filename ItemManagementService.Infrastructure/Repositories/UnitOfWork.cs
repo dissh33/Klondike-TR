@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private readonly ILogger _logger;
     private readonly IDbConnection _connection;
     private IDbTransaction _transaction;
+    private Guid _transactionId;
 
     public UnitOfWork(IConfiguration configuration, ILogger logger)
     {
@@ -20,8 +21,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         _connection = new NpgsqlConnection(connectionString);
         _connection.Open();
-
+            
+        _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
+        _logger.Information("Begin transaction {@id}", _transactionId);
     }
 
     private IIconRepository? _iconRepository;
@@ -38,17 +41,25 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     {
         try
         {
+
             _transaction.Commit();
+
+            _logger.Information("Commit transaction {@id}", _transactionId);
         }
         catch
         {
             _transaction.Rollback();
+            _logger.Information("Rollback transaction {@id}", _transactionId);
             throw;
         }
         finally
         {
             _transaction.Dispose();
+
+            _transactionId = Guid.NewGuid();
             _transaction = _connection.BeginTransaction();
+            _logger.Information("Begin transaction {@id}", _transactionId);
+
             ResetRepositories();
         }
     }
@@ -56,8 +67,14 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public void Rollback()
     {
         _transaction.Rollback();
+        _logger.Information("Rollback transaction {@id}", _transactionId);
+
         _transaction.Dispose();
+
+        _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
+        _logger.Information("Begin transaction {@id}", _transactionId);
+
         ResetRepositories();
     }
 
@@ -74,6 +91,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         if (!_disposed && disposing)
         {
             ResetRepositories();
+            _logger.Information("Dispose transaction {@id}", _transactionId);
         }
         _disposed = true;
     }

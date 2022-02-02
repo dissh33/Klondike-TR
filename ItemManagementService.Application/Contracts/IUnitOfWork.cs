@@ -6,4 +6,7 @@ public interface IUnitOfWork
     IMaterialRepository? MaterialRepository { get; }
     ICollectionRepository? CollectionRepository { get; }
     ICollectionItemRepository? CollectionItemRepository { get; }
+
+    public void Commit();
+    public void Rollback();
 }

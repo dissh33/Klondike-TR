@@ -15,6 +15,10 @@ public class IconDeleteHandler : IRequestHandler<IconDeleteCommand, int>
 
     public async Task<int> Handle(IconDeleteCommand request, CancellationToken ct)
     {
-        return await _uow.IconRepository!.Delete(request.Id, ct);
+        var result = await _uow.IconRepository!.Delete(request.Id, ct);
+
+        _uow.Commit();
+
+        return result;
     }
 }
