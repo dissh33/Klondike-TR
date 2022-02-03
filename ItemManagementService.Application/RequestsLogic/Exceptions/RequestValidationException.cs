@@ -4,6 +4,8 @@ namespace ItemManagementService.Application.RequestsLogic.Exceptions;
 
 public class RequestValidationException : Exception
 {
+    public IDictionary<string, string[]> Errors { get; }
+
     public RequestValidationException()
         : base("One or more validation failures have occurred.")
     {
@@ -17,6 +19,4 @@ public class RequestValidationException : Exception
             .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
             .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
     }
-
-    public IDictionary<string, string[]> Errors { get; }
 }
