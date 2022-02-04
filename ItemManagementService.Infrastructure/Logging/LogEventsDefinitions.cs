@@ -16,7 +16,7 @@ public static class LogEventsDefinitions
             var timer = Stopwatch.StartNew();
 
             var result = await action();
-            logger.Information("Sql-command executed in {time}.", timer.Elapsed);
+            logger.Information("Sql-command executed in {time} ({ms} ms)", timer.Elapsed, timer.Elapsed.TotalMilliseconds);
             return result;
         }
 

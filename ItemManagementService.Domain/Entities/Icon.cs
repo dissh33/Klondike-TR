@@ -12,9 +12,8 @@ public class Icon : BaseEntity
     }
 
     public Icon(string? title, byte[]? fileBinary, string? fileName, Guid? id = null, string? externalId = null)
+        : base(id, externalId)
     {
-        Id = id ?? Guid.NewGuid();
-        ExternalId = externalId;
         Title = title;
         FileBinary = fileBinary;
         FileName = fileName;

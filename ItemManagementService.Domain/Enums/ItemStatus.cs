@@ -3,5 +3,6 @@
 public enum ItemStatus
 {
     Active = 0,
-    Removed = 1,
+    Disabled = 1,
+    Removed = 2,
 }

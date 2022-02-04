@@ -42,16 +42,30 @@ public class IconController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<IconDto>> Post([FromForm] IconAddCommand requestModel, CancellationToken ct)
+    public async Task<ActionResult<IconDto>> Post([FromForm] IconAddCommand request, CancellationToken ct)
     {
-        var result = await _mediator.Send(requestModel, ct);
+        var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<IconDto>> Put([FromForm] IconUpdateCommand requestModel, CancellationToken ct)
+    [HttpPut("update")]
+    public async Task<ActionResult<IconDto>> Put([FromForm] IconUpdateCommand request, CancellationToken ct)
     { 
-        var result = await _mediator.Send(requestModel, ct);
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
+    [HttpPut("update/title")]
+    public async Task<ActionResult<IconDto>> UpdateTitle([FromForm] IconUpdateTitleCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
+    [HttpPut("update/file")]
+    public async Task<ActionResult<IconDto>> UpdateFile([FromForm] IconUpdateFileCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 

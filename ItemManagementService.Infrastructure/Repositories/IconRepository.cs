@@ -80,6 +80,36 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
         return await GetById(id, ct);
     }
 
+    public async Task<Icon> UpdateTitle(Guid id, string? title, CancellationToken ct)        
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET title=@title WHERE id = @id RETURNING id",
+            parameters: new {id, title},
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<Icon> UpdateFile(Guid id, string fileName, byte[] fileBinary, CancellationToken ct)
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET file_name=@fileName, file_binary=@fileBinary WHERE id = @id RETURNING id",
+            parameters: new {id, fileName, fileBinary},
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
+
+        return await GetById(id, ct);
+    }
+
     public async Task<int> Delete(Guid id, CancellationToken ct)
     {
         var command = DeleteBaseCommand(id, ct);
