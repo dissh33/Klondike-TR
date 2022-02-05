@@ -72,7 +72,7 @@ public class IconController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult<int>> Delete(Guid id, CancellationToken ct)
     {
-        var result = await _mediator.Send(new IconDeleteCommand(id), ct);
+        var result = await _mediator.Send(new DeleteByIdCommand(id), ct);
         return new JsonResult(result);
     }
 }

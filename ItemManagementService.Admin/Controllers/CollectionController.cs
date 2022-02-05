@@ -1,42 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ItemManagementService.Api.Commands;
+using ItemManagementService.Api.Dtos;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace ItemManagementService.Admin.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class CollectionController : ControllerBase
+namespace ItemManagementService.Admin.Controllers
 {
-    // GET: api/<CollectionsController>
-    [HttpGet]
-    public IEnumerable<string> Get()
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CollectionController : ControllerBase
     {
-        return new string[] { "value1", "value2" };
-    }
+        private readonly IMediator _mediator;
 
-    // GET api/<CollectionsController>/5
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-        return "value";
-    }
+        public CollectionController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
-    // POST api/<CollectionsController>
-    [HttpPost]
-    public void Post([FromBody] string value)
-    {
-    }
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
 
-    // PUT api/<CollectionsController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
-    {
-    }
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
 
-    // DELETE api/<CollectionsController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
+        [HttpPost]
+        public async Task<ActionResult<CollectionDto>> Post([FromForm] CollectionAddCommand request, CancellationToken ct)
+        {
+            var result = await _mediator.Send(request, ct);
+            return new JsonResult(result);
+        }
+
+        [HttpPut("update")]
+        public async Task<ActionResult<CollectionDto>> Put([FromForm] CollectionUpdateCommand request, CancellationToken ct)
+        {
+            var result = await _mediator.Send(request, ct);
+            return new JsonResult(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<int>> Delete(Guid id, CancellationToken ct)
+        {
+            var result = await _mediator.Send(new DeleteByIdCommand(id), ct);
+            return new JsonResult(result);
+        }
     }
 }

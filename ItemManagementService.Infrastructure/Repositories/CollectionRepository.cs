@@ -2,6 +2,7 @@
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
+using ItemManagementService.Infrastructure.Logging;
 using Npgsql;
 using Serilog;
 
@@ -26,32 +27,40 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
     {
         var cmd = GetAllBaseCommand(ct);
 
-        return await Connection.QueryAsync<Collection>(cmd);
+        var query = async () => await Connection.QueryAsync<Collection>(cmd);
+
+        return await Logger.DbCall(query, cmd);
     }
 
-    public async Task<Collection> Insert(Collection collection, CancellationToken ct)
+    public async Task<Collection> Insert(Collection collectionItem, CancellationToken ct)
     {
-        var cmd = InsertBaseCommand(collection, ct);
+        var cmd = InsertBaseCommand(collectionItem, ct);
 
-        var id = await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+
+        var id = await Logger.DbCall(query, cmd);
 
         return await GetById(id, ct);
     }
 
-    public async Task<Collection> Update(Collection collection, CancellationToken ct)
+    public async Task<Collection> Update(Collection collectionItem, CancellationToken ct)
     {
-        var cmd = UpdateBaseCommand(collection, ct);
+        var cmd = UpdateBaseCommand(collectionItem, ct);
 
-        var id = await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+
+        var id = await Logger.DbCall(query, cmd);
 
         return await GetById(id, ct);
     }
 
-    public async Task Delete(Guid id, CancellationToken ct)
+    public async Task<int> Delete(Guid id, CancellationToken ct)
     {
         var cmd = DeleteBaseCommand(id, ct);
 
-        await Connection.ExecuteAsync(cmd);
+        var query = async () => await Connection.ExecuteAsync(cmd);
+
+        return await Logger.DbCall(query, cmd);
     }
 
     override public void Dispose()

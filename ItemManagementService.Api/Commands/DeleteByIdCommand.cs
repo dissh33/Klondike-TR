@@ -2,9 +2,9 @@
 
 namespace ItemManagementService.Api.Commands;
 
-public  class IconDeleteCommand : IRequest<int>
+public  class DeleteByIdCommand : IRequest<int>
 {
-    public IconDeleteCommand(Guid id)
+    public DeleteByIdCommand(Guid id)
     {
         Id = id;
     }

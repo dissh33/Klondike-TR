@@ -1,5 +1,4 @@
-﻿using System.Net;
-using ItemManagementService.Application.RequestsLogic.Exceptions;
+﻿using ItemManagementService.Application.RequestsLogic.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

@@ -2,6 +2,7 @@
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
+using ItemManagementService.Infrastructure.Logging;
 using Serilog;
 
 namespace ItemManagementService.Infrastructure.Repositories;
@@ -24,14 +25,18 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
     {
         var cmd = GetAllBaseCommand(ct);
 
-        return await Connection.QueryAsync<CollectionItem>(cmd);
+        var query = async () => await Connection.QueryAsync<CollectionItem>(cmd);
+
+        return await Logger.DbCall(query, cmd);
     }
 
     public async Task<CollectionItem> Insert(CollectionItem collectionItem, CancellationToken ct)
     {
         var cmd = InsertBaseCommand(collectionItem, ct);
 
-        var id = await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query =  async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+
+        var id = await Logger.DbCall(query, cmd);
 
         return await GetById(id, ct);
     }
@@ -40,16 +45,20 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
     {
         var cmd = UpdateBaseCommand(collectionItem, ct);
 
-        var id = await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+
+        var id = await Logger.DbCall(query, cmd);
 
         return await GetById(id, ct);
     }
 
-    public async Task Delete(Guid id, CancellationToken ct)
+    public async Task<int> Delete(Guid id, CancellationToken ct)
     {
         var cmd = DeleteBaseCommand(id, ct);
 
-        await Connection.ExecuteAsync(cmd);
+        var query = async () => await Connection.ExecuteAsync(cmd);
+
+        return await Logger.DbCall(query, cmd);
     }
 
     override public void Dispose()
