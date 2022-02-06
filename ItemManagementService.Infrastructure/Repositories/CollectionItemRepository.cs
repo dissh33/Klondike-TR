@@ -14,7 +14,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
     }
 
-    public async Task<CollectionItem> GetById(Guid id, CancellationToken ct)
+    public async Task<CollectionItem> GetById(Guid id, CancellationToken ct)            //TODO: Add gets Methods
     {
         var cmd = GetByIdBaseCommand(id, ct);
 
@@ -48,6 +48,51 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
 
         var id = await Logger.DbCall(query, cmd);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<CollectionItem> UpdateName(Guid id, string? name, CancellationToken ct)           //TODO: Add Updates Methods
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET name=@name WHERE id = @id RETURNING id",
+            parameters: new { id, title = name },
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<CollectionItem> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
+            parameters: new { id, iconId },
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<CollectionItem> UpdateCollection(Guid id, Guid? collectionId, CancellationToken ct)
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET collection_id=@collectionId WHERE id = @id RETURNING id",
+            parameters: new { id, collectionId },
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
 
         return await GetById(id, ct);
     }

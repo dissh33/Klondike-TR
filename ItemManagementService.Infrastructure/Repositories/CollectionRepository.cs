@@ -2,6 +2,7 @@
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
+using ItemManagementService.Domain.Enums;
 using ItemManagementService.Infrastructure.Logging;
 using Npgsql;
 using Serilog;
@@ -16,7 +17,7 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
 
     }
 
-    public async Task<Collection> GetById(Guid id, CancellationToken ct)
+    public async Task<Collection> GetById(Guid id, CancellationToken ct)            //TODO: Add gets Methods
     {
         var cmd = GetByIdBaseCommand(id, ct);
 
@@ -50,6 +51,51 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
 
         var id = await Logger.DbCall(query, cmd);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<Collection> UpdateName(Guid id, string? name, CancellationToken ct)           //TODO: Add Updates Methods
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET name=@name WHERE id = @id RETURNING id",
+            parameters: new { id, title = name },
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<Collection> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
+            parameters: new { id, iconId },
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
+
+        return await GetById(id, ct);
+    }
+
+    public async Task<Collection> UpdateStatus(Guid id, ItemStatus status, CancellationToken ct)
+    {
+        var command = new CommandDefinition(
+            commandText: $"UPDATE {SchemaName}.{TableName} SET status=@status WHERE id = @id RETURNING id",
+            parameters: new { id, status },
+            transaction: Transaction,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        id = await Logger.DbCall(query, command);
 
         return await GetById(id, ct);
     }
