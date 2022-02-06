@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using ItemManagementService.Api.Dtos;
-using ItemManagementService.Api.Queries;
+using ItemManagementService.Api.Queries.Icon;
 using ItemManagementService.Application.Contracts;
 using MediatR;
 
-namespace ItemManagementService.Application.RequestsLogic.Queries;
+namespace ItemManagementService.Application.RequestsLogic.Queries.Icon;
 
 public class IconGetFileHandler : IRequestHandler<IconGetFileQuery, IconFileDto>
 {

@@ -14,7 +14,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
     }
 
-    public async Task<CollectionItem> GetById(Guid id, CancellationToken ct)            //TODO: Add gets Methods
+    public async Task<CollectionItem> GetById(Guid id, CancellationToken ct)
     {
         var cmd = GetByIdBaseCommand(id, ct);
 

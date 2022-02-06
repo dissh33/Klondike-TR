@@ -2,6 +2,7 @@
 using ItemManagementService.Api.Commands.Icon;
 using ItemManagementService.Api.Dtos;
 using ItemManagementService.Api.Queries;
+using ItemManagementService.Api.Queries.Icon;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
