@@ -33,6 +33,22 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
         return await Logger.DbCall(query, cmd);
     }
 
+    //public async Task<IEnumerable<CollectionItem>> GetWithFilter(Guid collectionId, CancellationToken ct)
+    //{
+    //    var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+    //    var command = new CommandDefinition(
+    //        commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE collection_id = @collectionId",
+    //        parameters: new { collectionId },
+    //        transaction: Transaction,
+    //        commandTimeout: SqlTimeout,
+    //        cancellationToken: ct);
+
+    //    var query = async () => await Connection.QueryAsync<CollectionItem>(command);
+
+    //    return await Logger.DbCall(query, command);
+    //}
+
     public async Task<Collection> Insert(Collection collectionItem, CancellationToken ct)
     {
         var cmd = InsertBaseCommand(collectionItem, ct);
@@ -85,7 +101,7 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
         return await GetById(id, ct);
     }
 
-    public async Task<Collection> UpdateStatus(Guid id, ItemStatus status, CancellationToken ct)
+    public async Task<Collection> UpdateStatus(Guid id, int status, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SchemaName}.{TableName} SET status=@status WHERE id = @id RETURNING id",

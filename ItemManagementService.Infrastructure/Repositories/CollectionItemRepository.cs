@@ -30,6 +30,22 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
         return await Logger.DbCall(query, cmd);
     }
 
+    public async Task<IEnumerable<CollectionItem>> GetByCollection(Guid collectionId, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE collection_id = @collectionId",
+            parameters: new { collectionId },
+            transaction: Transaction,
+            commandTimeout: SqlTimeout,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.QueryAsync<CollectionItem>(command);
+
+        return await Logger.DbCall(query, command);
+    }
+
     public async Task<CollectionItem> Insert(CollectionItem collectionItem, CancellationToken ct)
     {
         var cmd = InsertBaseCommand(collectionItem, ct);

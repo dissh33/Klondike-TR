@@ -2,7 +2,7 @@
 using ItemManagementService.Application.Contracts;
 using MediatR;
 
-namespace ItemManagementService.Application.RequestsLogic.Commands;
+namespace ItemManagementService.Application.RequestsLogic.Commands.CollectionItem;
 
 public class CollectionItemDeleteHandler : IRequestHandler<DeleteByIdCommand, int>
 {

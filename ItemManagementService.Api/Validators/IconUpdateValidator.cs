@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using ItemManagementService.Api.Commands;
+using ItemManagementService.Api.Commands.Icon;
 
 namespace ItemManagementService.Api.Validators;
 

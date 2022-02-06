@@ -1,4 +1,5 @@
 ﻿using ItemManagementService.Api.Commands;
+using ItemManagementService.Api.Commands.Icon;
 using ItemManagementService.Api.Dtos;
 using ItemManagementService.Api.Queries;
 using MediatR;

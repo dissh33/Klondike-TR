@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ItemManagementService.Api.Commands;
+using ItemManagementService.Api.Commands.Icon;
 using ItemManagementService.Api.Dtos;
 using ItemManagementService.Application.Contracts;
 using MediatR;
 
-namespace ItemManagementService.Application.RequestsLogic.Commands;
+namespace ItemManagementService.Application.RequestsLogic.Commands.Icon;
 
 public class IconUpdateTitleHandler : IRequestHandler<IconUpdateTitleCommand, IconDto>
 {

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using ItemManagementService.Api.Commands;
+using ItemManagementService.Api.Commands.CollectionItem;
 using ItemManagementService.Api.Dtos;
 using ItemManagementService.Application.Contracts;
-using ItemManagementService.Domain.Entities;
 using MediatR;
 
-namespace ItemManagementService.Application.RequestsLogic.Commands;
+namespace ItemManagementService.Application.RequestsLogic.Commands.CollectionItem;
 
 public class CollectionItemAddHandler : IRequestHandler<CollectionItemAddCommand, CollectionItemDto>
 {
@@ -20,7 +19,7 @@ public class CollectionItemAddHandler : IRequestHandler<CollectionItemAddCommand
 
     public async Task<CollectionItemDto> Handle(CollectionItemAddCommand request, CancellationToken ct)
     {
-        var entity = new CollectionItem(
+        var entity = new Domain.Entities.CollectionItem(
             request.Name,
             request.CollectionId,
             request.IconId
