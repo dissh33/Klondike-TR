@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Dapper;
+using ItemManagementService.Api.Queries.Collection;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
 using ItemManagementService.Domain.Enums;
@@ -17,7 +18,7 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
 
     }
 
-    public async Task<Collection> GetById(Guid id, CancellationToken ct)            //TODO: Add gets Methods
+    public async Task<Collection> GetById(Guid id, CancellationToken ct)            
     {
         var cmd = GetByIdBaseCommand(id, ct);
 
@@ -33,21 +34,21 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
         return await Logger.DbCall(query, cmd);
     }
 
-    //public async Task<IEnumerable<CollectionItem>> GetWithFilter(Guid collectionId, CancellationToken ct)
-    //{
-    //    var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+    public async Task<IEnumerable<Collection>> GetByFilter(CollectionGetByFilterQuery filter, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var whereClause = filter.GenerateSql();
 
-    //    var command = new CommandDefinition(
-    //        commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE collection_id = @collectionId",
-    //        parameters: new { collectionId },
-    //        transaction: Transaction,
-    //        commandTimeout: SqlTimeout,
-    //        cancellationToken: ct);
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} {whereClause}",
+            transaction: Transaction,
+            commandTimeout: SqlTimeout,
+            cancellationToken: ct);
 
-    //    var query = async () => await Connection.QueryAsync<CollectionItem>(command);
+        var query = async () => await Connection.QueryAsync<Collection>(command);
 
-    //    return await Logger.DbCall(query, command);
-    //}
+        return await Logger.DbCall(query, command);
+    }
 
     public async Task<Collection> Insert(Collection collectionItem, CancellationToken ct)
     {

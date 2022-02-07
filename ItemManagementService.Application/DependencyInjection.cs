@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using ItemManagementService.Application.RequestsLogic.Behaviors;
+using ItemManagementService.Application.Behaviors;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;

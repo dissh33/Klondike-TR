@@ -1,5 +1,5 @@
 using FluentValidation.AspNetCore;
-using ItemManagementService.Admin.Filters;
+using ItemManagementService.Admin.MiddlewareFilters;
 using ItemManagementService.Api;
 using ItemManagementService.Application;
 using ItemManagementService.Infrastructure;

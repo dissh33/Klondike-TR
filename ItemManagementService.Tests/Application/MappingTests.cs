@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using AutoMapper;
 using ItemManagementService.Api.Dtos;
-using ItemManagementService.Application.RequestsLogic.Mapping;
+using ItemManagementService.Application.Mapping;
 using ItemManagementService.Domain.Entities;
 using Xunit;
 

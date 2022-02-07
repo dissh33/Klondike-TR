@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using FluentValidation.Results;
-using ItemManagementService.Application.RequestsLogic.Exceptions;
+using ItemManagementService.Application.Exceptions;
 using Xunit;
 
 namespace ItemManagementService.Tests.Application;

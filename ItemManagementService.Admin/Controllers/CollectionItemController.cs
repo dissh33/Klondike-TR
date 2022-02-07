@@ -1,6 +1,7 @@
 ﻿using ItemManagementService.Api.Commands;
 using ItemManagementService.Api.Commands.CollectionItem;
 using ItemManagementService.Api.Dtos;
+using ItemManagementService.Api.Queries.CollectionItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,15 +19,24 @@ public class CollectionItemController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<string> Get()
+    public async Task<ActionResult<IEnumerable<CollectionItemDto>>> Get(CancellationToken ct)
     {
-        return new string[] { "value1", "value2" };
+        var result = await _mediator.Send(new CollectionItemGetAllQuery(), ct);
+        return new JsonResult(result);
     }
-    
+
     [HttpGet("{id}")]
-    public string Get(int id)
+    public async Task<ActionResult<CollectionItemDto>> Get(Guid id, CancellationToken ct)
     {
-        return "value";
+        var result = await _mediator.Send(new CollectionItemGetByIdQuery(id), ct);
+        return new JsonResult(result);
+    }
+
+    [HttpGet("collection")]
+    public async Task<ActionResult<IEnumerable<CollectionItemDto>>> GetByCollection([FromQuery] CollectionItemGetByCollectionQuery request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
     }
 
     [HttpPost]
@@ -38,6 +48,27 @@ public class CollectionItemController : ControllerBase
 
     [HttpPut("update")]
     public async Task<ActionResult<CollectionItemDto>> Put([FromForm] CollectionItemUpdateCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
+    [HttpPut("update/name")]
+    public async Task<ActionResult<CollectionItemDto>> UpdateName([FromForm] CollectionItemUpdateNameCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
+    [HttpPut("update/icon")]
+    public async Task<ActionResult<CollectionItemDto>> UpdateIcon([FromForm] CollectionItemUpdateIconCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
+    [HttpPut("update/collection")]
+    public async Task<ActionResult<CollectionItemDto>> UpdateCollection([FromForm] CollectionItemUpdateCollectionCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
