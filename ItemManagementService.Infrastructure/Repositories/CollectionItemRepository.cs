@@ -72,7 +72,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SchemaName}.{TableName} SET name=@name WHERE id = @id RETURNING id",
-            parameters: new { id, title = name },
+            parameters: new { id, name },
             transaction: Transaction,
             cancellationToken: ct);
 

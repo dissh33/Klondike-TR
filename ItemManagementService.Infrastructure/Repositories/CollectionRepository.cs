@@ -72,11 +72,11 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
         return await GetById(id, ct);
     }
 
-    public async Task<Collection> UpdateName(Guid id, string? name, CancellationToken ct)           //TODO: Add Updates Methods
+    public async Task<Collection> UpdateName(Guid id, string? name, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SchemaName}.{TableName} SET name=@name WHERE id = @id RETURNING id",
-            parameters: new { id, title = name },
+            parameters: new { id, name },
             transaction: Transaction,
             cancellationToken: ct);
 
