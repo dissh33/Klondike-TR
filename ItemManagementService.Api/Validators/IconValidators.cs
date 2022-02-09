@@ -16,7 +16,7 @@ public class IconUpdateValidator : AbstractValidator<IconUpdateCommand>
 {
     public IconUpdateValidator()
     {
-        RuleFor(icon => icon.Id).NotEmpty();
+        RuleFor(icon => icon.Id).NotEmpty().NotEqual(Guid.Empty);
         RuleFor(icon => icon.Title).Length(3, 250);
     }
 }
