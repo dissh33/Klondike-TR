@@ -16,9 +16,11 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
     public async Task<CollectionItem> GetById(Guid id, CancellationToken ct)
     {
-        var cmd = GetByIdBaseCommand(id, ct);
+        var command = GetByIdBaseCommand(id, ct);
 
-        return await Connection.QueryFirstOrDefaultAsync<CollectionItem>(cmd);
+        var query = async () => await Connection.QueryFirstOrDefaultAsync<CollectionItem>(command);
+
+        return await Logger.DbCall(query, command);
     }
 
     public async Task<IEnumerable<CollectionItem>> GetAll(CancellationToken ct)
@@ -48,22 +50,22 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
     public async Task<CollectionItem> Insert(CollectionItem collectionItem, CancellationToken ct)
     {
-        var cmd = InsertBaseCommand(collectionItem, ct);
+        var command = InsertBaseCommand(collectionItem, ct);
 
-        var query =  async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query =  async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, cmd);
+        var id = await Logger.DbCall(query, command);
 
         return await GetById(id, ct);
     }
 
     public async Task<CollectionItem> Update(CollectionItem collectionItem, CancellationToken ct)
     {
-        var cmd = UpdateBaseCommand(collectionItem, ct);
+        var command = UpdateBaseCommand(collectionItem, ct);
 
-        var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, cmd);
+        var id = await Logger.DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -115,11 +117,11 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
     public async Task<int> Delete(Guid id, CancellationToken ct)
     {
-        var cmd = DeleteBaseCommand(id, ct);
+        var command = DeleteBaseCommand(id, ct);
 
-        var query = async () => await Connection.ExecuteAsync(cmd);
+        var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, cmd);
+        return await Logger.DbCall(query, command);
     }
 
     override public void Dispose()

@@ -9,17 +9,15 @@ public static class LogEventsDefinitions
 {
     public static async Task<T> DbCall<T>(this ILogger logger, Func<Task<T>> action, CommandDefinition cmd)
     {
-        if (logger.IsEnabled(LogEventLevel.Information))
-        {
-            logger.Information("\n\t Executing Sql-command \n\t {@sql}\n\t with parameters \n\t {@parameters}", cmd.CommandText, cmd.Parameters);
+        if (!logger.IsEnabled(LogEventLevel.Information)) return await action();
 
-            var timer = Stopwatch.StartNew();
+        logger.Information("\n\t Executing Sql-command \n\t {@sql}\n\t with parameters \n\t {@parameters}", cmd.CommandText, cmd.Parameters);
 
-            var result = await action();
-            logger.Information("Sql-command executed in {time} ({ms} ms)", timer.Elapsed, timer.Elapsed.TotalMilliseconds);
-            return result;
-        }
+        var timer = Stopwatch.StartNew();
 
-        return await action();
+        var result = await action();
+        logger.Information("Sql-command executed in {time} ({ms} ms)", timer.Elapsed, timer.Elapsed.TotalMilliseconds);
+        return result;
+
     }
 }

@@ -8,7 +8,7 @@ namespace ItemManagementService.Tests.Domain;
 public class CollectionItemTests
 {
     [Fact]
-    public void Icon_ShouldConstruct_WithVariousParameters()
+    public void CollectionItem_ShouldConstruct_WithVariousParameters()
     {
         var id = Guid.NewGuid();
         var collectionItem1 = new CollectionItem("N1", Guid.Empty, Guid.NewGuid());
@@ -23,7 +23,7 @@ public class CollectionItemTests
     }
 
     [Fact]
-    public void Collection_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
+    public void CollectionItem_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
         var item1 = new CollectionItem("N", Guid.Empty);
         var item2 = new CollectionItem("N", Guid.Empty);
@@ -35,7 +35,7 @@ public class CollectionItemTests
     }
 
     [Fact]
-    public void Collection_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
+    public void CollectionItem_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
     {
         var id = Guid.NewGuid();
         var collectionItem = new CollectionItem("N", Guid.Empty, id: id);

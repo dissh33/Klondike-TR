@@ -20,18 +20,20 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
 
     public async Task<Collection> GetById(Guid id, CancellationToken ct)            
     {
-        var cmd = GetByIdBaseCommand(id, ct);
+        var command = GetByIdBaseCommand(id, ct);
 
-        return await Connection.QueryFirstOrDefaultAsync<Collection>(cmd);
+        var query = async () => await Connection.QueryFirstOrDefaultAsync<Collection>(command);
+
+        return await Logger.DbCall(query, command);
     }
 
     public async Task<IEnumerable<Collection>> GetAll(CancellationToken ct)
     {
-        var cmd = GetAllBaseCommand(ct);
+        var command = GetAllBaseCommand(ct);
 
-        var query = async () => await Connection.QueryAsync<Collection>(cmd);
+        var query = async () => await Connection.QueryAsync<Collection>(command);
 
-        return await Logger.DbCall(query, cmd);
+        return await Logger.DbCall(query, command);
     }
 
     public async Task<IEnumerable<Collection>> GetByFilter(CollectionGetByFilterQuery filter, CancellationToken ct)
@@ -50,24 +52,24 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
         return await Logger.DbCall(query, command);
     }
 
-    public async Task<Collection> Insert(Collection collectionItem, CancellationToken ct)
+    public async Task<Collection> Insert(Collection collection, CancellationToken ct)
     {
-        var cmd = InsertBaseCommand(collectionItem, ct);
+        var command = InsertBaseCommand(collection, ct);
 
-        var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, cmd);
+        var id = await Logger.DbCall(query, command);
 
         return await GetById(id, ct);
     }
 
     public async Task<Collection> Update(Collection collectionItem, CancellationToken ct)
     {
-        var cmd = UpdateBaseCommand(collectionItem, ct);
+        var command = UpdateBaseCommand(collectionItem, ct);
 
-        var query = async () => await Connection.ExecuteScalarAsync<Guid>(cmd);
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, cmd);
+        var id = await Logger.DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -119,11 +121,11 @@ public class CollectionBaseRepository : BaseRepository<Collection>, ICollectionR
 
     public async Task<int> Delete(Guid id, CancellationToken ct)
     {
-        var cmd = DeleteBaseCommand(id, ct);
+        var command = DeleteBaseCommand(id, ct);
 
-        var query = async () => await Connection.ExecuteAsync(cmd);
+        var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, cmd);
+        return await Logger.DbCall(query, command);
     }
 
     override public void Dispose()

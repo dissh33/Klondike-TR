@@ -1,6 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ItemManagementService.Api.Commands;
+using ItemManagementService.Api.Commands.Collection;
+using ItemManagementService.Api.Commands.Material;
+using ItemManagementService.Api.Dtos;
+using ItemManagementService.Api.Queries.Collection;
+using ItemManagementService.Api.Queries.Material;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ItemManagementService.Admin.Controllers;
 
@@ -8,35 +14,66 @@ namespace ItemManagementService.Admin.Controllers;
 [ApiController]
 public class MaterialController : ControllerBase
 {
-    // GET: api/<MaterialsController>
+    private readonly IMediator _mediator;
+
+    public MaterialController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
     [HttpGet]
-    public IEnumerable<string> Get()
+    public async Task<ActionResult<IEnumerable<MaterialDto>>> Get(CancellationToken ct)
     {
-        return new string[] { "value1", "value2" };
+        var result = await _mediator.Send(new MaterialGetAllQuery(), ct);
+        return new JsonResult(result);
     }
 
-    // GET api/<MaterialsController>/5
     [HttpGet("{id}")]
-    public string Get(int id)
+    public async Task<ActionResult<MaterialDto>> Get(Guid id, CancellationToken ct)
     {
-        return "value";
+        var result = await _mediator.Send(new MaterialGetByIdQuery(id), ct);
+        return new JsonResult(result);
     }
 
-    // POST api/<MaterialsController>
+    [HttpGet("filter")]
+    public async Task<ActionResult<IEnumerable<MaterialDto>>> GetByFilter([FromQuery] MaterialGetByFilterQuery request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<ActionResult<MaterialDto>> Post([FromForm] MaterialAddCommand request, CancellationToken ct)
     {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
     }
 
-    // PUT api/<MaterialsController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    [HttpPut("update")]
+    public async Task<ActionResult<MaterialDto>> Put([FromForm] MaterialUpdateCommand request, CancellationToken ct)
     {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+    
+    [HttpPut("update/icon")]
+    public async Task<ActionResult<MaterialDto>> UpdateIcon([FromForm] MaterialUpdateIconCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
     }
 
-    // DELETE api/<MaterialsController>/5
+    [HttpPut("update/status")]
+    public async Task<ActionResult<MaterialDto>> UpdateStatus([FromForm] MaterialUpdateStatusCommand request, CancellationToken ct)
+    {
+        var result = await _mediator.Send(request, ct);
+        return new JsonResult(result);
+    }
+
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public async Task<ActionResult<int>> Delete(Guid id, CancellationToken ct)
     {
+        var result = await _mediator.Send(new DeleteByIdCommand(id), ct);
+        return new JsonResult(result);
     }
 }

@@ -9,7 +9,7 @@ namespace ItemManagementService.Tests.Domain;
 public class CollectionTests
 {
     [Fact]
-    public void Icon_ShouldConstruct_WithVariousParameters()
+    public void Collection_ShouldConstruct_WithVariousParameters()
     {
         var id = Guid.NewGuid();
         var collection1 = new Collection("N1", Guid.Empty);

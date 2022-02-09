@@ -67,6 +67,13 @@ namespace ItemManagementService.Admin.Controllers
             return new JsonResult(result);
         }
 
+        [HttpPut("update/status")]
+        public async Task<ActionResult<CollectionDto>> UpdateStatus([FromForm] CollectionUpdateStatusCommand request, CancellationToken ct)
+        {
+            var result = await _mediator.Send(request, ct);
+            return new JsonResult(result);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> Delete(Guid id, CancellationToken ct)
         {

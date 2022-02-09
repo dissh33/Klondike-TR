@@ -1,11 +1,12 @@
 ﻿using ItemManagementService.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Commands.Collection;
+namespace ItemManagementService.Api.Commands.Material;
 
-public class CollectionAddCommand : IRequest<CollectionDto>
+public class MaterialAddCommand : IRequest<MaterialDto>
 {
     public string? Name { get; set; }
     public Guid? IconId { get; set; }
+    public int? Type { get; set; }
     public int? Status { get; set; }
 }
