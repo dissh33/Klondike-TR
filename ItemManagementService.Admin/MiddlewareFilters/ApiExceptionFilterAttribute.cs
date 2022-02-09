@@ -1,15 +1,19 @@
 ﻿using ItemManagementService.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using ILogger = Serilog.ILogger;
 
 namespace ItemManagementService.Admin.MiddlewareFilters;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
+    private readonly ILogger _logger;
     private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
 
-    public ApiExceptionFilterAttribute()
+    public ApiExceptionFilterAttribute(ILogger logger)
     {
+        _logger = logger;
+
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             { typeof(RequestValidationException), HandleValidationException },
@@ -55,6 +59,10 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
 
         context.Result = new BadRequestObjectResult(details);
+        
+        var json = new JsonResult(context.Result);
+
+        _logger.Information("Validation failed. Errors: {result}", details.Errors);
 
         context.ExceptionHandled = true;
     }
