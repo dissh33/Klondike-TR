@@ -26,8 +26,6 @@ builder.Services.RegisterInfrastructureServices();
 
 builder.Services.RegisterApplicationServices();
 
-builder.Services.RegisterRequestValidators();
-
 builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
                 .AddFluentValidation(options => options.AutomaticValidationEnabled = false);
 

@@ -1,20 +1,21 @@
 ﻿using FluentValidation;
 using ItemManagementService.Api.Commands.Collection;
+using ItemManagementService.Application.Contracts;
 
-namespace ItemManagementService.Api.Validators;
+namespace ItemManagementService.Application.Validators;
 
-public class CollectionAddValidator : AbstractValidator<CollectionAddCommand>
+public class CollectionAddValidator : IconExistenceBaseValidator<CollectionAddCommand>
 {
-    public CollectionAddValidator()
+    public CollectionAddValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(collection => collection.Name).Length(3, 250);
         RuleFor(collection => collection.Status).InclusiveBetween(0, 2);
     }
 }
 
-public class CollectionUpdateValidator : AbstractValidator<CollectionUpdateCommand>
+public class CollectionUpdateValidator : IconExistenceBaseValidator<CollectionUpdateCommand>
 {
-    public CollectionUpdateValidator()
+    public CollectionUpdateValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(collection => collection.Id).NotEmpty().NotEqual(Guid.Empty);
         RuleFor(collection => collection.Name).Length(3, 250);
@@ -31,9 +32,9 @@ public class CollectionUpdateNameValidator : AbstractValidator<CollectionUpdateN
     }
 }
 
-public class CollectionUpdateIconValidator : AbstractValidator<CollectionUpdateIconCommand>
+public class CollectionUpdateIconValidator : IconExistenceBaseValidator<CollectionUpdateIconCommand>
 {
-    public CollectionUpdateIconValidator()
+    public CollectionUpdateIconValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(collection => collection.Id).NotEmpty().NotEqual(Guid.Empty);
     }

@@ -4,11 +4,11 @@ namespace ItemManagementService.Domain.Entities;
 
 public class Material : BaseEntity, ITradableItem
 {
-    public Guid? IconId { get; set; }
-    public string? Name { get; set; }
-    public MaterialType Type { get; set; }
-    public ItemStatus Status { get; set; }
-    public DateTime DateAdded { get; set; }
+    public Guid IconId { get; }
+    public string? Name { get; }
+    public MaterialType Type { get; }
+    public ItemStatus Status { get; }
+    public DateTime DateAdded { get; }
 
     public Material()
     {
@@ -17,7 +17,7 @@ public class Material : BaseEntity, ITradableItem
 
     public Material(
         string? name, 
-        Guid? iconId = null, 
+        Guid iconId, 
         MaterialType type = MaterialType.Default, 
         ItemStatus status = ItemStatus.Active, 
         Guid? id = null, 

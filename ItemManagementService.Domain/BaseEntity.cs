@@ -2,8 +2,8 @@
 
 public class BaseEntity
 {
-    public Guid Id { get; set; }
-    public string? ExternalId { get; set; }
+    public Guid Id { get; }
+    public string? ExternalId { get; }
 
     public BaseEntity(Guid? id = null, string? externalId = null)
     {

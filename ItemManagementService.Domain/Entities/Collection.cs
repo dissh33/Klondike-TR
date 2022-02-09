@@ -5,10 +5,10 @@ namespace ItemManagementService.Domain.Entities;
 
 public class Collection : BaseEntity, ITradableItem
 {
-    public string? Name { get; set; }
-    public Guid? IconId { get; set; }
-    public ItemStatus? Status { get; set; }
-    public DateTime DateAdded { get; set; }
+    public string? Name { get; }
+    public Guid IconId { get;  }
+    public ItemStatus? Status { get;  }
+    public DateTime DateAdded { get;  }
     
 
     public Collection()
@@ -16,7 +16,7 @@ public class Collection : BaseEntity, ITradableItem
         DateAdded = DateTime.UtcNow;
     }
 
-    public Collection(string? name, Guid? iconId = null, ItemStatus status = ItemStatus.Active, Guid? id = null, string? externalId = null)
+    public Collection(string? name, Guid iconId, ItemStatus status = ItemStatus.Active, Guid? id = null, string? externalId = null)
         : base (id, externalId)
     {
         Name = name;

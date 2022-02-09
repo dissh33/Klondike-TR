@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
 using ItemManagementService.Api.Commands.Material;
+using ItemManagementService.Application.Contracts;
 
-namespace ItemManagementService.Api.Validators;
+namespace ItemManagementService.Application.Validators;
 
-public class MaterialAddValidator : AbstractValidator<MaterialAddCommand>
+public class MaterialAddValidator : IconExistenceBaseValidator<MaterialAddCommand>
 {
-    public MaterialAddValidator()
+    public MaterialAddValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(material => material.Name).Length(3, 250);
         RuleFor(material => material.Status).InclusiveBetween(0, 2);
@@ -13,9 +14,9 @@ public class MaterialAddValidator : AbstractValidator<MaterialAddCommand>
     }
 }
 
-public class MaterialUpdateValidator : AbstractValidator<MaterialUpdateCommand>
+public class MaterialUpdateValidator : IconExistenceBaseValidator<MaterialUpdateCommand>
 {
-    public MaterialUpdateValidator()
+    public MaterialUpdateValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(material => material.Id).NotEmpty().NotEqual(Guid.Empty);
         RuleFor(material => material.Name).Length(3, 250);
@@ -24,9 +25,9 @@ public class MaterialUpdateValidator : AbstractValidator<MaterialUpdateCommand>
     }
 }
 
-public class MaterialUpdateIconValidator : AbstractValidator<MaterialUpdateIconCommand>
+public class MaterialUpdateIconValidator : IconExistenceBaseValidator<MaterialUpdateIconCommand>
 {
-    public MaterialUpdateIconValidator()
+    public MaterialUpdateIconValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(material => material.Id).NotEmpty().NotEqual(Guid.Empty);
     }

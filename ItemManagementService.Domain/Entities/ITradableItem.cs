@@ -2,5 +2,6 @@
 
 public interface ITradableItem
 {
-    public Guid Id { get; set; }
+    public Guid Id { get;  }
+    public Guid IconId { get; }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
+using FluentValidation;
 using ItemManagementService.Application.Behaviors;
 using MediatR;
-using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ItemManagementService.Application
@@ -14,7 +14,9 @@ namespace ItemManagementService.Application
 
             services.AddMediatR(currentAssembly);
             services.AddAutoMapper(currentAssembly);
-            
+
+            services.AddValidatorsFromAssembly(currentAssembly);
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         }

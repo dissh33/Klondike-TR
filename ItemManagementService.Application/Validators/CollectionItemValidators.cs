@@ -1,19 +1,20 @@
 ﻿using FluentValidation;
 using ItemManagementService.Api.Commands.CollectionItem;
+using ItemManagementService.Application.Contracts;
 
-namespace ItemManagementService.Api.Validators;
+namespace ItemManagementService.Application.Validators;
 
-public class CollectionItemAddValidator : AbstractValidator<CollectionItemAddCommand>
+public class CollectionItemAddValidator : IconExistenceBaseValidator<CollectionItemAddCommand>
 {
-    public CollectionItemAddValidator()
+    public CollectionItemAddValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(collectionItem => collectionItem.Name).Length(3, 250);
     }
 }
 
-public class CollectionItemUpdateValidator : AbstractValidator<CollectionItemUpdateCommand>
+public class CollectionItemUpdateValidator : IconExistenceBaseValidator<CollectionItemUpdateCommand>
 {
-    public CollectionItemUpdateValidator()
+    public CollectionItemUpdateValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(collectionItem => collectionItem.Id).NotEmpty().NotEqual(Guid.Empty);
         RuleFor(collectionItem => collectionItem.Name).Length(3, 250);
@@ -29,9 +30,9 @@ public class CollectionItemUpdateNameValidator : AbstractValidator<CollectionIte
     }
 }
 
-public class CollectionItemUpdateIconValidator : AbstractValidator<CollectionItemUpdateIconCommand>
+public class CollectionItemUpdateIconValidator : IconExistenceBaseValidator<CollectionItemUpdateIconCommand>
 {
-    public CollectionItemUpdateIconValidator()
+    public CollectionItemUpdateIconValidator(IUnitOfWork uow) : base(uow)
     {
         RuleFor(collectionItem => collectionItem.Id).NotEmpty().NotEqual(Guid.Empty);
     }
@@ -39,8 +40,12 @@ public class CollectionItemUpdateIconValidator : AbstractValidator<CollectionIte
 
 public class CollectionItemUpdateCollectionValidator : AbstractValidator<CollectionItemUpdateCollectionCommand>
 {
-    public CollectionItemUpdateCollectionValidator()
+    public CollectionItemUpdateCollectionValidator(IUnitOfWork uow)
     {
         RuleFor(collectionItem => collectionItem.Id).NotEmpty().NotEqual(Guid.Empty);
+
+        RuleFor(x => x.CollectionId)
+            .MustAsync(async (iconId, ct) => (await uow.CollectionRepository!.GetById(iconId, ct)) != null)
+            .WithMessage((x, id) => $"Collection with id [{id}] doesn't exist.");
     }
 }
