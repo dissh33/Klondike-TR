@@ -1,9 +1,9 @@
 ﻿namespace ItemManagementService.Api.Dtos;
 
-public class CollectionDto
+public record CollectionDto
 {
-    public Guid Id { get; set; }
-    public string? Name { get; set; }
-    public Guid? IconId { get; set; }
-    public int? Status { get; set; }
+    public Guid Id { get; init; }
+    public string? Name { get; init; }
+    public Guid? IconId { get; init; }
+    public int? Status { get; init; }
 }

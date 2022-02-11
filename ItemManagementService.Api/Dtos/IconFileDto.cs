@@ -1,9 +1,9 @@
 ﻿namespace ItemManagementService.Api.Dtos;
 
-public class IconFileDto
+public record IconFileDto
 {
-    public Guid Id { get; set; }
-    public string? Title { get; set; }
-    public string? FileName { get; set; }
-    public byte[]? FileBinary { get; set; }
+    public Guid Id { get; init; }
+    public string? Title { get; init; }
+    public string? FileName { get; init; }
+    public byte[]? FileBinary { get; init; }
 }
