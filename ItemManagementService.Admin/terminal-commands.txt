@@ -1,0 +1,38 @@
+﻿
+docker build -t dissh33/itemmanagementserviceadmin .
+
+docker build -f "F:\[DATA]\[PROGECTS]\KlondikeTR\ItemManagementService.Admin\Dockerfile" --force-rm -t dissh33/itemmanagementserviceadmin "F:\[DATA]\[PROGECTS]\KlondikeTR"
+
+
+docker run -dt 
+	-v "C:\Users\Dis\vsdbg\vs2017u5:/remote_debugger:rw" 
+	-v "C:\Users\Dis\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro" 
+	-v "C:\Users\Dis\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro" 
+	-v "F:\[DATA]\[PROGECTS]\KlondikeTR\ItemManagementService.Admin:/app" 
+	-v "F:\[DATA]\[PROGECTS]\KlondikeTR:/src/" 
+	-v "C:\Users\Dis\.nuget\packages\:/root/.nuget/fallbackpackages" 
+	-e "ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true" 
+	-e "ASPNETCORE_ENVIRONMENT=Development" 
+	-e "ASPNETCORE_URLS=https://+:443;http://+:80" 
+	-e "DOTNET_USE_POLLING_FILE_WATCHER=1" 
+	-e "NUGET_PACKAGES=/root/.nuget/fallbackpackages" 
+	-e "NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages" 
+	-P --name ItemManagementService.Admin 
+	--entrypoint tail dissh33/itemmanagementserviceadmin -f /dev/null
+
+docker run -dt -P --name ItemManagementService.Admin --entrypoint tail dissh33/itemmanagementserviceadmin -f /dev/null
+
+docker run -e "ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true" -e "ASPNETCORE_ENVIRONMENT=Development" -e "ASPNETCORE_URLS=https://+:443;http://+:80" -e "DOTNET_USE_POLLING_FILE_WATCHER=1" -e "NUGET_PACKAGES=/root/.nuget/fallbackpackages" -e "NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages"  -dt -P --name ItemManagementService.Admin --entrypoint tail dissh33/itemmanagementserviceadmin -f /dev/null
+
+
+##### ##### ##### ##### #####
+
+
+kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD="admin"
+
+kubectl create secret tls items-tls --cert=tls.crt --key=tls.key
+
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/aws/deploy.yaml 
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml

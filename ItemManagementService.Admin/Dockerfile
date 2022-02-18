@@ -1,5 +1,3 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -22,5 +20,6 @@ RUN dotnet publish "ItemManagementService.Admin.csproj" -c Release -o /app/publi
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_ENVIRONMENT=k8s
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ItemManagementService.Admin.dll"]
