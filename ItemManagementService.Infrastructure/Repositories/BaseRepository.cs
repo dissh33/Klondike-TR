@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Text;
+using App.Metrics;
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain;
@@ -15,6 +16,7 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
 
     protected IDbTransaction Transaction { get; }
     protected ILogger Logger { get; }
+    protected IMetrics Metrics { get; }
     
     protected IDbConnection? Connection { get; }
 
@@ -25,10 +27,12 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
-    protected BaseRepository(IDbTransaction transaction, ILogger logger)
+    protected BaseRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
     {
         Transaction = transaction;
+
         Logger = logger;
+        Metrics = metrics;
 
         Connection = Transaction.Connection;
 

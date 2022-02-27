@@ -1,5 +1,7 @@
 ﻿using System.Data;
+using App.Metrics;
 using ItemManagementService.Application.Contracts;
+using ItemManagementService.Infrastructure.Metrics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Serilog;
@@ -9,18 +11,22 @@ namespace ItemManagementService.Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly ILogger _logger;
+    private readonly IMetrics _metrics;
+
     private readonly IDbConnection _connection;
     private IDbTransaction _transaction;
     private Guid _transactionId;
 
-    public UnitOfWork(IConfiguration configuration, ILogger logger)
+    public UnitOfWork(IConfiguration configuration, ILogger logger, IMetrics metrics)
     {
         _logger = logger;
+        _metrics = metrics;
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         _connection = new NpgsqlConnection(connectionString);
         _connection.Open();
+        _metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter);
             
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
@@ -32,10 +38,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private ICollectionRepository? _collectionRepository;
     private ICollectionItemRepository? _collectionItemRepository;
 
-    public IIconRepository IconRepository => _iconRepository ??= new IconBaseRepository(_transaction, _logger);
-    public IMaterialRepository MaterialRepository => _materialRepository ??= new MaterialBaseRepository(_transaction, _logger);
-    public ICollectionRepository CollectionRepository => _collectionRepository ??= new CollectionBaseRepository(_transaction, _logger);
-    public ICollectionItemRepository CollectionItemRepository => _collectionItemRepository ??= new CollectionItemBaseRepository(_transaction, _logger);
+    public IIconRepository IconRepository => _iconRepository ??= new IconRepository(_transaction, _logger, _metrics);
+    public IMaterialRepository MaterialRepository => _materialRepository ??= new MaterialRepository(_transaction, _logger, _metrics);
+    public ICollectionRepository CollectionRepository => _collectionRepository ??= new CollectionRepository(_transaction, _logger, _metrics);
+    public ICollectionItemRepository CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(_transaction, _logger, _metrics);
 
     public void Commit()
     {

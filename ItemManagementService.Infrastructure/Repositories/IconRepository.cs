@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using App.Metrics;
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
@@ -10,10 +11,10 @@ using Serilog;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
+public class IconRepository : BaseRepository<Icon>, IIconRepository
 {
-    public IconBaseRepository(IDbTransaction transaction, ILogger logger)
-    : base(transaction, logger)
+    public IconRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
+    : base(transaction, logger, metrics)
     {
 
     }
@@ -31,7 +32,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<Icon> GetFile(Guid id, CancellationToken ct)
@@ -40,7 +41,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<IEnumerable<Icon>> GetAll(CancellationToken ct)
@@ -55,7 +56,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<Icon> Insert(Icon icon, CancellationToken ct)
@@ -64,7 +65,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
         
-        var id = await Logger.DbCall(query, command);
+        var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -75,7 +76,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command);
+        var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -90,7 +91,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -105,7 +106,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -116,7 +117,7 @@ public class IconBaseRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     override public void Dispose()

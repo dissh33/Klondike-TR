@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using App.Metrics;
 using Dapper;
 using ItemManagementService.Application.Contracts;
 using ItemManagementService.Domain.Entities;
@@ -7,9 +8,9 @@ using Serilog;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICollectionItemRepository
-{    public CollectionItemBaseRepository(IDbTransaction transaction, ILogger logger)
-        : base(transaction, logger)
+public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollectionItemRepository
+{    public CollectionItemRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
+        : base(transaction, logger, metrics)
     {
 
     }
@@ -20,7 +21,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<CollectionItem>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<IEnumerable<CollectionItem>> GetAll(CancellationToken ct)
@@ -29,7 +30,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.QueryAsync<CollectionItem>(cmd);
 
-        return await Logger.DbCall(query, cmd);
+        return await Logger.DbCall(query, cmd, Metrics);
     }
 
     public async Task<IEnumerable<CollectionItem>> GetByCollection(Guid collectionId, CancellationToken ct)
@@ -45,7 +46,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.QueryAsync<CollectionItem>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<CollectionItem> Insert(CollectionItem collectionItem, CancellationToken ct)
@@ -54,7 +55,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query =  async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command);
+        var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -65,7 +66,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command);
+        var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -80,7 +81,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -95,7 +96,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -110,7 +111,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -121,7 +122,7 @@ public class CollectionItemBaseRepository : BaseRepository<CollectionItem>, ICol
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     override public void Dispose()

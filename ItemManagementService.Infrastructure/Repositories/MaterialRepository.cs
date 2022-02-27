@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using App.Metrics;
 using Dapper;
 using ItemManagementService.Api.Queries.Material;
 using ItemManagementService.Application.Contracts;
@@ -9,10 +10,10 @@ using Serilog;
 
 namespace ItemManagementService.Infrastructure.Repositories;
 
-public class MaterialBaseRepository : BaseRepository<Material>, IMaterialRepository
+public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 {
-    public MaterialBaseRepository(IDbTransaction transaction, ILogger logger)
-        : base(transaction, logger)
+    public MaterialRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
+        : base(transaction, logger, metrics)
     {
 
     }
@@ -23,7 +24,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Material>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<IEnumerable<Material>> GetAll(CancellationToken ct)
@@ -32,7 +33,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.QueryAsync<Material>(cmd);
 
-        return await Logger.DbCall(query, cmd);
+        return await Logger.DbCall(query, cmd, Metrics);
     }
 
     public async Task<IEnumerable<Collection>> GetByFilter(MaterialGetByFilterQuery filter, CancellationToken ct)
@@ -48,7 +49,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.QueryAsync<Collection>(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<Material> Insert(Material material, CancellationToken ct)
@@ -57,7 +58,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command);
+        var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -68,7 +69,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command);
+        var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -83,7 +84,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -98,7 +99,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command);
+        id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
     }
@@ -109,7 +110,7 @@ public class MaterialBaseRepository : BaseRepository<Material>, IMaterialReposit
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, command);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     override public void Dispose()
