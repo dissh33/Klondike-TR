@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Application", "Items.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Infrastructure", "Items.Infrastructure\Items.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Tests", "ItemManagementService.Tests\ItemManagementService.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Tests", "Items.Tests\Items.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
