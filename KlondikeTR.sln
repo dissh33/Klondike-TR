@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfferConstructionService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfferConstructionService.Api", "OfferConstructionService.Api\OfferConstructionService.Api.csproj", "{A5328A94-2E7A-433E-A5B7-6A50524955D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Admin", "ItemManagementService.Admin\ItemManagementService.Admin.csproj", "{B8ADEDE5-8FA1-40B2-8854-436F85FB78AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Admin", "Items.Admin\Items.Admin.csproj", "{B8ADEDE5-8FA1-40B2-8854-436F85FB78AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Api", "ItemManagementService.Api\ItemManagementService.Api.csproj", "{8A331F57-9851-46FA-A354-F6BA3266179F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Api", "Items.Api\Items.Api.csproj", "{8A331F57-9851-46FA-A354-F6BA3266179F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forecast", "Forecast", "{E0D79CA4-1047-4C6B-80D5-BCDCBEBA7267}"
 EndProject
@@ -33,11 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService.Api", "PriceRateForecastService.Api\PriceRateForecastService.Api.csproj", "{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Domain", "ItemManagementService.Domain\ItemManagementService.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Domain", "Items.Domain\Items.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Application", "ItemManagementService.Application\ItemManagementService.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Application", "Items.Application\Items.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Infrastructure", "ItemManagementService.Infrastructure\ItemManagementService.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Infrastructure", "Items.Infrastructure\Items.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementService.Tests", "ItemManagementService.Tests\ItemManagementService.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
 EndProject

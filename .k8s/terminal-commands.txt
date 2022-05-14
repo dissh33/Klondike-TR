@@ -35,41 +35,58 @@ kubectl create secret generic postgres-secret --from-literal=POSTGRES_PASSWORD="
 
 kubectl create secret tls items-tls --cert=tls.crt --key=tls.key
 
+
 #Nginx
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/aws/deploy.yaml 
+
 
 #CertManager
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
 
+
 #Elascticsearch
 kubectl create -f https://download.elastic.co/downloads/eck/2.0.0/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/2.0.0/operator.yaml
-
 kubectl get secret elastic-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 
-#host file
+
+#host-file
 c:\windows\system32\drivers\etc\hosts
+
 
 #Helm
 https://github.com/helm/helm/releases
 
-#Seq with Helm
+
+#Seq
 helm repo add datalust https://helm.datalust.co
 helm repo update
-
 helm install my-seq datalust/seq
-
 helm upgrade -f seq-config.yaml my-seq datalust/seq
+
 
 #Monitoring
 kubectl create namespace monitoring
 kubectl get all -n monitoring
 
+
 #Prometheus with Helm
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-
 helm install my-prometheus prometheus-community/prometheus -n monitoring
-
 helm get values my-prometheus -n monitoring
+helm upgrade -f prometheus-values.yaml my-prometheus prometheus-community/prometheus -n monitoring
 
-helm upgrade -f prometheus-items-values.yaml my-prometheus prometheus-community/prometheus -n monitoring
+
+#Jenkins
+kubectl create namespace jenkins
+helm repo add jenkinsci https://charts.jenkins.io
+helm install my-jenkins -n jenkins jenkinsci/jenkins
+kubectl exec --namespace jenkins -it svc/my-jenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
+helm upgrade -f jenkins-values.yaml my-jenkins jenkinsci/jenkins -n jenkins
+
+
+
+
+
+
+

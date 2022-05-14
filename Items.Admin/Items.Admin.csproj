@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ItemManagementService.Api\ItemManagementService.Api.csproj" />
-    <ProjectReference Include="..\ItemManagementService.Infrastructure\ItemManagementService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Items.Api\Items.Api.csproj" />
+    <ProjectReference Include="..\Items.Infrastructure\Items.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ItemManagementService.Application\ItemManagementService.Application.csproj" />
-    <ProjectReference Include="..\ItemManagementService.Domain\ItemManagementService.Domain.csproj" />
+    <ProjectReference Include="..\Items.Application\Items.Application.csproj" />
+    <ProjectReference Include="..\Items.Domain\Items.Domain.csproj" />
   </ItemGroup>
 
 </Project>
