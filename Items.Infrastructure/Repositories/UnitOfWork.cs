@@ -100,7 +100,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
             _transaction.Dispose();
             _logger.Information("Dispose transaction {@id}", _transactionId);
-        }
+        
+
         _disposed = true;
     }
 

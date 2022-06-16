@@ -26,11 +26,11 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
     public async Task<IEnumerable<CollectionItem>> GetAll(CancellationToken ct)
     {
-        var cmd = GetAllBaseCommand(ct);
+        var command = GetAllBaseCommand(ct);
 
-        var query = async () => await Connection.QueryAsync<CollectionItem>(cmd);
+        var query = async () => await Connection.QueryAsync<CollectionItem>(command);
 
-        return await Logger.DbCall(query, cmd, Metrics);
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<IEnumerable<CollectionItem>> GetByCollection(Guid collectionId, CancellationToken ct)

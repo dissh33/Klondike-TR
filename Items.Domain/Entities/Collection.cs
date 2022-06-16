@@ -16,7 +16,12 @@ public class Collection : BaseEntity, ITradableItem
         DateAdded = DateTime.UtcNow;
     }
 
-    public Collection(string? name, Guid iconId, ItemStatus status = ItemStatus.Active, Guid? id = null, string? externalId = null)
+    public Collection(
+        string? name, 
+        Guid iconId, 
+        ItemStatus status = ItemStatus.Active, 
+        Guid? id = null, 
+        string? externalId = null)
         : base (id, externalId)
     {
         Name = name;

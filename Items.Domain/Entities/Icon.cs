@@ -11,7 +11,12 @@ public class Icon : BaseEntity
         
     }
 
-    public Icon(string? title, byte[]? fileBinary, string? fileName, Guid? id = null, string? externalId = null)
+    public Icon(
+        string? title, 
+        byte[]? fileBinary, 
+        string? fileName, 
+        Guid? id = null, 
+        string? externalId = null)
         : base(id, externalId)
     {
         Title = title;
