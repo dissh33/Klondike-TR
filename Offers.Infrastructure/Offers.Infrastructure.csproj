@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Offers.Application\Offers.Application.csproj" />
+    <ProjectReference Include="..\Offers.Domain\Offers.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
-﻿using ItemManagementService.Domain.Entities;
+﻿using Items.Domain.Entities;
 
-namespace ItemManagementService.Application.Contracts;
+namespace Items.Application.Contracts;
 public interface ICollectionItemRepository : IGenericRepository<CollectionItem>
 {
     Task<CollectionItem> GetById(Guid id, CancellationToken ct);

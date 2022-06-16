@@ -1,4 +1,6 @@
-﻿namespace ItemManagementService.Domain;
+﻿using Items.Domain.Events;
+
+namespace Items.Domain;
 
 public interface IHasDomainEvent
 {

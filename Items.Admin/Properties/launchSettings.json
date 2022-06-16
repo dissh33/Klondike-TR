@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "ItemManagementService": {
+    "Items.Admin": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

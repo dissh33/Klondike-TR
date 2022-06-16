@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Domain.Entities;
+﻿namespace Items.Domain.Entities;
 
 public interface ITradableItem
 {

@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using ItemManagementService.Api.Commands;
-using ItemManagementService.Application.Contracts;
+using Items.Api.Commands;
+using Items.Application.Contracts;
 using MediatR;
 
-namespace ItemManagementService.Application.Validators;
+namespace Items.Application.Validators;
 
 public class IconExistenceBaseValidator<T> : AbstractValidator<T> where T : IHaveIcon
 {

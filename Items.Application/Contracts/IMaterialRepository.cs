@@ -1,8 +1,8 @@
 ﻿
-using ItemManagementService.Api.Queries.Material;
-using ItemManagementService.Domain.Entities;
+using Items.Api.Queries.Material;
+using Items.Domain.Entities;
 
-namespace ItemManagementService.Application.Contracts;
+namespace Items.Application.Contracts;
 public interface IMaterialRepository : IGenericRepository<Material>
 {
     Task<Material> GetById(Guid id, CancellationToken ct);

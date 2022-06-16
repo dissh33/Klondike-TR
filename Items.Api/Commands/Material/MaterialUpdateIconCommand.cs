@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Commands.Material;
+namespace Items.Api.Commands.Material;
 
 public class MaterialUpdateIconCommand : IRequest<MaterialDto>, IHaveIcon
 {

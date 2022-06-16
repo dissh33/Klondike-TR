@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Queries.Material;
+namespace Items.Api.Queries.Material;
 
 public class MaterialGetByIdQuery : IRequest<MaterialDto>
 {

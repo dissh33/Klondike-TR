@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Queries.CollectionItem;
+namespace Items.Api.Queries.CollectionItem;
 
 public class CollectionItemGetByIdQuery : IRequest<CollectionItemDto>
 {

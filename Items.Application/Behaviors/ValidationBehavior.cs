@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using ItemManagementService.Application.Exceptions;
+using Items.Application.Exceptions;
 using MediatR;
 
-namespace ItemManagementService.Application.Behaviors;
+namespace Items.Application.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Commands.CollectionItem;
+namespace Items.Api.Commands.CollectionItem;
 
 public class CollectionItemUpdateNameCommand : IRequest<CollectionItemDto>
 {

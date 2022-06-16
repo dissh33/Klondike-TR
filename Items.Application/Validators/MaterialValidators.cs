@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using ItemManagementService.Api.Commands.Material;
-using ItemManagementService.Application.Contracts;
+using Items.Api.Commands.Material;
+using Items.Application.Contracts;
 
-namespace ItemManagementService.Application.Validators;
+namespace Items.Application.Validators;
 
 public class MaterialAddValidator : IconExistenceBaseValidator<MaterialAddCommand>
 {

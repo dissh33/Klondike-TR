@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ItemManagementService.Application.Behaviors;
+namespace Items.Application.Behaviors;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>

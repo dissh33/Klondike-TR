@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Api.Commands;
+﻿namespace Items.Api.Commands;
 
 public interface IHaveIcon
 {

@@ -1,8 +1,8 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace ItemManagementService.Api.Commands.Icon;
+namespace Items.Api.Commands.Icon;
 
 public class IconUpdateFileCommand : IRequest<IconDto>
 {

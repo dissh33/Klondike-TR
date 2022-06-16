@@ -1,12 +1,12 @@
 ﻿using System.Data;
 using App.Metrics;
 using Dapper;
-using ItemManagementService.Application.Contracts;
-using ItemManagementService.Domain.Entities;
-using ItemManagementService.Infrastructure.Logging;
+using Items.Application.Contracts;
+using Items.Domain.Entities;
+using Items.Infrastructure.Logging;
 using Serilog;
 
-namespace ItemManagementService.Infrastructure.Repositories;
+namespace Items.Infrastructure.Repositories;
 
 public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollectionItemRepository
 {    public CollectionItemRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)

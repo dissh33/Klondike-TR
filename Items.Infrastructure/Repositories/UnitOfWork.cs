@@ -1,12 +1,12 @@
 ﻿using System.Data;
 using App.Metrics;
-using ItemManagementService.Application.Contracts;
-using ItemManagementService.Infrastructure.Metrics;
+using Items.Application.Contracts;
+using Items.Infrastructure.Metrics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Serilog;
 
-namespace ItemManagementService.Infrastructure.Repositories;
+namespace Items.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
@@ -27,7 +27,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         _connection = new NpgsqlConnection(connectionString);
         _connection.Open();
         _metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter);
-            
+
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
         _logger.Information("Begin transaction {@id}", _transactionId);
@@ -100,9 +100,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
             _transaction.Dispose();
             _logger.Information("Dispose transaction {@id}", _transactionId);
-        
 
-        _disposed = true;
+
+            _disposed = true;
+        }        
     }
 
     private void ResetRepositories()

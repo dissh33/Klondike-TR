@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using FluentValidation;
-using ItemManagementService.Application.Behaviors;
+using Items.Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ItemManagementService.Application
+namespace Items.Application
 {
     public static class DependencyInjection
     {

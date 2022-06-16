@@ -1,8 +1,8 @@
-﻿using ItemManagementService.Application.Contracts;
-using ItemManagementService.Infrastructure.Repositories;
+﻿using Items.Application.Contracts;
+using Items.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ItemManagementService.Infrastructure;
+namespace Items.Infrastructure;
 
 public static class DependencyInjection
 {

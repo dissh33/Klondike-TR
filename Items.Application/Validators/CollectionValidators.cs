@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using ItemManagementService.Api.Commands.Collection;
-using ItemManagementService.Application.Contracts;
+using Items.Api.Commands.Collection;
+using Items.Application.Contracts;
 
-namespace ItemManagementService.Application.Validators;
+namespace Items.Application.Validators;
 
 public class CollectionAddValidator : IconExistenceBaseValidator<CollectionAddCommand>
 {

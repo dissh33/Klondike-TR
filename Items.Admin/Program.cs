@@ -1,9 +1,9 @@
 using App.Metrics.AspNetCore;
 using App.Metrics.Formatters.Prometheus;
 using FluentValidation.AspNetCore;
-using ItemManagementService.Admin.MiddlewareFilters;
-using ItemManagementService.Application;
-using ItemManagementService.Infrastructure;
+using Items.Admin.MiddlewareFilters;
+using Items.Application;
+using Items.Infrastructure;
 using Serilog;
 
 

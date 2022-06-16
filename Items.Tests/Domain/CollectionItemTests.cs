@@ -1,9 +1,9 @@
 ﻿using System;
 using FluentAssertions;
-using ItemManagementService.Domain.Entities;
+using Items.Domain.Entities;
 using Xunit;
 
-namespace ItemManagementService.Tests.Domain;
+namespace Items.Tests.Domain;
 
 public class CollectionItemTests
 {

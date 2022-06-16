@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Application.Contracts;
+﻿namespace Items.Application.Contracts;
 
 public interface IUnitOfWork 
 {

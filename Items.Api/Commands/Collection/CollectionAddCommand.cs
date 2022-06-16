@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Commands.Collection;
+namespace Items.Api.Commands.Collection;
 
 public class CollectionAddCommand : IRequest<CollectionDto>, IHaveIcon
 {

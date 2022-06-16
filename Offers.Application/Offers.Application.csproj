@@ -6,4 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="CommandsHandlers\" />
+    <Folder Include="Contracts\" />
+    <Folder Include="QueriesHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Offers.Api\Offers.Api.csproj" />
+    <ProjectReference Include="..\Offers.Domain\Offers.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using App.Metrics;
 using Dapper;
-using ItemManagementService.Infrastructure.Metrics;
+using Items.Infrastructure.Metrics;
 using Serilog;
 using Serilog.Events;
 
-namespace ItemManagementService.Infrastructure.Logging;
+namespace Items.Infrastructure.Logging;
 
 public static class LogEventsDefinitions
 { 

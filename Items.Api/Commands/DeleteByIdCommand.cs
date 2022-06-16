@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ItemManagementService.Api.Commands;
+namespace Items.Api.Commands;
 
 public  class DeleteByIdCommand : IRequest<int>
 {

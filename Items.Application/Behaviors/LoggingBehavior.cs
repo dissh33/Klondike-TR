@@ -1,7 +1,7 @@
 ﻿using MediatR.Pipeline;
 using Serilog;
 
-namespace ItemManagementService.Application.Behaviors;
+namespace Items.Application.Behaviors;
 
 public class LoggingBehavior<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
 {

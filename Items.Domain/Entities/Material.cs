@@ -1,6 +1,7 @@
-﻿using ItemManagementService.Domain.Enums;
+﻿using Items.Domain.Enums;
+using Items.Domain.Entities;
 
-namespace ItemManagementService.Domain.Entities;
+namespace Items.Domain.Entities;
 
 public class Material : BaseEntity, ITradableItem
 {

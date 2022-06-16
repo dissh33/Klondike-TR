@@ -2,14 +2,14 @@
 using System.Diagnostics;
 using App.Metrics;
 using Dapper;
-using ItemManagementService.Application.Contracts;
-using ItemManagementService.Domain.Entities;
-using ItemManagementService.Infrastructure.Logging;
+using Items.Application.Contracts;
+using Items.Domain.Entities;
+using Items.Infrastructure.Logging;
 using Newtonsoft.Json;
 using Npgsql;
 using Serilog;
 
-namespace ItemManagementService.Infrastructure.Repositories;
+namespace Items.Infrastructure.Repositories;
 
 public class IconRepository : BaseRepository<Icon>, IIconRepository
 {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using FluentValidation.Results;
-using ItemManagementService.Application.Exceptions;
+using Items.Application.Exceptions;
 using Xunit;
 
-namespace ItemManagementService.Tests.Application;
+namespace Items.Tests.Application;
 
 public class RequestValidationExceptionTests
 {

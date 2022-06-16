@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using AutoMapper;
-using ItemManagementService.Api.Dtos;
-using ItemManagementService.Application.Mapping;
-using ItemManagementService.Domain.Entities;
+using Items.Api.Dtos;
+using Items.Application.Mapping;
+using Items.Domain.Entities;
 using Xunit;
 
-namespace ItemManagementService.Tests.Application;
+namespace Items.Tests.Application;
 
 public class MappingTests
 {

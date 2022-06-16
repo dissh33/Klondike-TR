@@ -1,7 +1,7 @@
 ﻿using App.Metrics;
 using App.Metrics.Counter;
 
-namespace ItemManagementService.Infrastructure.Metrics;
+namespace Items.Infrastructure.Metrics;
 
 public static class MetricsRegistry
 {

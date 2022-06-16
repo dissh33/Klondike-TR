@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Api.Dtos;
+﻿namespace Items.Api.Dtos;
 
 public record IconFileDto
 {

@@ -1,9 +1,9 @@
-﻿using ItemManagementService.Application.Exceptions;
+﻿using Items.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ILogger = Serilog.ILogger;
 
-namespace ItemManagementService.Admin.MiddlewareFilters;
+namespace Items.Admin.MiddlewareFilters;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {

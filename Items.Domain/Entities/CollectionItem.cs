@@ -1,4 +1,6 @@
-﻿namespace ItemManagementService.Domain.Entities;
+﻿using Items.Domain.Entities;
+
+namespace Items.Domain.Entities;
 
 public class CollectionItem : BaseEntity, ITradableItem
 {

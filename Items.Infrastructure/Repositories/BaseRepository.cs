@@ -2,12 +2,12 @@
 using System.Text;
 using App.Metrics;
 using Dapper;
-using ItemManagementService.Application.Contracts;
-using ItemManagementService.Domain;
+using Items.Application.Contracts;
+using Items.Domain.Entities;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace ItemManagementService.Infrastructure.Repositories;
+namespace Items.Infrastructure.Repositories;
 
 public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEntity
 {

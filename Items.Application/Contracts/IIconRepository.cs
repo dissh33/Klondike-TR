@@ -1,7 +1,7 @@
 ﻿
-using ItemManagementService.Domain.Entities;
+using Items.Domain.Entities;
 
-namespace ItemManagementService.Application.Contracts;
+namespace Items.Application.Contracts;
 
 public interface IIconRepository : IGenericRepository<Icon>
 {

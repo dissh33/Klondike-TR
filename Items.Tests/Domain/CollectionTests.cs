@@ -1,10 +1,10 @@
 ﻿using System;
 using FluentAssertions;
-using ItemManagementService.Domain.Entities;
-using ItemManagementService.Domain.Enums;
+using Items.Domain.Entities;
+using Items.Domain.Enums;
 using Xunit;
 
-namespace ItemManagementService.Tests.Domain;
+namespace Items.Tests.Domain;
 
 public class CollectionTests
 {

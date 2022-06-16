@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Domain.Enums;
+﻿namespace Items.Domain.Enums;
 
 public enum MaterialType
 {

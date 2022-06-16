@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Queries.Icon;
+namespace Items.Api.Queries.Icon;
 
 public class IconGetByIdQuery : IRequest<IconDto>
 {

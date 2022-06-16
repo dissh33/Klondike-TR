@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ItemManagementService.Api.Dtos;
-using ItemManagementService.Domain.Entities;
+using Items.Api.Dtos;
+using Items.Domain.Entities;
 
-namespace ItemManagementService.Application.Mapping;
+namespace Items.Application.Mapping;
 
 public class IconProfile : Profile
 {

@@ -1,15 +1,15 @@
 ﻿using System.Data;
 using App.Metrics;
 using Dapper;
-using ItemManagementService.Api.Queries.Collection;
-using ItemManagementService.Application.Contracts;
-using ItemManagementService.Domain.Entities;
-using ItemManagementService.Domain.Enums;
-using ItemManagementService.Infrastructure.Logging;
+using Items.Api.Queries.Collection;
+using Items.Application.Contracts;
+using Items.Domain.Entities;
+using Items.Domain.Enums;
+using Items.Infrastructure.Logging;
 using Npgsql;
 using Serilog;
 
-namespace ItemManagementService.Infrastructure.Repositories;
+namespace Items.Infrastructure.Repositories;
 
 public class CollectionRepository : BaseRepository<Collection>, ICollectionRepository
 {

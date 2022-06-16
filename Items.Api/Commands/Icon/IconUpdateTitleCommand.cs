@@ -1,7 +1,7 @@
-﻿using ItemManagementService.Api.Dtos;
+﻿using Items.Api.Dtos;
 using MediatR;
 
-namespace ItemManagementService.Api.Commands.Icon;
+namespace Items.Api.Commands.Icon;
 
 public class IconUpdateTitleCommand : IRequest<IconDto>
 {

@@ -1,4 +1,4 @@
-﻿namespace ItemManagementService.Application.Exceptions;
+﻿namespace Items.Application.Exceptions;
 
 public class ForbiddenAccessException : Exception
 {

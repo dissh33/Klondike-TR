@@ -1,12 +1,12 @@
-﻿using ItemManagementService.Api.Commands;
-using ItemManagementService.Api.Commands.Icon;
-using ItemManagementService.Api.Dtos;
-using ItemManagementService.Api.Queries;
-using ItemManagementService.Api.Queries.Icon;
+﻿using Items.Api.Commands;
+using Items.Api.Commands.Icon;
+using Items.Api.Dtos;
+using Items.Api.Queries;
+using Items.Api.Queries.Icon;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ItemManagementService.Admin.Controllers;
+namespace Items.Admin.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
