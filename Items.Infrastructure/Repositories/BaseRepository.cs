@@ -22,6 +22,8 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
 
     protected string TableName { get; }
 
+    protected static List<string> ExcludeProperties = new() { "DomainEvents" };
+
     static BaseRepository()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
@@ -111,7 +113,7 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
     {
         return typeof(T)
             .GetProperties()
-            .Where(prop => prop.Name != "DomainEvents")
+            .Where(prop => !ExcludeProperties.Contains(prop.Name))
             .Select(prop => prop.Name);
     }
 
@@ -123,20 +125,19 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
 
         foreach (char ch in str)
         {
-            if (char.IsUpper(ch))
+            bool isCorrectChar = char.IsUpper(ch) && sb.Length != 0 && previousChar != ' ';
+
+            if (isCorrectChar)
             {
-                if (sb.Length != 0 && previousChar != ' ')
-                {
-                    sb.Append('_');
-                }
+                sb.Append('_');
             }
 
-            sb.Append(ch);
+            sb.Append(char.ToLower(ch));
 
             previousChar = ch;
         }
 
-        return sb.ToString().ToLower();
+        return sb.ToString();
     }
 
     public virtual void Dispose()

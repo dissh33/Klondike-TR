@@ -11,6 +11,7 @@ public static class MetricsRegistry
         Context = "Database",
         MeasurementUnit = Unit.Calls,
     };
+
     public static CounterOptions DbConnectionsCounter => new CounterOptions
     {
         Name = "Open Connections",

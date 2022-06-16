@@ -13,7 +13,7 @@ public static class LogEventsDefinitions
     {
         if (!logger.IsEnabled(LogEventLevel.Information)) return await action();
 
-        logger.Information("\n\t Executing Sql-command \n\t {@sql}\n\t with parameters \n\t {@parameters}", cmd.CommandText, cmd.Parameters);
+        logger.Information("\n\t Executing Sql-command \n\t {sql}\n\t with parameters \n\t {parameters}", cmd.CommandText, cmd.Parameters);
 
         var timer = Stopwatch.StartNew();
 
@@ -28,7 +28,7 @@ public static class LogEventsDefinitions
     {
         if (!logger.IsEnabled(LogEventLevel.Information)) return await action();
 
-        logger.Information("\n\t Executing Sql-command \n\t {@sql}\n\t with parameters \n\t {@parameters}", cmd.CommandText, cmd.Parameters);
+        logger.Information("\n\t Executing Sql-command \n\t {sql}\n\t with parameters \n\t {parameters}", cmd.CommandText, cmd.Parameters);
 
         var timer = Stopwatch.StartNew();
 

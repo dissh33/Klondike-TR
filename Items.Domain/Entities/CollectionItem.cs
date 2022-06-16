@@ -11,7 +11,12 @@ public class CollectionItem : BaseEntity, ITradableItem
         
     }
 
-    public CollectionItem(string? name, Guid collectionId, Guid iconId, Guid? id = null, string? externalId = null)
+    public CollectionItem(
+        string? name, 
+        Guid collectionId, 
+        Guid iconId, 
+        Guid? id = null, 
+        string? externalId = null)
         : base(id, externalId)
     {
         Name = name;
