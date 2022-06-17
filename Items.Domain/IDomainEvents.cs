@@ -2,7 +2,7 @@
 
 namespace Items.Domain;
 
-public interface IHasDomainEvent
+public interface IDomainEvents
 {
     public List<DomainEvent> DomainEvents { get; set; }
 }

@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Items.Api.Commands;
 using Items.Application.Contracts;
-using MediatR;
 
 namespace Items.Application.Validators;
 

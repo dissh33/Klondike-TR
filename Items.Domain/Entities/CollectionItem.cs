@@ -1,6 +1,4 @@
-﻿using Items.Domain.Entities;
-
-namespace Items.Domain.Entities;
+﻿namespace Items.Domain.Entities;
 
 public class CollectionItem : BaseEntity, ITradableItem
 {
@@ -24,5 +22,5 @@ public class CollectionItem : BaseEntity, ITradableItem
         Name = name;
         CollectionId = collectionId;
         IconId = iconId;
-    }
+    }    
 }

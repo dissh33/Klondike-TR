@@ -4,9 +4,7 @@ using Dapper;
 using Items.Api.Queries.Collection;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
-using Items.Domain.Enums;
 using Items.Infrastructure.Logging;
-using Npgsql;
 using Serilog;
 
 namespace Items.Infrastructure.Repositories;

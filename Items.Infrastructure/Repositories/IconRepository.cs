@@ -1,12 +1,9 @@
 ﻿using System.Data;
-using System.Diagnostics;
 using App.Metrics;
 using Dapper;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Infrastructure.Logging;
-using Newtonsoft.Json;
-using Npgsql;
 using Serilog;
 
 namespace Items.Infrastructure.Repositories;

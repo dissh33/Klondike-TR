@@ -1,5 +1,4 @@
 ﻿using Items.Domain.Enums;
-using Items.Domain.Entities;
 
 namespace Items.Domain.Entities;
 

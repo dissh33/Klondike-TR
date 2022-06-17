@@ -1,15 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-using Items.Domain.Enums;
-using Items.Domain.Entities;
+﻿using Items.Domain.Enums;
 
 namespace Items.Domain.Entities;
 
 public class Collection : BaseEntity, ITradableItem
 {
     public string? Name { get; }
-    public Guid IconId { get;  }
-    public ItemStatus? Status { get;  }
-    public DateTime DateAdded { get;  }
+    public Guid IconId { get; }
+    public ItemStatus? Status { get; }
+    public DateTime DateAdded { get; }
     
 
     public Collection()
