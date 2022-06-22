@@ -53,7 +53,7 @@ namespace Items.Admin.Controllers
             [FromForm] IEnumerable<IFormFile> files, 
             CancellationToken ct)
         {
-            var request = JsonConvert.DeserializeObject<ConstructCollectionCommand>(jsonInput);
+            var request = JsonConvert.DeserializeObject<CollectionConstructCommand>(jsonInput);
             var fileList = files.ToList();
 
             var collectionFileStream = new MemoryStream();

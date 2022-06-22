@@ -8,18 +8,18 @@ using MediatR;
 
 namespace Items.Application.Commands.CollectionHandlers;
 
-public class ConstructCollectionHandler : IRequestHandler<ConstructCollectionCommand, CollectionDto>
+public class CollectionConstructHandler : IRequestHandler<CollectionConstructCommand, CollectionDto>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
 
-    public ConstructCollectionHandler(IUnitOfWork uow, IMapper mapper)
+    public CollectionConstructHandler(IUnitOfWork uow, IMapper mapper)
     {
         _uow = uow;
         _mapper = mapper;
     }
 
-    public async Task<CollectionDto> Handle(ConstructCollectionCommand request, CancellationToken ct)
+    public async Task<CollectionDto> Handle(CollectionConstructCommand request, CancellationToken ct)
     {
         var status = ItemStatus.Active;
 
@@ -53,10 +53,31 @@ public class ConstructCollectionHandler : IRequestHandler<ConstructCollectionCom
         var collectionIconResult = await _uow.IconRepository.Insert(collectionEntity.Icon!, ct);        
         var collectionResult = await _uow.CollectionRepository.Insert(collectionEntity, ct);
 
-        var collectionItemsIconResult = await _uow.IconRepository.BulkInsert(collectionEntity.Items.Select(x => x.Icon!), ct);
-        var collectionItemsResult = await _uow.CollectionItemRepository.BulkInsert(collectionEntity.Items, ct);
+        var collectionItemsIconResult = (await _uow.IconRepository.BulkInsert(collectionEntity.Items.Select(x => x.Icon!), ct)).ToList();
+        var collectionItemsResult = (await _uow.CollectionItemRepository.BulkInsert(collectionEntity.Items, ct)).ToList();
 
         _uow.Commit();
+
+        collectionResult.AddIcon(
+            collectionIconResult.Title,
+            collectionIconResult.FileBinary,
+            collectionIconResult.FileName,
+            collectionIconResult.Id,
+            collectionIconResult.ExternalId);
+        
+        foreach (var item in collectionItemsResult)
+        {
+            var icon = collectionItemsIconResult.FirstOrDefault(x => item.Icon != null && x.Id == item.Icon.Id);
+
+            item.AddIcon(
+                icon?.Title,
+                icon?.FileBinary,
+                icon?.FileName,
+                icon?.Id,
+                icon?.ExternalId);
+        }
+
+        collectionResult.Fill(collectionItemsResult);
         
         return _mapper.Map<CollectionDto>(collectionResult);
     }

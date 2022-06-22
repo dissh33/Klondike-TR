@@ -49,7 +49,7 @@ public class Collection : BaseEntity, ITradableItem
         Icon = icon;
     }
 
-    private void Fill(List<CollectionItem> items)
+    public void Fill(List<CollectionItem> items)
     {
         if (items.Count != 5) throw new WrongNumberOfCollectionItemsException(items.Count);
 
