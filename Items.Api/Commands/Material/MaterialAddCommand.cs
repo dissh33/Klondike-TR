@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Items.Api.Commands.Material;
 
-public class MaterialAddCommand : IRequest<MaterialDto>, IHaveIcon
+public class MaterialAddCommand : IRequest<MaterialDto>, IWithIcon
 {
     public string? Name { get; set; }
     public Guid IconId { get; set; }

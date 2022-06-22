@@ -67,6 +67,27 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await GetById(id, ct);
     }
 
+    public async Task<IEnumerable<Icon>> BulkInsert(IEnumerable<Icon> collectionItems, CancellationToken ct)
+    {
+        var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var subSql = string.Join(", ", collectionItems.Select(x => $"('{x.Title}', '{x.FileBinary}', '{x.FileName}', '{x.Id}')"));
+
+        var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql};";
+
+        var command = new CommandDefinition(
+            commandText: sql,
+            transaction: Transaction,
+            commandTimeout: SqlTimeout,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteAsync(command);
+
+        await Logger.DbCall(query, command, Metrics);
+
+        return new List<Icon>();
+    }
+
     public async Task<Icon> Update(Icon icon, CancellationToken ct)
     {
         var command = UpdateBaseCommand(icon, ct);

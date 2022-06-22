@@ -4,7 +4,7 @@ using Items.Application.Contracts;
 
 namespace Items.Application.Validators;
 
-public class IconExistenceBaseValidator<T> : AbstractValidator<T> where T : IHaveIcon
+public class IconExistenceBaseValidator<T> : AbstractValidator<T> where T : IWithIcon
 {
     public IconExistenceBaseValidator(IUnitOfWork uow)
     {

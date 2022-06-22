@@ -6,6 +6,7 @@ using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Newtonsoft.Json;
 using Serilog;
+using Z.Dapper.Plus;
 
 namespace Items.Infrastructure.Repositories;
 
@@ -22,11 +23,21 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
 
     protected string TableName { get; }
 
-    protected static List<string> ExcludeProperties = new() { "DomainEvents" };
+    protected static List<string> ExcludeProperties = new() { "Icon", "Items", "DomainEvents", "ExternalId"};
 
     static BaseRepository()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+        DapperPlusManager.Entity<CollectionItem>()
+                 .Table("collection_item")
+                 .Map(x => x.Id, "id")
+                 .Map(x => x.Name, "name")
+                 .Map(x => x.ExternalId, "external_id")
+                 .Map(x => x.IconId, "icon_id")
+                 .Map(x => x.CollectionId, "collection_id")
+                 .Ignore(x => ExcludeProperties)
+                 .Identity(x => x.Id);
     }
 
     protected BaseRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
@@ -144,7 +155,6 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
     {
 
     }
-
 
     public class JsonObjectTypeHandler : SqlMapper.ITypeHandler
     {

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Items.Api.Commands.Collection;
 
-public class CollectionUpdateIconCommand : IRequest<CollectionDto>, IHaveIcon
+public class CollectionUpdateIconCommand : IRequest<CollectionDto>, IWithIcon
 {
     public Guid Id { get; set; }
     public Guid IconId { get; set; }

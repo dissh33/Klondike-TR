@@ -37,21 +37,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Infrastructure", "Ite
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Tests", "Items.Tests\Items.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Items.Db", "Items.Db\Items.Db.csproj", "{A672CFA3-A9FC-4888-ABB3-3360C2FFAA15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Db", "Items.Db\Items.Db.csproj", "{A672CFA3-A9FC-4888-ABB3-3360C2FFAA15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Admin", "Offers.Admin\Offers.Admin.csproj", "{313894A5-6D48-49B3-9118-FDDECD2FD4E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Admin", "Offers.Admin\Offers.Admin.csproj", "{313894A5-6D48-49B3-9118-FDDECD2FD4E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Db", "Offers.Db\Offers.Db.csproj", "{C4312C1E-4F61-4313-982B-54F9597F2D1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Db", "Offers.Db\Offers.Db.csproj", "{C4312C1E-4F61-4313-982B-54F9597F2D1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Api", "Offers.Api\Offers.Api.csproj", "{3C674214-C613-40C1-9342-BEA34994941C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Api", "Offers.Api\Offers.Api.csproj", "{3C674214-C613-40C1-9342-BEA34994941C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Domain", "Offers.Domain\Offers.Domain.csproj", "{1F85EB91-2770-4FB1-BBCC-C14FB46B8EFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Domain", "Offers.Domain\Offers.Domain.csproj", "{1F85EB91-2770-4FB1-BBCC-C14FB46B8EFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Application", "Offers.Application\Offers.Application.csproj", "{C69677B0-BD26-4CE7-A6EA-D03CC256EA43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Application", "Offers.Application\Offers.Application.csproj", "{C69677B0-BD26-4CE7-A6EA-D03CC256EA43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Infrastructure", "Offers.Infrastructure\Offers.Infrastructure.csproj", "{4288E756-8943-4E73-B77A-143511342245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Infrastructure", "Offers.Infrastructure\Offers.Infrastructure.csproj", "{4288E756-8943-4E73-B77A-143511342245}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Offers.Tests", "Offers.Tests\Offers.Tests.csproj", "{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Tests", "Offers.Tests\Offers.Tests.csproj", "{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

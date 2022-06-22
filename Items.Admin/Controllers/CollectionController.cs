@@ -4,6 +4,7 @@ using Items.Api.Dtos;
 using Items.Api.Queries.Collection;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Items.Admin.Controllers
 {
@@ -42,6 +43,37 @@ namespace Items.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult<CollectionDto>> Post([FromForm] CollectionAddCommand request, CancellationToken ct)
         {
+            var result = await _mediator.Send(request, ct);
+            return new JsonResult(result);
+        }
+
+        [HttpPost("construct")]
+        public async Task<ActionResult<CollectionDto>> Construct(
+            [FromForm] string jsonInput,
+            [FromForm] IEnumerable<IFormFile> files, 
+            CancellationToken ct)
+        {
+            var request = JsonConvert.DeserializeObject<ConstructCollectionCommand>(jsonInput);
+            var fileList = files.ToList();
+
+            var collectionFileStream = new MemoryStream();
+            await fileList.First().CopyToAsync(collectionFileStream, ct);
+            var collectionBinary = collectionFileStream.GetBuffer();
+
+            request!.Icon.FileBinary = collectionBinary;
+            request.Icon.FileName = fileList.First().FileName;
+
+            foreach (var icon in fileList.Skip(1))
+            {
+                var fileStream = new MemoryStream();
+                await icon.CopyToAsync(fileStream, ct);
+                var binary = fileStream.GetBuffer();
+
+                var current = request.Items.FirstOrDefault(itemAddDto => itemAddDto.Icon.FileBinary == null) ?? new CollectionItemAddDto();
+                current.Icon.FileBinary = binary;
+                current.Icon.FileName = icon.FileName;
+            }
+
             var result = await _mediator.Send(request, ct);
             return new JsonResult(result);
         }

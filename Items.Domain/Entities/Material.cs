@@ -4,6 +4,7 @@ namespace Items.Domain.Entities;
 
 public class Material : BaseEntity, ITradableItem
 {
+    public Icon? Icon { get; private set; }
     public Guid IconId { get; }
     public string? Name { get; }
     public MaterialType Type { get; }

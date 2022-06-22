@@ -5,6 +5,7 @@ using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Infrastructure.Logging;
 using Serilog;
+using Z.Dapper.Plus;
 
 namespace Items.Infrastructure.Repositories;
 
@@ -58,6 +59,27 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
+    }
+
+    public async Task<IEnumerable<CollectionItem>> BulkInsert(IEnumerable<CollectionItem> collectionItems, CancellationToken ct)
+    {
+        var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var subSql = string.Join(", ", collectionItems.Select(x => $"('{x.Name}', '{x.CollectionId}', '{x.IconId}', '{x.Id}')"));
+
+        var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql};";
+
+        var command = new CommandDefinition(
+            commandText: sql,
+            transaction: Transaction,
+            commandTimeout: SqlTimeout,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteAsync(command); 
+
+        await Logger.DbCall(query, command, Metrics);
+
+        return new List<CollectionItem>();
     }
 
     public async Task<CollectionItem> Update(CollectionItem collectionItem, CancellationToken ct)
