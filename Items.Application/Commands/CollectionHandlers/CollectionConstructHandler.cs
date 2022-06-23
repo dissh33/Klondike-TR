@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Items.Application.Commands.CollectionHandlers;
 
-public class CollectionConstructHandler : IRequestHandler<CollectionConstructCommand, CollectionDto>
+public class CollectionConstructHandler : IRequestHandler<CollectionConstructCommand, CollectionFullDto>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         _mapper = mapper;
     }
 
-    public async Task<CollectionDto> Handle(CollectionConstructCommand request, CancellationToken ct)
+    public async Task<CollectionFullDto> Handle(CollectionConstructCommand request, CancellationToken ct)
     {
         var status = ItemStatus.Active;
 
@@ -67,7 +67,11 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         
         foreach (var item in collectionItemsResult)
         {
-            var icon = collectionItemsIconResult.FirstOrDefault(x => item.Icon != null && x.Id == item.Icon.Id);
+            var icon = collectionItemsIconResult.FirstOrDefault();
+
+            if (icon == null) continue;
+
+            collectionItemsIconResult.Remove(icon);
 
             item.AddIcon(
                 icon?.Title,
@@ -79,6 +83,6 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
 
         collectionResult.Fill(collectionItemsResult);
         
-        return _mapper.Map<CollectionDto>(collectionResult);
+        return _mapper.Map<CollectionFullDto>(collectionResult);
     }
 }

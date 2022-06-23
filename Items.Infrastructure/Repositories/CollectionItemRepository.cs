@@ -67,7 +67,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
         var subSql = string.Join(", ", collectionItems.Select(x => $"('{x.Name}', '{x.CollectionId}', '{x.IconId}', '{x.Id}')"));
 
-        var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql};";
+        var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING collection_id;";
 
         var command = new CommandDefinition(
             commandText: sql,
@@ -75,11 +75,11 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
 
-        var query = async () => await Connection.ExecuteAsync(command); 
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command); 
 
-        await Logger.DbCall(query, command, Metrics);
+        var collectionId = await Logger.DbCall(query, command, Metrics);
 
-        return new List<CollectionItem>();
+        return await GetByCollection(collectionId, ct);
     }
 
     public async Task<CollectionItem> Update(CollectionItem collectionItem, CancellationToken ct)

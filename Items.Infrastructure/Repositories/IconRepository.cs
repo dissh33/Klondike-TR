@@ -69,9 +69,11 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
     public async Task<IEnumerable<Icon>> BulkInsert(IEnumerable<Icon> collectionItems, CancellationToken ct)
     {
+        var collectionItemsList = collectionItems.ToList();
+
         var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
-        var subSql = string.Join(", ", collectionItems.Select(x => $"('{x.Title}', '{x.FileBinary}', '{x.FileName}', '{x.Id}')"));
+        var subSql = string.Join(", ", collectionItemsList.Select(x => $"('{x.Title}', '{x.FileBinary}', '{x.FileName}', '{x.Id}')"));
 
         var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql};";
 
@@ -85,7 +87,15 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         await Logger.DbCall(query, command, Metrics);
 
-        return new List<Icon>();
+        var output = new List<Icon>();
+
+        foreach (var guid in collectionItemsList.Select(x => x.Id))
+        {
+            var icon = await GetById(guid, ct);
+            output.Add(icon);
+        }
+
+        return output;
     }
 
     public async Task<Icon> Update(Icon icon, CancellationToken ct)

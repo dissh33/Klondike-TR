@@ -9,5 +9,7 @@ public class CollectionItemProfile : Profile
     public CollectionItemProfile()
     {
         CreateMap<CollectionItem, CollectionItemDto>();
+
+        CreateMap<CollectionItem, CollectionItemFullDto>();
     }
 }
