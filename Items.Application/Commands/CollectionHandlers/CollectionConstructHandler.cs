@@ -29,7 +29,6 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         }
 
         var collectionId = Guid.NewGuid();
-
         var collectionItems = new List<CollectionItem>();
 
         foreach (var item in request.Items)
@@ -37,24 +36,23 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
             var collectionItem = new CollectionItem(item.Name, collectionId);
 
             collectionItem.AddIcon(item.Icon.Title, item.Icon.FileBinary, item.Icon.FileName);
-
             collectionItems.Add(collectionItem);
         }
 
-        var collectionEntity = new Collection(
+        var collection = new Collection(
             request.Name,
             collectionItems,
             status,
             id: collectionId
         );
 
-        collectionEntity.AddIcon(request.Icon.Title, request.Icon.FileBinary, request.Icon.FileName);
+        collection.AddIcon(request.Icon.Title, request.Icon.FileBinary, request.Icon.FileName);
 
-        var collectionIconResult = await _uow.IconRepository.Insert(collectionEntity.Icon!, ct);        
-        var collectionResult = await _uow.CollectionRepository.Insert(collectionEntity, ct);
+        var collectionResult = await _uow.CollectionRepository.Insert(collection, ct);
+        var collectionIconResult = await _uow.IconRepository.Insert(collection.Icon!, ct);        
 
-        var collectionItemsIconResult = (await _uow.IconRepository.BulkInsert(collectionEntity.Items.Select(collectionItem => collectionItem.Icon!), ct)).ToList();
-        var collectionItemsResult = (await _uow.CollectionItemRepository.BulkInsert(collectionEntity.Items, ct)).ToList();
+        var collectionItemsIconResult = (await _uow.IconRepository.BulkInsert(collection.Items.Select(collectionItem => collectionItem.Icon!), ct)).ToList();
+        var collectionItemsResult = (await _uow.CollectionItemRepository.BulkInsert(collection.Items, ct)).ToList();
 
         _uow.Commit();
 
@@ -67,11 +65,9 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         
         foreach (var item in collectionItemsResult)
         {
-            var icon = collectionItemsIconResult.FirstOrDefault();
+            var icon = collectionItemsIconResult.FirstOrDefault(icon => icon.Id == item.IconId);
 
-            if (icon == null) continue;
-
-            collectionItemsIconResult.Remove(icon);
+            if (icon is null) continue;
 
             item.AddIcon(
                 icon.Title,

@@ -62,7 +62,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         var whereClause = string.Join(", ", ids.Select(id => $"'{id}'"));
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE {whereClause}",
+            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id IN ({whereClause})",
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
