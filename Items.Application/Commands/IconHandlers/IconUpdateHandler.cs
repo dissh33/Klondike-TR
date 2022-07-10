@@ -31,7 +31,7 @@ public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto>
             request.Id
         );
 
-        var result = await _uow.IconRepository!.Update(entity, ct);
+        var result = await _uow.IconRepository.Update(entity, ct);
 
         _uow.Commit();
 

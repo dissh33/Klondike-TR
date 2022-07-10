@@ -24,4 +24,12 @@ public class Icon : BaseEntity
         FileBinary = fileBinary;
         FileName = fileName;
     }
+
+    public Icon(
+        Guid? id = null,
+        string? externalId = null)
+        : base(id, externalId)
+    {
+
+    }
 }

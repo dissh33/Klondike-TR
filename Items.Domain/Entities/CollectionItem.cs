@@ -40,4 +40,12 @@ public class CollectionItem : BaseEntity, ITradableItem
         Icon = icon;
         IconId = Icon.Id;
     }
+
+    public void AddIcon(Guid id)
+    {
+        var icon = new Icon(id);
+
+        Icon = icon;
+        IconId = Icon.Id;
+    }
 }

@@ -44,7 +44,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public ICollectionRepository CollectionRepository => _collectionRepository ??= new CollectionRepository(_transaction, _logger, _metrics);
     public ICollectionItemRepository CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(_transaction, _logger, _metrics);
 
-    public void Commit(bool createNew = true)              
+    public void Commit()              
     {
         try
         {

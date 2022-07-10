@@ -20,13 +20,15 @@ public class CollectionItemAddHandler : IRequestHandler<CollectionItemAddCommand
 
     public async Task<CollectionItemDto> Handle(CollectionItemAddCommand request, CancellationToken ct)
     {
-        var entity = new CollectionItem(
+        var collectionItem = new CollectionItem(
             request.Name,
             request.CollectionId,
             request.IconId
         );
 
-        var result = await _uow.CollectionItemRepository!.Insert(entity, ct);
+        collectionItem.AddIcon(request.IconId);
+
+        var result = await _uow.CollectionItemRepository.Insert(collectionItem, ct);
 
         _uow.Commit();
 

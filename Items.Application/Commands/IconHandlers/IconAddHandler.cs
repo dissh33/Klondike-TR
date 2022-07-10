@@ -30,7 +30,7 @@ public class IconAddHandler : IRequestHandler<IconAddCommand, IconDto>
             request.File.FileName
         );
 
-       var result = await _uow.IconRepository!.Insert(entity, ct);
+       var result = await _uow.IconRepository.Insert(entity, ct);
 
        _uow.Commit();
 

@@ -28,12 +28,14 @@ public class CollectionAddHandler : IRequestHandler<CollectionAddCommand, Collec
             status = (ItemStatus) request.Status;
         }
 
-        var entity = new Collection(
+        var collection = new Collection(
             name: request.Name,
             status: status
         );
 
-        var result = await _uow.CollectionRepository.Insert(entity, ct);
+        collection.AddIcon(request.IconId);
+
+        var result = await _uow.CollectionRepository.Insert(collection, ct);
 
         _uow.Commit();
 

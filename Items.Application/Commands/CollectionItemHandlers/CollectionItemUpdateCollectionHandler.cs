@@ -19,7 +19,7 @@ public class CollectionItemUpdateCollectionHandler : IRequestHandler<CollectionI
 
     public async Task<CollectionItemDto> Handle(CollectionItemUpdateCollectionCommand request, CancellationToken ct)
     {
-        var result = await _uow.CollectionItemRepository!.UpdateCollection(request.Id, request.CollectionId, ct);
+        var result = await _uow.CollectionItemRepository.UpdateCollection(request.Id, request.CollectionId, ct);
 
         _uow.Commit();
 

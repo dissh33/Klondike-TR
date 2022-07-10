@@ -19,7 +19,7 @@ public class CollectionItemUpdateIconHandler : IRequestHandler<CollectionItemUpd
 
     public async Task<CollectionItemDto> Handle(CollectionItemUpdateIconCommand request, CancellationToken ct)
     {
-        var result = await _uow.CollectionItemRepository!.UpdateIcon(request.Id, request.IconId, ct);
+        var result = await _uow.CollectionItemRepository.UpdateIcon(request.Id, request.IconId, ct);
 
         _uow.Commit();
 

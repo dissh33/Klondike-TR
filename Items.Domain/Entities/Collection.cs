@@ -24,7 +24,7 @@ public class Collection : BaseEntity, ITradableItem
 
     public Collection(
         string? name, 
-        List<CollectionItem>? items = null,     
+        List<CollectionItem>? items = null,
         ItemStatus status = ItemStatus.Active, 
         Guid? id = null, 
         string? externalId = null)
@@ -32,7 +32,7 @@ public class Collection : BaseEntity, ITradableItem
     {
         Name = name;
         Status = status;
-
+        
         if (Icon != null) IconId = Icon.Id;
 
         DateAdded = DateTime.UtcNow;
@@ -56,9 +56,18 @@ public class Collection : BaseEntity, ITradableItem
         IconId = Icon.Id;
     }
 
+    public void AddIcon(Guid id)
+    {
+        var icon = new Icon(id);
+
+        Icon = icon;
+        IconId = Icon.Id;
+    }
+
     public void Fill(List<CollectionItem> items)
     {
-        if (items.Count != 5) throw new WrongCollectionItemsNumberException(items.Count);
+        if (items.Count != Constants.CollectionItemNumber)
+            throw new WrongCollectionItemsNumberException(items.Count);
 
         _items.AddRange(items);
     }

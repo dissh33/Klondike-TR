@@ -19,7 +19,7 @@ public class IconUpdateTitleHandler : IRequestHandler<IconUpdateTitleCommand, Ic
 
     public async Task<IconDto> Handle(IconUpdateTitleCommand request, CancellationToken ct)
     {
-        var result = await _uow.IconRepository!.UpdateTitle(request.Id, request.Title, ct);
+        var result = await _uow.IconRepository.UpdateTitle(request.Id, request.Title, ct);
 
         _uow.Commit();
 

@@ -34,14 +34,19 @@ public class MaterialUpdateHandler : IRequestHandler<MaterialUpdateCommand, Mate
             type = (MaterialType)request.Type;
         }
 
-        var entity = new Material(
+        var material = new Material(
             request.Name,
             type,
             status,
             request.Id
         );
 
-        var result = await _uow.MaterialRepository!.Update(entity, ct);
+        if (request.IconId != Guid.Empty)
+        {
+            material.AddIcon(request.IconId);
+        }
+
+        var result = await _uow.MaterialRepository.Update(material, ct);
 
         _uow.Commit();
 

@@ -25,16 +25,21 @@ public class CollectionUpdateHandler : IRequestHandler<CollectionUpdateCommand, 
 
         if (request.Status != null)
         {
-            status = (ItemStatus)request.Status;
+            status = (ItemStatus) request.Status;
         }
 
-        var entity = new Collection(
+        var collection = new Collection(
             name: request.Name,
             status: status,
             id: request.Id
         );
 
-        var result = await _uow.CollectionRepository.Update(entity, ct);
+        if (request.IconId != Guid.Empty)
+        {
+            collection.AddIcon(request.IconId);
+        }
+
+        var result = await _uow.CollectionRepository.Update(collection, ct);
 
         _uow.Commit();
 

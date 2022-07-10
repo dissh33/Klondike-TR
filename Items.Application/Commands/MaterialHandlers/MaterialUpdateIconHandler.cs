@@ -19,7 +19,7 @@ public class MaterialUpdateIconHandler : IRequestHandler<MaterialUpdateIconComma
 
     public async Task<MaterialDto> Handle(MaterialUpdateIconCommand request, CancellationToken ct)
     {
-        var result = await _uow.MaterialRepository!.UpdateIcon(request.Id, request.IconId, ct);
+        var result = await _uow.MaterialRepository.UpdateIcon(request.Id, request.IconId, ct);
 
         _uow.Commit();
 

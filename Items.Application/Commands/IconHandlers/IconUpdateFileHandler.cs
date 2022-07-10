@@ -23,7 +23,7 @@ public class IconUpdateFileHandler : IRequestHandler<IconUpdateFileCommand, Icon
         await request.File!.CopyToAsync(fileStream, ct);
         var binary = fileStream.GetBuffer();
         
-        var result = await _uow.IconRepository!.UpdateFile(request.Id, request.File.FileName, binary, ct);
+        var result = await _uow.IconRepository.UpdateFile(request.Id, request.File.FileName, binary, ct);
 
         _uow.Commit();
 

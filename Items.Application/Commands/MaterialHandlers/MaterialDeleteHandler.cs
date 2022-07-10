@@ -15,7 +15,7 @@ public class MaterialDeleteHandler : IRequestHandler<DeleteByIdCommand, int>
 
     public async Task<int> Handle(DeleteByIdCommand request, CancellationToken ct)
     {
-        var result = await _uow.MaterialRepository!.Delete(request.Id, ct);
+        var result = await _uow.MaterialRepository.Delete(request.Id, ct);
 
         _uow.Commit();
 

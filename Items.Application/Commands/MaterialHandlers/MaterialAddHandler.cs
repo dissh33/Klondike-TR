@@ -2,6 +2,7 @@
 using Items.Api.Commands.Material;
 using Items.Api.Dtos;
 using Items.Application.Contracts;
+using Items.Domain.Entities;
 using Items.Domain.Enums;
 using MediatR;
 
@@ -33,13 +34,15 @@ public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDt
             type = (MaterialType)request.Type;
         }
 
-        var entity = new Domain.Entities.Material(
+        var material = new Material(
             request.Name,
             type,
             status
         );
 
-        var result = await _uow.MaterialRepository!.Insert(entity, ct);
+        material.AddIcon(request.IconId);
+
+        var result = await _uow.MaterialRepository.Insert(material, ct);
 
         _uow.Commit();
 
