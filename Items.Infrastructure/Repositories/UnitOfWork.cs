@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Runtime.CompilerServices;
 using App.Metrics;
 using Items.Application.Contracts;
 using Items.Infrastructure.Metrics;
@@ -43,19 +44,18 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public ICollectionRepository CollectionRepository => _collectionRepository ??= new CollectionRepository(_transaction, _logger, _metrics);
     public ICollectionItemRepository CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(_transaction, _logger, _metrics);
 
-    public void Commit()
+    public void Commit(bool createNew = true)              
     {
         try
         {
-
             _transaction.Commit();
-
             _logger.Information("Commit transaction {@id}", _transactionId);
         }
         catch
         {
             _transaction.Rollback();
             _logger.Information("Rollback transaction {@id}", _transactionId);
+
             throw;
         }
         finally
@@ -91,7 +91,6 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
 
     private bool _disposed;
-
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed && disposing)

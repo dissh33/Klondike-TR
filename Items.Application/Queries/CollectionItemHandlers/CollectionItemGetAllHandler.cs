@@ -19,7 +19,7 @@ public class CollectionItemGetAllHandler : IRequestHandler<CollectionItemGetAllQ
 
     public async Task<IEnumerable<CollectionItemDto>> Handle(CollectionItemGetAllQuery request, CancellationToken ct)
     {
-        var result = await _uow.CollectionItemRepository!.GetAll(ct);
+        var result = await _uow.CollectionItemRepository.GetAll(ct);
 
         return result.Select(collectionItem => _mapper.Map<CollectionItemDto>(collectionItem));
     }

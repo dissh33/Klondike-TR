@@ -19,8 +19,8 @@ public class MaterialGetByFilterHandler : IRequestHandler<MaterialGetByFilterQue
 
     public async Task<IEnumerable<MaterialDto>> Handle(MaterialGetByFilterQuery request, CancellationToken ct)
     {
-        var result = await _uow.MaterialRepository!.GetByFilter(request, ct);
+        var result = await _uow.MaterialRepository.GetByFilter(request, ct);
 
-        return result.Select(collection => _mapper.Map<MaterialDto>(collection));
+        return result.Select(material => _mapper.Map<MaterialDto>(material));
     }
 }

@@ -19,7 +19,7 @@ public class CollectionItemGetByIdHandler : IRequestHandler<CollectionItemGetByI
 
     public async Task<CollectionItemDto> Handle(CollectionItemGetByIdQuery request, CancellationToken ct)
     {
-        var result = await _uow.CollectionItemRepository!.GetById(request.Id, ct);
+        var result = await _uow.CollectionItemRepository.GetById(request.Id, ct);
 
         return _mapper.Map<CollectionItemDto>(result);
     }

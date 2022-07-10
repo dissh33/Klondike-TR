@@ -19,8 +19,8 @@ public class MaterialGetAllHandler : IRequestHandler<MaterialGetAllQuery, IEnume
 
     public async Task<IEnumerable<MaterialDto>> Handle(MaterialGetAllQuery request, CancellationToken ct)
     {
-        var result = await _uow.MaterialRepository!.GetAll(ct);
+        var result = await _uow.MaterialRepository.GetAll(ct);
 
-        return result.Select(collection => _mapper.Map<MaterialDto>(collection));
+        return result.Select(material => _mapper.Map<MaterialDto>(material));
     }
 }

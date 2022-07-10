@@ -19,7 +19,7 @@ public class MaterialGetByIdHandler : IRequestHandler<MaterialGetByIdQuery, Mate
 
     public async Task<MaterialDto> Handle(MaterialGetByIdQuery request, CancellationToken ct)
     {
-        var result = await _uow.MaterialRepository!.GetById(request.Id, ct);
+        var result = await _uow.MaterialRepository.GetById(request.Id, ct);
 
         return _mapper.Map<MaterialDto>(result);
     }

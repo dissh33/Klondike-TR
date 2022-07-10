@@ -19,10 +19,8 @@ public class IconGetFileHandler : IRequestHandler<IconGetFileQuery, IconFileDto>
 
     public async Task<IconFileDto> Handle(IconGetFileQuery request, CancellationToken ct)
     {
-        var result = await _uow.IconRepository!.GetFile(request.Id, ct);
-        
-        var dto = _mapper.Map<IconFileDto>(result);
+        var result = await _uow.IconRepository.GetFile(request.Id, ct);
 
-        return dto;
+        return _mapper.Map<IconFileDto>(result);
     }
 }

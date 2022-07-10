@@ -19,7 +19,7 @@ public class IconGetByIdHandler : IRequestHandler<IconGetByIdQuery, IconDto>
 
     public async Task<IconDto> Handle(IconGetByIdQuery request, CancellationToken ct)
     {
-        var result = await _uow.IconRepository!.GetById(request.Id, ct);
+        var result = await _uow.IconRepository.GetById(request.Id, ct);
 
         return _mapper.Map<IconDto>(result);
     }

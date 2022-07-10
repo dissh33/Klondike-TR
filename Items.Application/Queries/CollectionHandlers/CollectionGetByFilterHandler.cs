@@ -19,7 +19,7 @@ public class CollectionGetByFilterHandler : IRequestHandler<CollectionGetByFilte
 
     public async Task<IEnumerable<CollectionDto>> Handle(CollectionGetByFilterQuery request, CancellationToken ct)
     {
-        var result = await _uow.CollectionRepository!.GetByFilter(request, ct);
+        var result = await _uow.CollectionRepository.GetByFilter(request, ct);
 
         return result.Select(collection => _mapper.Map<CollectionDto>(collection));
     }

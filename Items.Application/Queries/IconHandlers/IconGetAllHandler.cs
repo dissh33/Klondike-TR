@@ -19,7 +19,7 @@ public class IconGetAllHandler : IRequestHandler<IconGetAllQuery, IEnumerable<Ic
 
     public async Task<IEnumerable<IconDto>> Handle(IconGetAllQuery request, CancellationToken ct)
     {
-        var result = await _uow.IconRepository!.GetAll(ct);
+        var result = await _uow.IconRepository.GetAll(ct);
 
         return result.Select(icon => _mapper.Map<IconDto>(icon));
     }

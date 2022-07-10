@@ -35,7 +35,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         return await Logger.DbCall(query, cmd, Metrics);
     }
 
-    public async Task<IEnumerable<Collection>> GetByFilter(MaterialGetByFilterQuery filter, CancellationToken ct)
+    public async Task<IEnumerable<Material>> GetByFilter(MaterialGetByFilterQuery filter, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
         var whereClause = filter.GenerateSql();
@@ -46,7 +46,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
 
-        var query = async () => await Connection.QueryAsync<Collection>(command);
+        var query = async () => await Connection.QueryAsync<Material>(command);
 
         return await Logger.DbCall(query, command, Metrics);
     }
