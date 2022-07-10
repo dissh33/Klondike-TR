@@ -15,7 +15,7 @@ public class CollectionDeleteHandler : IRequestHandler<DeleteByIdCommand, int>
 
     public async Task<int> Handle(DeleteByIdCommand request, CancellationToken ct)
     {
-        var result = await _uow.CollectionRepository!.Delete(request.Id, ct);
+        var result = await _uow.CollectionRepository.Delete(request.Id, ct);
 
         _uow.Commit();
 

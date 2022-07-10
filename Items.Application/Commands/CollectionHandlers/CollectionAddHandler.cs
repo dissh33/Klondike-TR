@@ -29,9 +29,8 @@ public class CollectionAddHandler : IRequestHandler<CollectionAddCommand, Collec
         }
 
         var entity = new Collection(
-            request.Name,
-            new List<CollectionItem>(),
-            status
+            name: request.Name,
+            status: status
         );
 
         var result = await _uow.CollectionRepository.Insert(entity, ct);

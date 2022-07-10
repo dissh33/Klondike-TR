@@ -29,13 +29,12 @@ public class CollectionUpdateHandler : IRequestHandler<CollectionUpdateCommand, 
         }
 
         var entity = new Collection(
-            request.Name,
-            new List<CollectionItem>(),
-            status,
-            request.Id
+            name: request.Name,
+            status: status,
+            id: request.Id
         );
 
-        var result = await _uow.CollectionRepository!.Update(entity, ct);
+        var result = await _uow.CollectionRepository.Update(entity, ct);
 
         _uow.Commit();
 

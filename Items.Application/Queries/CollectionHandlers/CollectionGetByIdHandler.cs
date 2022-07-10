@@ -19,7 +19,7 @@ public class CollectionGetByIdHandler : IRequestHandler<CollectionGetByIdQuery, 
 
     public async Task<CollectionDto> Handle(CollectionGetByIdQuery request, CancellationToken ct)
     {
-        var result = await _uow.CollectionRepository!.GetById(request.Id, ct);
+        var result = await _uow.CollectionRepository.GetById(request.Id, ct);
 
         return _mapper.Map<CollectionDto>(result);
     }

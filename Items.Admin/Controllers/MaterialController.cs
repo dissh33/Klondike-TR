@@ -33,6 +33,13 @@ public class MaterialController : ControllerBase
         return new JsonResult(result);
     }
 
+    [HttpGet("{id}/full")]
+    public async Task<ActionResult<MaterialFullDto>> GetFull(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new MaterialGetFullQuery(id), ct);
+        return new JsonResult(result);
+    }
+
     [HttpGet("filter")]
     public async Task<ActionResult<IEnumerable<MaterialDto>>> GetByFilter([FromQuery] MaterialGetByFilterQuery request, CancellationToken ct)
     {

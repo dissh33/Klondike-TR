@@ -30,20 +30,20 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
 
         var collectionId = Guid.NewGuid();
 
-        var collectionItemEntities = new List<CollectionItem>();
+        var collectionItems = new List<CollectionItem>();
 
         foreach (var item in request.Items)
         {
-            var collectionItemEntity = new CollectionItem(item.Name, collectionId);
+            var collectionItem = new CollectionItem(item.Name, collectionId);
 
-            collectionItemEntity.AddIcon(item.Icon.Title, item.Icon.FileBinary, item.Icon.FileName);
+            collectionItem.AddIcon(item.Icon.Title, item.Icon.FileBinary, item.Icon.FileName);
 
-            collectionItemEntities.Add(collectionItemEntity);
+            collectionItems.Add(collectionItem);
         }
 
         var collectionEntity = new Collection(
             request.Name,
-            collectionItemEntities,
+            collectionItems,
             status,
             id: collectionId
         );
@@ -53,7 +53,7 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         var collectionIconResult = await _uow.IconRepository.Insert(collectionEntity.Icon!, ct);        
         var collectionResult = await _uow.CollectionRepository.Insert(collectionEntity, ct);
 
-        var collectionItemsIconResult = (await _uow.IconRepository.BulkInsert(collectionEntity.Items.Select(x => x.Icon!), ct)).ToList();
+        var collectionItemsIconResult = (await _uow.IconRepository.BulkInsert(collectionEntity.Items.Select(collectionItem => collectionItem.Icon!), ct)).ToList();
         var collectionItemsResult = (await _uow.CollectionItemRepository.BulkInsert(collectionEntity.Items, ct)).ToList();
 
         _uow.Commit();
@@ -74,11 +74,11 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
             collectionItemsIconResult.Remove(icon);
 
             item.AddIcon(
-                icon?.Title,
-                icon?.FileBinary,
-                icon?.FileName,
-                icon?.Id,
-                icon?.ExternalId);
+                icon.Title,
+                icon.FileBinary,
+                icon.FileName,
+                icon.Id,
+                icon.ExternalId);
         }
 
         collectionResult.Fill(collectionItemsResult);

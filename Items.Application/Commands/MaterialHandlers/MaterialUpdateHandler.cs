@@ -36,7 +36,6 @@ public class MaterialUpdateHandler : IRequestHandler<MaterialUpdateCommand, Mate
 
         var entity = new Material(
             request.Name,
-            request.IconId,
             type,
             status,
             request.Id

@@ -1,10 +1,10 @@
-﻿using System.Data;
-using App.Metrics;
+﻿using App.Metrics;
 using Dapper;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Infrastructure.Logging;
 using Serilog;
+using System.Data;
 
 namespace Items.Infrastructure.Repositories;
 
@@ -19,7 +19,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
     public async Task<Icon> GetById(Guid id, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
-        
+
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id = @id",
             parameters: new { id },
@@ -44,9 +44,25 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
     public async Task<IEnumerable<Icon>> GetAll(CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
-        
+
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName}",
+            transaction: Transaction,
+            commandTimeout: SqlTimeout,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.QueryAsync<Icon>(command);
+
+        return await Logger.DbCall(query, command, Metrics);
+    }
+
+    public async Task<IEnumerable<Icon>> GetRange(IEnumerable<Guid> ids, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
+        var whereClause = string.Join(", ", ids.Select(id => $"'{id}'"));
+
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE {whereClause}",
             transaction: Transaction,
             commandTimeout: SqlTimeout,
             cancellationToken: ct);
@@ -61,7 +77,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         var command = InsertBaseCommand(icon, ct);
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
-        
+
         var id = await Logger.DbCall(query, command, Metrics);
 
         return await GetById(id, ct);
@@ -87,15 +103,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         await Logger.DbCall(query, command, Metrics);
 
-        var output = new List<Icon>();
-
-        foreach (var guid in collectionItemsList.Select(x => x.Id))
-        {
-            var icon = await GetById(guid, ct);
-            output.Add(icon);
-        }
-
-        return output;
+        return await GetRange(collectionItemsList.Select(icon => icon.Id), ct);
     }
 
     public async Task<Icon> Update(Icon icon, CancellationToken ct)
@@ -109,11 +117,11 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await GetById(id, ct);
     }
 
-    public async Task<Icon> UpdateTitle(Guid id, string? title, CancellationToken ct)        
+    public async Task<Icon> UpdateTitle(Guid id, string? title, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SchemaName}.{TableName} SET title=@title WHERE id = @id RETURNING id",
-            parameters: new {id, title},
+            parameters: new { id, title },
             transaction: Transaction,
             cancellationToken: ct);
 
@@ -128,7 +136,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SchemaName}.{TableName} SET file_name=@fileName, file_binary=@fileBinary WHERE id = @id RETURNING id",
-            parameters: new {id, fileName, fileBinary},
+            parameters: new { id, fileName, fileBinary },
             transaction: Transaction,
             cancellationToken: ct);
 

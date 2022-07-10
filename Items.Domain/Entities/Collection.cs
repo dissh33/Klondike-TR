@@ -11,20 +11,20 @@ public class Collection : BaseEntity, ITradableItem
     public IReadOnlyList<CollectionItem> Items => _items;
 
     public Icon? Icon { get; private set; }
-    public Guid IconId => Icon?.Id ?? Guid.Empty;
+    public Guid IconId { get; private set; }
 
     public ItemStatus? Status { get; }
     public DateTime DateAdded { get; }
     
 
-    public Collection()
+    private Collection()
     {
         DateAdded = DateTime.UtcNow;
     }
 
     public Collection(
         string? name, 
-        List<CollectionItem> items,
+        List<CollectionItem>? items = null,     
         ItemStatus status = ItemStatus.Active, 
         Guid? id = null, 
         string? externalId = null)
@@ -33,9 +33,14 @@ public class Collection : BaseEntity, ITradableItem
         Name = name;
         Status = status;
 
+        if (Icon != null) IconId = Icon.Id;
+
         DateAdded = DateTime.UtcNow;
 
-        Fill(items);
+        if (items is not null)
+        {
+            Fill(items);
+        }
     }
 
     public void AddIcon(
@@ -46,12 +51,14 @@ public class Collection : BaseEntity, ITradableItem
             string? externalId = null)
     {
         var icon = new Icon(title, fileBinary, fileName, id, externalId);
+
         Icon = icon;
+        IconId = Icon.Id;
     }
 
     public void Fill(List<CollectionItem> items)
     {
-        if (items.Count != 5) throw new WrongNumberOfCollectionItemsException(items.Count);
+        if (items.Count != 5) throw new WrongCollectionItemsNumberException(items.Count);
 
         _items.AddRange(items);
     }

@@ -35,7 +35,6 @@ public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDt
 
         var entity = new Domain.Entities.Material(
             request.Name,
-            request.IconId,
             type,
             status
         );

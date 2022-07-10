@@ -2,11 +2,12 @@
 
 public class Icon : BaseEntity
 {
-    public string? Title { get; }
+    public string? Title { get; private set; }
+
     public byte[]? FileBinary { get; }
     public string? FileName { get; }
 
-    public Icon()
+    private Icon()
     {
         
     }

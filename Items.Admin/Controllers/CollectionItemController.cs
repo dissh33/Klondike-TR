@@ -32,6 +32,13 @@ public class CollectionItemController : ControllerBase
         return new JsonResult(result);
     }
 
+    [HttpGet("{id}/full")]
+    public async Task<ActionResult<CollectionItemFullDto>> GetFull(Guid id, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new CollectionItemGetFullQuery(id), ct);
+        return new JsonResult(result);
+    }
+
     [HttpGet("collection")]
     public async Task<ActionResult<IEnumerable<CollectionItemDto>>> GetByCollection([FromQuery] CollectionItemGetByCollectionQuery request, CancellationToken ct)
     {

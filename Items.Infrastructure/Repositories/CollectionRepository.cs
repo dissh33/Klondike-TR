@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using App.Metrics;
 using Dapper;
+using Items.Api.Dtos;
 using Items.Api.Queries.Collection;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
@@ -25,6 +26,26 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
 
         return await Logger.DbCall(query, command, Metrics);
     }
+
+    //public async Task<CollectionFullDto> GetFull(Guid id, CancellationToken ct)
+    //{
+    //    var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+    //    var sql = 
+    //        $"SELECT {selectColumns}, icon.title, icon.file_name " +
+    //        $"FROM {SchemaName}.{TableName} LEFT JOIN icon ON collection.icon_id = icon.id " +
+    //        $"WHERE collection.id = @id";
+
+    //    var command = new CommandDefinition(
+    //        commandText: sql,
+    //        parameters: new { id },
+    //        transaction: Transaction,
+    //        commandTimeout: SqlTimeout,
+    //        cancellationToken: ct);
+
+    //    var query = async () => await Connection.QueryFirstOrDefaultAsync<CollectionFullDto>(command);
+
+    //    return await Logger.DbCall(query, command, Metrics);
+    //}
 
     public async Task<IEnumerable<Collection>> GetAll(CancellationToken ct)
     {

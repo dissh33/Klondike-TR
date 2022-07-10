@@ -52,7 +52,7 @@ public class CollectionItemUpdateCollectionValidator : AbstractValidator<Collect
     {
         RuleFor(collectionItem => collectionItem.Id).NotEmpty().NotEqual(Guid.Empty);
         RuleFor(x => x.CollectionId)
-            .MustAsync(async (iconId, ct) => (await uow.CollectionRepository!.GetById(iconId, ct)) != null)
+            .MustAsync(async (collectionId, ct) => (await uow.CollectionRepository!.GetById(collectionId, ct)) != null)
             .WithMessage((x, id) => $"Collection with id [{id}] doesn't exist.");
     }
 }

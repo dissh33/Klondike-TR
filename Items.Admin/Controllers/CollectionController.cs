@@ -33,6 +33,13 @@ namespace Items.Admin.Controllers
             return new JsonResult(result);
         }
 
+        [HttpGet("{id}/full")]
+        public async Task<ActionResult<CollectionFullDto>> GetFull(Guid id, CancellationToken ct)
+        {
+            var result = await _mediator.Send(new CollectionGetFullQuery(id), ct);
+            return new JsonResult(result);
+        }
+
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<CollectionDto>>> GetByFilter([FromQuery] CollectionGetByFilterQuery request, CancellationToken ct)
         {
@@ -48,7 +55,7 @@ namespace Items.Admin.Controllers
         }
 
         [HttpPost("construct")]
-        public async Task<ActionResult<CollectionDto>> Construct(
+        public async Task<ActionResult<CollectionFullDto>> Construct(
             [FromForm] string jsonInput,
             [FromForm] IEnumerable<IFormFile> files, 
             CancellationToken ct)

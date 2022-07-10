@@ -9,5 +9,6 @@ public class MaterialProfile : Profile
     public MaterialProfile()
     {
         CreateMap<Material, MaterialDto>();
+        CreateMap<Material, MaterialFullDto>();
     }
 }

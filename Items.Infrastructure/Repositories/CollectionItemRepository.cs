@@ -5,7 +5,6 @@ using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Infrastructure.Logging;
 using Serilog;
-using Z.Dapper.Plus;
 
 namespace Items.Infrastructure.Repositories;
 

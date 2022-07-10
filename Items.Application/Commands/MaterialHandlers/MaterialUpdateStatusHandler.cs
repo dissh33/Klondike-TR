@@ -19,7 +19,7 @@ public class MaterialUpdateStatusHandler : IRequestHandler<MaterialUpdateStatusC
 
     public async Task<MaterialDto> Handle(MaterialUpdateStatusCommand request, CancellationToken ct)
     {
-        var result = await _uow.MaterialRepository!.UpdateStatus(request.Id, request.Status, ct);
+        var result = await _uow.MaterialRepository.UpdateStatus(request.Id, request.Status, ct);
 
         _uow.Commit();
 

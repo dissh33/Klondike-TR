@@ -1,4 +1,6 @@
-﻿namespace Items.Domain.Entities;
+﻿using Items.Domain.Enums;
+
+namespace Items.Domain.Entities;
 
 public class CollectionItem : BaseEntity, ITradableItem
 {
@@ -6,9 +8,9 @@ public class CollectionItem : BaseEntity, ITradableItem
     public Guid? CollectionId { get; }
 
     public Icon? Icon { get; private set; }
-    public Guid IconId => Icon?.Id ?? Guid.Empty;
+    public Guid IconId { get; private set; }
 
-    public CollectionItem()
+    private CollectionItem()
     {
 
     }
@@ -22,6 +24,8 @@ public class CollectionItem : BaseEntity, ITradableItem
     {
         Name = name;
         CollectionId = collectionId;
+
+        if (Icon != null) IconId = Icon.Id;
     }
 
     public void AddIcon(
@@ -32,6 +36,8 @@ public class CollectionItem : BaseEntity, ITradableItem
         string? externalId = null)
     {
         var icon = new Icon(title, fileBinary, fileName, id, externalId);
+
         Icon = icon;
+        IconId = Icon.Id;
     }
 }
