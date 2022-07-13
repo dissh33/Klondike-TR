@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using App.Metrics;
 using Dapper;
-using Items.Api.Dtos;
 using Items.Api.Queries.Collection;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
@@ -27,26 +26,6 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    //public async Task<CollectionFullDto> GetFull(Guid id, CancellationToken ct)
-    //{
-    //    var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
-    //    var sql = 
-    //        $"SELECT {selectColumns}, icon.title, icon.file_name " +
-    //        $"FROM {SchemaName}.{TableName} LEFT JOIN icon ON collection.icon_id = icon.id " +
-    //        $"WHERE collection.id = @id";
-
-    //    var command = new CommandDefinition(
-    //        commandText: sql,
-    //        parameters: new { id },
-    //        transaction: Transaction,
-    //        commandTimeout: SqlTimeout,
-    //        cancellationToken: ct);
-
-    //    var query = async () => await Connection.QueryFirstOrDefaultAsync<CollectionFullDto>(command);
-
-    //    return await Logger.DbCall(query, command, Metrics);
-    //}
-
     public async Task<IEnumerable<Collection>> GetAll(CancellationToken ct)
     {
         var command = GetAllBaseCommand(ct);
@@ -62,9 +41,9 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
         var whereClause = filter.GenerateSql();
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} {whereClause}",
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} {whereClause}",
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<Collection>(command);
@@ -97,7 +76,7 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
     public async Task<Collection> UpdateName(Guid id, string? name, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET name=@name WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET name=@name WHERE id = @id RETURNING id",
             parameters: new { id, name },
             transaction: Transaction,
             cancellationToken: ct);
@@ -112,7 +91,7 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
     public async Task<Collection> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
             parameters: new { id, iconId },
             transaction: Transaction,
             cancellationToken: ct);
@@ -127,7 +106,7 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
     public async Task<Collection> UpdateStatus(Guid id, int status, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET status=@status WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET status=@status WHERE id = @id RETURNING id",
             parameters: new { id, status },
             transaction: Transaction,
             cancellationToken: ct);

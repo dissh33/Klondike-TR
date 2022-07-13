@@ -41,9 +41,9 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         var whereClause = filter.GenerateSql();
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} {whereClause}",
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} {whereClause}",
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<Material>(command);
@@ -76,7 +76,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
     public async Task<Material> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
             parameters: new { id, iconId },
             transaction: Transaction,
             cancellationToken: ct);
@@ -91,7 +91,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
     public async Task<Material> UpdateStatus(Guid id, int status, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET status=@status WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET status=@status WHERE id = @id RETURNING id",
             parameters: new { id, status },
             transaction: Transaction,
             cancellationToken: ct);

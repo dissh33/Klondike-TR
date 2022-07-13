@@ -1,6 +1,6 @@
 ﻿namespace Items.Api.Commands;
 
-public interface IWithIcon
+public interface IHaveIcon
 {
     public Guid IconId { get; set; }
 }

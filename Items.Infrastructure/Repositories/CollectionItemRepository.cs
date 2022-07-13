@@ -38,10 +38,10 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE collection_id = @collectionId",
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE collection_id = @collectionId",
             parameters: new { collectionId },
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<CollectionItem>(command);
@@ -66,12 +66,12 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
         var subSql = string.Join(", ", collectionItems.Select(x => $"('{x.Name}', '{x.CollectionId}', '{x.IconId}', '{x.Id}')"));
 
-        var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING collection_id;";
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING collection_id;";
 
         var command = new CommandDefinition(
             commandText: sql,
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command); 
@@ -95,7 +95,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
     public async Task<CollectionItem> UpdateName(Guid id, string? name, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET name=@name WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET name=@name WHERE id = @id RETURNING id",
             parameters: new { id, name },
             transaction: Transaction,
             cancellationToken: ct);
@@ -110,7 +110,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
     public async Task<CollectionItem> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
             parameters: new { id, iconId },
             transaction: Transaction,
             cancellationToken: ct);
@@ -125,7 +125,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
     public async Task<CollectionItem> UpdateCollection(Guid id, Guid? collectionId, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET collection_id=@collectionId WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET collection_id=@collectionId WHERE id = @id RETURNING id",
             parameters: new { id, collectionId },
             transaction: Transaction,
             cancellationToken: ct);

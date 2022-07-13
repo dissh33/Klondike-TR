@@ -1,6 +1,4 @@
-﻿using Items.Domain.Enums;
-
-namespace Items.Domain.Entities;
+﻿namespace Items.Domain.Entities;
 
 public class CollectionItem : BaseEntity, ITradableItem
 {

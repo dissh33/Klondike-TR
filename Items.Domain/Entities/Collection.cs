@@ -66,7 +66,7 @@ public class Collection : BaseEntity, ITradableItem
 
     public void Fill(List<CollectionItem> items)
     {
-        if (items.Count != Constants.CollectionItemNumber)
+        if (items.Count != Constants.COLLECTION_ITEM_NUMBER)
             throw new WrongCollectionItemsNumberException(items.Count);
 
         _items.AddRange(items);

@@ -4,7 +4,6 @@ using Dapper;
 using Items.Infrastructure.Metrics;
 using Serilog;
 using Serilog.Events;
-using Z.Dapper.Plus;
 
 namespace Items.Infrastructure.Logging;
 

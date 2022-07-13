@@ -57,7 +57,7 @@ public class ConstructCollectionValidator : AbstractValidator<CollectionConstruc
         RuleFor(command => command.Name).Length(3, 250);
         RuleFor(command => command.Status).InclusiveBetween(0, 2);
 
-        RuleFor(command => command.Items.Count()).Equal(Constants.CollectionItemNumber)
+        RuleFor(command => command.Items.Count()).Equal(Constants.COLLECTION_ITEM_NUMBER)
             .WithMessage(command => $"Collection must have exactly 5 items (current number is {command.Items.Count()}).");
     }
 }

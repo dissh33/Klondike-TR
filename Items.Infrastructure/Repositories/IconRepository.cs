@@ -21,10 +21,10 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id = @id",
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE id = @id",
             parameters: new { id },
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Icon>(command);
@@ -46,9 +46,9 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName}",
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName}",
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<Icon>(command);
@@ -62,9 +62,9 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         var whereClause = string.Join(", ", ids.Select(id => $"'{id}'"));
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id IN ({whereClause})",
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE id IN ({whereClause})",
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<Icon>(command);
@@ -91,12 +91,12 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var subSql = string.Join(", ", collectionItemsList.Select(x => $"('{x.Title}', '{x.FileBinary}', '{x.FileName}', '{x.Id}')"));
 
-        var sql = $"INSERT INTO {SchemaName}.{TableName} ({insertColumns}) VALUES {subSql};";
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql};";
 
         var command = new CommandDefinition(
             commandText: sql,
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.ExecuteAsync(command);
@@ -120,7 +120,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
     public async Task<Icon> UpdateTitle(Guid id, string? title, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET title=@title WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET title=@title WHERE id = @id RETURNING id",
             parameters: new { id, title },
             transaction: Transaction,
             cancellationToken: ct);
@@ -135,7 +135,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
     public async Task<Icon> UpdateFile(Guid id, string fileName, byte[] fileBinary, CancellationToken ct)
     {
         var command = new CommandDefinition(
-            commandText: $"UPDATE {SchemaName}.{TableName} SET file_name=@fileName, file_binary=@fileBinary WHERE id = @id RETURNING id",
+            commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET file_name=@fileName, file_binary=@fileBinary WHERE id = @id RETURNING id",
             parameters: new { id, fileName, fileBinary },
             transaction: Transaction,
             cancellationToken: ct);

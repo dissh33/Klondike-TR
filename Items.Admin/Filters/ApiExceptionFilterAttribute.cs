@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ILogger = Serilog.ILogger;
 
-namespace Items.Admin.MiddlewareFilters;
+namespace Items.Admin.Filters;
 
 public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
@@ -67,18 +67,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleInvalidModelStateException(ExceptionContext context)
-    {
-        var details = new ValidationProblemDetails(context.ModelState)
-        {
-            Title = "Invalid Model State.",
-        };
-
-        context.Result = new BadRequestObjectResult(details);
-
-        context.ExceptionHandled = true;
-    }
-
     private void HandleNotFoundException(ExceptionContext context)
     {
         var exception = (NotFoundException)context.Exception;
@@ -100,7 +88,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         var details = new ProblemDetails
         {
             Status = StatusCodes.Status401Unauthorized,
-            Title = "Unauthorized",
+            Title = "Unauthorized.",
             Type = "https://tools.ietf.org/html/rfc7235#section-3.1",  //TODO: Authorization
         };
 
@@ -117,6 +105,18 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
 
         context.Result = new ObjectResult(details);
+
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleInvalidModelStateException(ExceptionContext context)
+    {
+        var details = new ValidationProblemDetails(context.ModelState)
+        {
+            Title = "Invalid Model State.",
+        };
+
+        context.Result = new BadRequestObjectResult(details);
 
         context.ExceptionHandled = true;
     }

@@ -5,14 +5,14 @@ namespace Items.Infrastructure.Metrics;
 
 public static class MetricsRegistry
 {
-    public static CounterOptions DbCallsCounter => new CounterOptions
+    public static CounterOptions DbCallsCounter => new()
     {
         Name = "Success Calls",
         Context = "Database",
         MeasurementUnit = Unit.Calls,
     };
 
-    public static CounterOptions DbConnectionsCounter => new CounterOptions
+    public static CounterOptions DbConnectionsCounter => new()
     {
         Name = "Open Connections",
         Context = "Database",

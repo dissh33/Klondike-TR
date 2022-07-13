@@ -6,14 +6,13 @@ using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Newtonsoft.Json;
 using Serilog;
-using Z.Dapper.Plus;
 
 namespace Items.Infrastructure.Repositories;
 
 public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
-    protected const int SqlTimeout = 3600;
-    protected const string SchemaName = "public";
+    protected const int SQL_TIMEOUT = 3600;
+    protected const string SCHEMA_NAME = "public";
 
     protected IDbTransaction Transaction { get; }
     protected ILogger Logger { get; }
@@ -23,27 +22,16 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
 
     protected string TableName { get; }
 
-    protected static List<string> ExcludeProperties = new() { "Icon", "Items", "DomainEvents", "ExternalId"};
+    protected  List<string> ExcludeProperties = new() { "Icon", "Items", "DomainEvents", "ExternalId"};
 
     static BaseRepository()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
-
-        DapperPlusManager.Entity<CollectionItem>()
-                 .Table("collection_item")
-                 .Map(x => x.Id, "id")
-                 .Map(x => x.Name, "name")
-                 .Map(x => x.ExternalId, "external_id")
-                 .Map(x => x.IconId, "icon_id")
-                 .Map(x => x.CollectionId, "collection_id")
-                 .Ignore(x => ExcludeProperties)
-                 .Identity(x => x.Id);
     }
 
     protected BaseRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
     {
         Transaction = transaction;
-
         Logger = logger;
         Metrics = metrics;
 
@@ -56,13 +44,13 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
-        var sql = $"SELECT {selectColumns} FROM {SchemaName}.{TableName} WHERE id = @id";
+        var sql = $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE id = @id";
 
         return new CommandDefinition(
             commandText: sql,
             parameters: new { id },
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
     }
 
@@ -70,12 +58,12 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
-        var sql = $"SELECT {selectColumns} FROM {SchemaName}.{TableName}";
+        var sql = $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName}";
 
         return new CommandDefinition(
             commandText: sql,
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
     }
 
@@ -84,13 +72,13 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
         var insertColumns = $"({selectColumns}) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))})";
 
-        var sql = $"INSERT INTO {SchemaName}.{TableName} {insertColumns} RETURNING id";
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
         
         return new CommandDefinition(
             commandText: sql,
             parameters: entity,
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
     }
 
@@ -98,25 +86,25 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
     {
         var updateColumns = string.Join(", ", GetColumns().Select(e => $"{InsertUnderscoreBeforeUpperCase(e)} = @{e}"));
 
-        var sql = $"UPDATE {SchemaName}.{TableName} SET {updateColumns} WHERE id = @id RETURNING id";
+        var sql = $"UPDATE {SCHEMA_NAME}.{TableName} SET {updateColumns} WHERE id = @id RETURNING id";
 
         return new CommandDefinition(
             commandText: sql,
             parameters: entity,
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
     }
 
     protected CommandDefinition DeleteBaseCommand(Guid id, CancellationToken ct)
     {
-        var sql = $"DELETE FROM {SchemaName}.{TableName} WHERE id = @id";
+        var sql = $"DELETE FROM {SCHEMA_NAME}.{TableName} WHERE id = @id";
 
         return new CommandDefinition(
             commandText: sql,
             parameters: new { id },
             transaction: Transaction,
-            commandTimeout: SqlTimeout,
+            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
     }
 

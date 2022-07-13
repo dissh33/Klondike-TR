@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Runtime.CompilerServices;
 using App.Metrics;
 using Items.Application.Contracts;
 using Items.Infrastructure.Metrics;
@@ -44,7 +43,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public ICollectionRepository CollectionRepository => _collectionRepository ??= new CollectionRepository(_transaction, _logger, _metrics);
     public ICollectionItemRepository CollectionItemRepository => _collectionItemRepository ??= new CollectionItemRepository(_transaction, _logger, _metrics);
 
-    public void Commit()              
+    public void Commit()   
     {
         try
         {
