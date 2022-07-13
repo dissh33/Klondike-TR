@@ -11,25 +11,22 @@ public class MaterialTests
     [Fact]
     public void Material_ShouldConstruct_WithVariousParameters()
     {
-        var id = Guid.NewGuid();
-        var material = new Material("N1", Guid.Empty, MaterialType.Specific);
-        var material1 = new Material("N2", Guid.Empty, id: id);
-        var material2 = new Material("N3", Guid.Empty, externalId: "newID");
-        var material3 = new Material();
-        var material4 = new Material("N5", Guid.Empty, MaterialType.Specific, ItemStatus.Removed, Guid.Empty, "E");
+        var material = new Material("N1", MaterialType.Specific);
+        var material1 = new Material("N2", id: Guid.Empty);
+        var material2 = new Material("N3", id: Guid.Empty, externalId: "newID");
+        var material3 = new Material("N5", MaterialType.Specific, ItemStatus.Removed, Guid.Empty, "E");
 
         material.Should().BeOfType(typeof(Material));
         material1.Should().BeOfType(typeof(Material));
         material2.Should().BeOfType(typeof(Material));
         material3.Should().BeOfType(typeof(Material));
-        material4.Should().BeOfType(typeof(Material));
     }
 
     [Fact]
     public void Material_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
-        var collection1 = new Material("N", Guid.Empty);
-        var collection2 = new Material("N", Guid.Empty);
+        var collection1 = new Material("N");
+        var collection2 = new Material("N");
 
         collection1.Id.Should().NotBeEmpty();
         collection2.Id.Should().NotBeEmpty();
@@ -41,7 +38,7 @@ public class MaterialTests
     public void Material_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
     {
         var id = Guid.NewGuid();
-        var collection = new Material("N", Guid.Empty, id: id);
+        var collection = new Material("N", id: id);
 
         collection.Id.Should().NotBeEmpty();
         collection.Id.Should().Be(id);
@@ -50,7 +47,7 @@ public class MaterialTests
     [Fact]
     public void Material_ShouldConstruct_WithDefaultMaterialTypeAndActiveItemStatus_WhenParametersNotSpecified()
     {
-        var material = new Material("N", Guid.Empty);
+        var material = new Material("N");
 
         material.Type.Should().HaveFlag(MaterialType.Default);
         material.Status.Should().HaveFlag(ItemStatus.Active);
@@ -61,7 +58,7 @@ public class MaterialTests
     {
         var type = MaterialType.Specific;
         var status = ItemStatus.Disabled;
-        var material = new Material("N", Guid.Empty, type:type, status: status);
+        var material = new Material("N", type:type, status: status);
 
         material.Type.Should().HaveFlag(type);
         material.Status.Should().HaveFlag(status);

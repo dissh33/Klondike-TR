@@ -13,7 +13,7 @@ public class IconTests
         var id = Guid.NewGuid();
         var icon1 = new Icon("T", Array.Empty<byte>(), "F", id);
         var icon2 = new Icon("T2", Array.Empty<byte>(), "F2", externalId: "newid");
-        var icon3 = new Icon();
+        var icon3 = new Icon(Guid.Empty);
 
         icon1.Should().BeOfType(typeof(Icon));
         icon2.Should().BeOfType(typeof(Icon));
@@ -37,8 +37,12 @@ public class IconTests
     {
         var id = Guid.NewGuid();
         var icon = new Icon("T", Array.Empty<byte>(), "F", id);
+        var icon1 = new Icon(id);
         
         icon.Id.Should().NotBeEmpty();
         icon.Id.Should().Be(id);
+
+        icon1.Id.Should().NotBeEmpty();
+        icon1.Id.Should().Be(id);
     }
 }

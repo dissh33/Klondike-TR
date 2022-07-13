@@ -2,17 +2,17 @@
 
 namespace Items.Application.Exceptions;
 
-public class RequestValidationException : Exception
+public class ValidationException : Exception
 {
     public IDictionary<string, string[]> Errors { get; }
 
-    public RequestValidationException()
+    public ValidationException()
         : base("One or more validation failures have occurred.")
     {
         Errors = new Dictionary<string, string[]>();
     }
 
-    public RequestValidationException(IEnumerable<ValidationFailure> failures)
+    public ValidationException(IEnumerable<ValidationFailure> failures)
         : this()
     {
         Errors = failures

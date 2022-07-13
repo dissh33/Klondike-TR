@@ -26,7 +26,7 @@ public class Icon : BaseEntity
     }
 
     public Icon(
-        Guid? id = null,
+        Guid? id,
         string? externalId = null)
         : base(id, externalId)
     {
