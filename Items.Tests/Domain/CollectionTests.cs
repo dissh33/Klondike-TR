@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Items.Domain;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
+using Items.Domain.Exceptions;
 using Xunit;
 
 namespace Items.Tests.Domain;
@@ -40,8 +42,7 @@ public class CollectionTests
     {
         var id = Guid.NewGuid();
         var collection = new Collection("N", id: id);
-
-        collection.Id.Should().NotBeEmpty();
+        
         collection.Id.Should().Be(id);
     }
 
@@ -54,11 +55,110 @@ public class CollectionTests
     }
 
     [Fact]
+    public void Collection_ShouldConstruct_WithSpecifiedItems_WhenItemsPassedThroughConstructor()
+    {
+        var collectionId = Guid.NewGuid();
+        var items = new List<CollectionItem>();
+
+        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER; i++)
+        {
+            var item = new CollectionItem("N", collectionId);
+            items.Add(item);
+        }
+
+        var collection = new Collection("N", items: items, id: collectionId);
+
+        collection.Items.Should().BeEquivalentTo(items);
+    }
+
+    [Fact]
     public void Collection_ShouldConstruct_WithSpecifiedItemStatus_WhenStatusPassedThroughConstructor()
     {
         var status = ItemStatus.Disabled;
         var collection = new Collection("N", status: status);
 
         collection.Status.Should().HaveFlag(status);
+    }
+
+    [Fact]
+    public void AddIconMethod_ShouldCorrectlyAddIconToCollection_WhenPassedFullIconInfo()
+    {
+        var collection = new Collection("N");
+
+        collection.AddIcon("T", new byte[1], "N");
+        
+        collection.Icon.Should().BeOfType<Icon>();
+        collection.IconId.Should().Be(collection.Icon!.Id);
+    }
+
+    [Fact]
+    public void AddIconMethod_ShouldAddIconWithSpecifiedIdToCollection_WhenPassedOnlyIconId()
+    {
+        var collection = new Collection("N");
+        var iconId = Guid.NewGuid();
+
+        collection.AddIcon(iconId);
+        
+        collection.Icon.Should().BeOfType<Icon>();
+        
+        collection.IconId.Should().Be(iconId);
+        collection.IconId.Should().Be(collection.Icon!.Id);
+    }
+
+    [Fact]
+    public void FillMethod_ShouldAddItemsToCollection_WhenPassedCorrectNumberOfItems()
+    {
+        var collectionId = Guid.NewGuid();
+
+        var collection = new Collection("N", id: collectionId);
+        var items = new List<CollectionItem>();
+
+        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER; i++)
+        {
+            var item = new CollectionItem("N", collectionId);
+            items.Add(item);
+        }
+
+        collection.Fill(items);
+
+        collection.Items.Should().BeEquivalentTo(items);
+    }
+
+    [Fact]
+    public void FillMethod_ShouldThrowException_WhenPassedLessNumberOfItems()
+    {
+        var collectionId = Guid.NewGuid();
+
+        var collection = new Collection("N", id: collectionId);
+        var items = new List<CollectionItem>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            var item = new CollectionItem("N", collectionId);
+            items.Add(item);
+        }
+
+        var act = () => collection.Fill(items);
+        
+        act.Should().Throw<WrongCollectionItemsNumberException>();
+    }
+
+    [Fact]
+    public void FillMethod_ShouldThrowException_WhenPassedMoreNumberOfItems()
+    {
+        var collectionId = Guid.NewGuid();
+
+        var collection = new Collection("N", id: collectionId);
+        var items = new List<CollectionItem>();
+
+        for (int i = 0; i < 6; i++)
+        {
+            var item = new CollectionItem("N", collectionId);
+            items.Add(item);
+        }
+
+        var act = () => collection.Fill(items);
+
+        act.Should().Throw<WrongCollectionItemsNumberException>();
     }
 }

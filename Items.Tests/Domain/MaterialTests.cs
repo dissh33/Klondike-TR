@@ -39,8 +39,7 @@ public class MaterialTests
     {
         var id = Guid.NewGuid();
         var collection = new Material("N", id: id);
-
-        collection.Id.Should().NotBeEmpty();
+        
         collection.Id.Should().Be(id);
     }
 
@@ -62,5 +61,30 @@ public class MaterialTests
 
         material.Type.Should().HaveFlag(type);
         material.Status.Should().HaveFlag(status);
+    }
+
+    [Fact]
+    public void AddIconMethod_ShouldCorrectlyAddIconToMaterial_WhenPassedFullIconInfo()
+    {
+        var material = new Material("N");
+
+        material.AddIcon("T", new byte[1], "N");
+        
+        material.Icon.Should().BeOfType<Icon>();
+        material.IconId.Should().Be(material.Icon!.Id);
+    }
+
+    [Fact]
+    public void AddIconMethod_ShouldAddIconWithSpecifiedIdToMaterial_WhenPassedOnlyIconId()
+    {
+        var material = new Material("N");
+        var iconId = Guid.NewGuid();
+
+        material.AddIcon(iconId);
+        
+        material.Icon.Should().BeOfType<Icon>();
+        
+        material.IconId.Should().Be(iconId);
+        material.IconId.Should().Be(material.Icon!.Id);
     }
 }

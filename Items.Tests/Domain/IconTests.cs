@@ -39,10 +39,7 @@ public class IconTests
         var icon = new Icon("T", Array.Empty<byte>(), "F", id);
         var icon1 = new Icon(id);
         
-        icon.Id.Should().NotBeEmpty();
         icon.Id.Should().Be(id);
-
-        icon1.Id.Should().NotBeEmpty();
         icon1.Id.Should().Be(id);
     }
 }

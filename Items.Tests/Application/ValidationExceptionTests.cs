@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Items.Tests.Application;
 
-public class RequestValidationExceptionTests
+public class ValidationExceptionTests
 {
     [Fact]
     public void DefaultConstructor_ShouldCreatesAnEmptyErrorDictionary()

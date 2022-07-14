@@ -36,8 +36,32 @@ public class CollectionItemTests
     {
         var id = Guid.NewGuid();
         var collectionItem = new CollectionItem("N", Guid.Empty, id);
-
-        collectionItem.Id.Should().NotBeEmpty();
+        
         collectionItem.Id.Should().Be(id);
+    }
+
+    [Fact]
+    public void AddIconMethod_ShouldCorrectlyAddIconToCollectionItem_WhenPassedFullIconInfo()   
+    {
+        var collectionItem = new CollectionItem("N", Guid.Empty);
+
+        collectionItem.AddIcon("T", new byte[1], "N");
+        
+        collectionItem.Icon.Should().BeOfType<Icon>();
+        collectionItem.IconId.Should().Be(collectionItem.Icon!.Id);
+    }
+
+    [Fact]
+    public void AddIconMethod_ShouldAddIconWithSpecifiedIdToCollectionItem_WhenPassedOnlyIconId()
+    {
+        var collectionItem = new CollectionItem("N", Guid.Empty);
+        var iconId = Guid.NewGuid();
+
+        collectionItem.AddIcon(iconId);
+        
+        collectionItem.Icon.Should().BeOfType<Icon>();
+        
+        collectionItem.IconId.Should().Be(iconId);
+        collectionItem.IconId.Should().Be(collectionItem.Icon!.Id);
     }
 }
