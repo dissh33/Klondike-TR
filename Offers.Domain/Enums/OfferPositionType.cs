@@ -1,6 +1,6 @@
 ﻿namespace Offers.Domain.Enums;
 
-enum OfferPositionType
+public enum OfferPositionType
 {
     WithPriceRate = 0,
     WithoutPriceRate = 1,

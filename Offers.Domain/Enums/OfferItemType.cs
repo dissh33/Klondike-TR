@@ -1,7 +1,7 @@
 ﻿namespace Offers.Domain.Enums;
 
-enum OfferItemType
+public enum OfferItemType
 {
     Buy,
-    Sell
+    Sell,
 }

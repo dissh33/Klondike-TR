@@ -1,7 +1,7 @@
 ﻿namespace Offers.Domain.Enums;
 
-enum OfferType
+public enum OfferType
 {
     Default,
-    New
+    New,
 }

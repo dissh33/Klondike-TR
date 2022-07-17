@@ -1,6 +1,6 @@
 ﻿namespace Offers.Domain.Enums;
 
-enum OfferStatus
+public enum OfferStatus
 {
     Draft = 0,
     Active = 1,
