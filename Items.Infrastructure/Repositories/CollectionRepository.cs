@@ -126,11 +126,4 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
 
         return await Logger.DbCall(query, command, Metrics);
     }
-
-    override public void Dispose()
-    {
-        Connection?.Close();
-        Connection?.Dispose();
-        base.Dispose();
-    }
 }

@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CommandsHandlers\" />
-    <Folder Include="Contracts\" />
     <Folder Include="QueriesHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Serilog" Version="2.11.1-dev-01397" />
   </ItemGroup>
 
   <ItemGroup>

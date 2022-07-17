@@ -145,11 +145,4 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
         return await Logger.DbCall(query, command, Metrics);
     }
-
-    override public void Dispose()
-    {
-        Connection?.Close();
-        Connection?.Dispose();
-        base.Dispose();
-    }
 }

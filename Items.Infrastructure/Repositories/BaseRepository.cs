@@ -9,7 +9,7 @@ using Serilog;
 
 namespace Items.Infrastructure.Repositories;
 
-public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEntity
+public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : BaseEntity
 {
     protected const int SQL_TIMEOUT = 3600;
     protected const string SCHEMA_NAME = "public";
@@ -141,7 +141,8 @@ public abstract class BaseRepository<T> : IGenericRepository<T> where T : BaseEn
 
     public virtual void Dispose()
     {
-
+        Connection?.Close();
+        Connection?.Dispose();
     }
 
     public class JsonObjectTypeHandler : SqlMapper.ITypeHandler

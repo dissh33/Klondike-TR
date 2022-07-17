@@ -6,13 +6,13 @@ namespace Offers.Domain.Entities;
 
 public class OfferItem : BaseEntity
 {
-    public OfferItemId? Id { get; set; }
+    public OfferItemId? Id { get; }
 
-    public OfferPositionId? OfferPositionId { get; set; }
-    public Guid ItemId { get; set; }
-    public int Amount { get; set; }
+    public OfferPositionId? OfferPositionId { get; }
+    public Guid TradableItemId { get; }
+    public int Amount { get; }
 
-    public OfferItemType Type { get; set; }
+    public OfferItemType Type { get; }
 
     private OfferItem()
     {
@@ -20,15 +20,15 @@ public class OfferItem : BaseEntity
     }
 
     public OfferItem(
-        OfferPositionId offerPositionId,
-        Guid itemId,
+        OfferPositionId? offerPositionId,
+        Guid tradableItemId,
         int amount,
         OfferItemType type,
         Guid? id = null)
     {
         Id = new OfferItemId(id);
         OfferPositionId = offerPositionId;
-        ItemId = itemId;
+        TradableItemId = tradableItemId;
         Amount = amount;
         Type = type;
     }

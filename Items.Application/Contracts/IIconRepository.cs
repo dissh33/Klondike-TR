@@ -3,7 +3,7 @@ using Items.Domain.Entities;
 
 namespace Items.Application.Contracts;
 
-public interface IIconRepository : IGenericRepository<Icon>
+public interface IIconRepository : IBaseGenericRepository<Icon>
 {
     Task<Icon> GetById(Guid id, CancellationToken ct);
     Task<IEnumerable<Icon>> GetAll(CancellationToken ct);

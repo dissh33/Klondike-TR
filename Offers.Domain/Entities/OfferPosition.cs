@@ -6,14 +6,17 @@ namespace Offers.Domain.Entities;
 
 public class OfferPosition : BaseEntity
 {
-    public OfferPositionId? Id { get; set; }
+    public OfferPositionId? Id { get; }
 
-    public OfferId? OfferId { get; set; }
-    public string? PriceRate { get; set; }
-    public bool WithTrader { get; set; }
-    public string? Message { get; set; }
+    public OfferId? OfferId { get; }
+    public string? PriceRate { get; }
+    public bool WithTrader { get; }
+    public string? Message { get; }
 
-    public OfferPositionType Type { get; set; }
+    public OfferPositionType Type { get; }
+
+    private readonly List<OfferItem> _offerItems = new();
+    public IReadOnlyList<OfferItem> OfferItems => _offerItems;
 
     private OfferPosition()
     {
@@ -34,5 +37,15 @@ public class OfferPosition : BaseEntity
         WithTrader = withTrader;
         Message = message;
         Type = type;
+    }
+
+    public void AddOfferItem(
+        Guid tradableItemId,
+        int amount,
+        OfferItemType type,
+        Guid? id = null)
+    {
+        var offerItem = new OfferItem(Id, tradableItemId, amount, type, id);
+        _offerItems.Add(offerItem);
     }
 }

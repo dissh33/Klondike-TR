@@ -2,7 +2,7 @@
 
 namespace Items.Application.Contracts;
 
-public interface IGenericRepository<T> : IDisposable 
+public interface IBaseGenericRepository<T> : IDisposable 
     where T : BaseEntity
 {
 }

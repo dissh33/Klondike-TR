@@ -3,7 +3,7 @@ using Items.Api.Queries.Material;
 using Items.Domain.Entities;
 
 namespace Items.Application.Contracts;
-public interface IMaterialRepository : IGenericRepository<Material>
+public interface IMaterialRepository : IBaseGenericRepository<Material>
 {
     Task<Material> GetById(Guid id, CancellationToken ct);
     Task<IEnumerable<Material>> GetAll(CancellationToken ct);

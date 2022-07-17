@@ -2,7 +2,7 @@
 using Items.Domain.Entities;
 
 namespace Items.Application.Contracts;
-public interface ICollectionRepository : IGenericRepository<Collection>
+public interface ICollectionRepository : IBaseGenericRepository<Collection>
 {
     Task<Collection> GetById(Guid id, CancellationToken ct);
     Task<IEnumerable<Collection>> GetAll(CancellationToken ct);
