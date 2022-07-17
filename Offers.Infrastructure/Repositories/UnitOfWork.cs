@@ -25,7 +25,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         _connection = new NpgsqlConnection(connectionString);
         _connection.Open();
-        //_metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter);
+        //_metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter); //TODO: Metrics
 
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
