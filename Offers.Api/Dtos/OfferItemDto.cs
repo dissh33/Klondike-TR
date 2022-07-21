@@ -1,10 +1,10 @@
 ﻿namespace Offers.Api.Dtos;
 
-public class OfferItemDto
+public record OfferItemDto
 {
-    public Guid? OfferPositionId { get; set; }
-    public Guid TradableItemId { get; set; }
-    public int Amount { get; set; }
+    public Guid? OfferPositionId { get; init; }
+    public Guid TradableItemId { get; init; }
+    public int Amount { get; init; }
 
-    public int? Type { get; set; }
+    public int Type { get; init; }
 }

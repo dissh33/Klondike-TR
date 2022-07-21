@@ -1,13 +1,14 @@
 ﻿namespace Offers.Api.Dtos;
 
-public class OfferDto
+public record OfferDto
 {
-    public string? Title { get; set; }
-    public string? Message { get; set; }
-    public string? Expression { get; set; }
+    public string? Title { get; init; }
+    public string? Message { get; init; }
 
-    public int? Type { get; set; }
-    public int? Status { get; set; }
+    //public string? Expression { get; init; }
 
-    public IEnumerable<OfferPositionDto>? Positions { get; set; }
+    public int? Type { get; init; }
+    public int? Status { get; init; }
+
+    public IEnumerable<OfferPositionDto>? Positions { get; init; }
 }

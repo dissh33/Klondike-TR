@@ -2,12 +2,12 @@
 
 public class OfferPositionDto
 {
-    public Guid? OfferId { get; set; }
-    public string? PriceRate { get; set; }
-    public bool WithTrader { get; set; }
-    public string? Message { get; set; }
+    public Guid? OfferId { get; init; }
+    public string? PriceRate { get; init; }
+    public bool WithTrader { get; init; }
+    public string? Message { get; init; }
 
-    public int? Type { get; set; }
+    public int Type { get; init; }
 
-    public IEnumerable<OfferItemDto>? OfferItems { get; set; }
+    public IEnumerable<OfferItemDto> OfferItems { get; init; } = Enumerable.Empty<OfferItemDto>();
 }

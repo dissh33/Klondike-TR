@@ -7,7 +7,7 @@ namespace Offers.Domain.Entities;
 
 public class Offer : BaseEntity
 {
-    public OfferId? Id { get; }
+    public OfferId Id { get; }
 
     public string? Title { get; }
     public string? Message { get; }
@@ -21,7 +21,7 @@ public class Offer : BaseEntity
 
     private Offer()
     {
-        
+        Id = new OfferId(Guid.NewGuid());
     }
 
     public Offer(
@@ -40,7 +40,7 @@ public class Offer : BaseEntity
         Status = status;
     }
 
-    public void AddPosition(
+    public OfferPositionId AddPosition(
         string? priceRate,
         bool withTrader,
         string? message,
@@ -49,5 +49,7 @@ public class Offer : BaseEntity
     {
         var position = new OfferPosition(Id, priceRate, withTrader, message, type, id);
         _positions.Add(position);
+
+        return position.Id;
     }
 }

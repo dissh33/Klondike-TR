@@ -6,7 +6,7 @@ namespace Offers.Domain.Entities;
 
 public class OfferItem : BaseEntity
 {
-    public OfferItemId? Id { get; }
+    public OfferItemId Id { get; }
 
     public OfferPositionId? OfferPositionId { get; }
     public Guid TradableItemId { get; }
@@ -16,7 +16,7 @@ public class OfferItem : BaseEntity
 
     private OfferItem()
     {
-        
+        Id = new OfferItemId(Guid.NewGuid());
     }
 
     public OfferItem(

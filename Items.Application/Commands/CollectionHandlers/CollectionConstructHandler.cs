@@ -25,7 +25,7 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
 
         if (request.Status != null)
         {
-            status = (ItemStatus)request.Status;
+            status = (ItemStatus) request.Status;
         }
 
         var collectionId = Guid.NewGuid();
