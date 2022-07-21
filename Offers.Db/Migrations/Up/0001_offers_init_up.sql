@@ -12,11 +12,8 @@ CREATE TABLE "public"."offer" (
   "type" int4 NOT NULL,
   "status" int4 NOT NULL,
   "message" text,
-  "expression" jsonb NOT NULL,
+  "expression" jsonb,
   "create_date" timestamp NOT NULL,
-  "update_date" timestamp NOT NULL,
-  "is_deleted" bool NOT NULL,
-  "delete_date" timestamp,
   PRIMARY KEY ("id")
 );
 
@@ -27,9 +24,6 @@ CREATE TABLE "public"."offer_item" (
   "type" int4 NOT NULL,
   "amount" int4 NOT NULL,
   "create_date" timestamp NOT NULL,
-  "update_date" timestamp NOT NULL,
-  "is_deleted" bool NOT NULL,
-  "delete_date" timestamp,
   PRIMARY KEY ("id")
 );
 
@@ -41,9 +35,6 @@ CREATE TABLE "public"."offer_position" (
   "with_trader" int4 NOT NULL,
   "message" text,
   "create_date" timestamp NOT NULL,
-  "update_date" timestamp NOT NULL,
-  "is_deleted" bool NOT NULL,
-  "delete_date" timestamp,
   PRIMARY KEY ("id")
 );
 
