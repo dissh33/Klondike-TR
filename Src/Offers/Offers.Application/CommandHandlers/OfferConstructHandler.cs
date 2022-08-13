@@ -5,7 +5,7 @@ using Offers.Application.Contracts;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
 
-namespace Offers.Application.CommandsHandlers;
+namespace Offers.Application.CommandHandlers;
 
 public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, OfferDto>
 {
@@ -35,8 +35,7 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         {
             var offerPositionType = (OfferPositionType) offerPositionDto.Type;
 
-            var offerPositionId = 
-                offer.AddPosition(
+            var offerPositionId = offer.AddPosition(
                 offerPositionDto.PriceRate, 
                 offerPositionDto.WithTrader, 
                 offerPositionDto.Message, 
