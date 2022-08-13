@@ -13,45 +13,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{30
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{EE6A981B-504B-4A2F-A440-BF0021785C4F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Admin", "Items.Admin\Items.Admin.csproj", "{B8ADEDE5-8FA1-40B2-8854-436F85FB78AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Admin", "Src\Items\Items.Admin\Items.Admin.csproj", "{B8ADEDE5-8FA1-40B2-8854-436F85FB78AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Api", "Items.Api\Items.Api.csproj", "{8A331F57-9851-46FA-A354-F6BA3266179F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Api", "Src\Items\Items.Api\Items.Api.csproj", "{8A331F57-9851-46FA-A354-F6BA3266179F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forecast", "Forecast", "{E0D79CA4-1047-4C6B-80D5-BCDCBEBA7267}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecast.Job.Server", "PriceRateForecast.Job.Server\PriceRateForecast.Job.Server.csproj", "{5DAC9B28-DFE8-475D-80D5-14D1ABE08E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecast.Job.Server", "Src\Forecast\PriceRateForecast.Job.Server\PriceRateForecast.Job.Server.csproj", "{5DAC9B28-DFE8-475D-80D5-14D1ABE08E04}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecast.Job.Dashboard", "PriceRateForecast.Job.Dashboard\PriceRateForecast.Job.Dashboard.csproj", "{0AF0B42B-37B0-4FCB-B724-A0904DB92366}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecast.Job.Dashboard", "Src\Forecast\PriceRateForecast.Job.Dashboard\PriceRateForecast.Job.Dashboard.csproj", "{0AF0B42B-37B0-4FCB-B724-A0904DB92366}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecast.Job.Api", "PriceRateForecast.Job.Api\PriceRateForecast.Job.Api.csproj", "{977054F9-2F79-4399-9E4B-8180907E86AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecast.Job.Api", "Src\Forecast\PriceRateForecast.Job.Api\PriceRateForecast.Job.Api.csproj", "{977054F9-2F79-4399-9E4B-8180907E86AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService", "PriceRateForecastService\PriceRateForecastService.csproj", "{666BFE3B-A412-4BE9-8853-AB10D25B5719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService", "Src\Forecast\PriceRateForecastService\PriceRateForecastService.csproj", "{666BFE3B-A412-4BE9-8853-AB10D25B5719}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService.Api", "PriceRateForecastService.Api\PriceRateForecastService.Api.csproj", "{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRateForecastService.Api", "Src\Forecast\PriceRateForecastService.Api\PriceRateForecastService.Api.csproj", "{8965BC44-A2AD-42B5-AA22-5FFE4AFF57F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Domain", "Items.Domain\Items.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Domain", "Src\Items\Items.Domain\Items.Domain.csproj", "{D34D45F4-51C6-4CBC-83F8-43FB96D44976}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Application", "Items.Application\Items.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Application", "Src\Items\Items.Application\Items.Application.csproj", "{0F90B828-081D-4235-8D64-9ABBE9C9B5AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Infrastructure", "Items.Infrastructure\Items.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Infrastructure", "Src\Items\Items.Infrastructure\Items.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Tests", "Items.Tests\Items.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Tests", "TestsItems.Tests\Items.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Db", "Items.Db\Items.Db.csproj", "{A672CFA3-A9FC-4888-ABB3-3360C2FFAA15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Db", "Src\Items\Items.Db\Items.Db.csproj", "{A672CFA3-A9FC-4888-ABB3-3360C2FFAA15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Admin", "Offers.Admin\Offers.Admin.csproj", "{313894A5-6D48-49B3-9118-FDDECD2FD4E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Admin", "Src\Offers\Offers.Admin\Offers.Admin.csproj", "{313894A5-6D48-49B3-9118-FDDECD2FD4E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Db", "Offers.Db\Offers.Db.csproj", "{C4312C1E-4F61-4313-982B-54F9597F2D1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Db", "Src\Offers\Offers.Db\Offers.Db.csproj", "{C4312C1E-4F61-4313-982B-54F9597F2D1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Api", "Offers.Api\Offers.Api.csproj", "{3C674214-C613-40C1-9342-BEA34994941C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Api", "Src\Offers\Offers.Api\Offers.Api.csproj", "{3C674214-C613-40C1-9342-BEA34994941C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Domain", "Offers.Domain\Offers.Domain.csproj", "{1F85EB91-2770-4FB1-BBCC-C14FB46B8EFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Domain", "Src\Offers\Offers.Domain\Offers.Domain.csproj", "{1F85EB91-2770-4FB1-BBCC-C14FB46B8EFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Application", "Offers.Application\Offers.Application.csproj", "{C69677B0-BD26-4CE7-A6EA-D03CC256EA43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Application", "Src\Offers\Offers.Application\Offers.Application.csproj", "{C69677B0-BD26-4CE7-A6EA-D03CC256EA43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Infrastructure", "Offers.Infrastructure\Offers.Infrastructure.csproj", "{4288E756-8943-4E73-B77A-143511342245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Infrastructure", "Src\Offers\Offers.Infrastructure\Offers.Infrastructure.csproj", "{4288E756-8943-4E73-B77A-143511342245}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Tests", "Offers.Tests\Offers.Tests.csproj", "{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Tests", "Tests\Offers.Tests\Offers.Tests.csproj", "{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

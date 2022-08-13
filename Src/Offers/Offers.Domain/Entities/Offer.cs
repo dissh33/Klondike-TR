@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using Offers.Domain.Enums;
+﻿using Offers.Domain.Enums;
 using Offers.Domain.SeedWork;
 using Offers.Domain.TypedIds;
 

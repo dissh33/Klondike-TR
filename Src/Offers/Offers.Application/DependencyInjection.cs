@@ -11,11 +11,11 @@ public static class DependencyInjection
         var currentAssembly = Assembly.GetExecutingAssembly();
 
         services.AddMediatR(currentAssembly);
-        services.AddAutoMapper(currentAssembly);
+        //services.AddAutoMapper(currentAssembly);
 
-        services.AddValidatorsFromAssembly(currentAssembly);
+        //services.AddValidatorsFromAssembly(currentAssembly);
 
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
     }
 }
