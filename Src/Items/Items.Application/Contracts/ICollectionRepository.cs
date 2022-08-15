@@ -6,6 +6,7 @@ public interface ICollectionRepository : IBaseGenericRepository<Collection>
 {
     Task<Collection> GetById(Guid id, CancellationToken ct);
     Task<IEnumerable<Collection>> GetAll(CancellationToken ct);
+    Task<IEnumerable<Collection>> GetAllActive(CancellationToken ct);
     Task<IEnumerable<Collection>> GetByFilter(CollectionGetByFilterQuery filter, CancellationToken ct);
     Task<Collection> Insert(Collection collection, CancellationToken ct);
     Task<Collection> Update(Collection collectionItem, CancellationToken ct);

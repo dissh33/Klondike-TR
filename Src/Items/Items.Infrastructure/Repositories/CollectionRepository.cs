@@ -4,6 +4,7 @@ using Dapper;
 using Items.Api.Queries.Collection;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
+using Items.Domain.Enums;
 using Items.Infrastructure.Logging;
 using Serilog;
 
@@ -29,6 +30,22 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
     public async Task<IEnumerable<Collection>> GetAll(CancellationToken ct)
     {
         var command = GetAllBaseCommand(ct);
+
+        var query = async () => await Connection.QueryAsync<Collection>(command);
+
+        return await Logger.DbCall(query, command, Metrics);
+    }
+
+    public async Task<IEnumerable<Collection>> GetAllActive(CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var activeStatus = (int) ItemStatus.Active;
+
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE status='{activeStatus}'",
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<Collection>(command);
 
