@@ -10,8 +10,8 @@ public class OfferItem : BaseEntity
 
     public OfferPositionId? OfferPositionId { get; }
     public Guid TradableItemId { get; }
+    
     public int Amount { get; }
-
     public OfferItemType Type { get; }
 
     private OfferItem()

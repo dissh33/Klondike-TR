@@ -47,7 +47,10 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
             {
                 var offerItemType = (OfferItemType) offerItemDto.Type;
 
-                currentPosition.AddOfferItem(offerItemDto.TradableItemId, offerItemDto.Amount, offerItemType);
+                currentPosition.AddOfferItem(
+                    offerItemDto.TradableItem.Id,
+                    offerItemDto.Amount, 
+                    offerItemType);
             }
         }
 

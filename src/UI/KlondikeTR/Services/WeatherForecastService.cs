@@ -1,4 +1,6 @@
-namespace KlondikeTR.Data
+using KlondikeTR.ViewModels;
+
+namespace KlondikeTR.Services
 {
     public class WeatherForecastService
     {
