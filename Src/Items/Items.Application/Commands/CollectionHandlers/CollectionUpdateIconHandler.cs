@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Items.Api.Commands.Collection;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Collection;
 using Items.Application.Contracts;
 using MediatR;
 

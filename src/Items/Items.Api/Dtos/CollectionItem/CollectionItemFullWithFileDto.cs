@@ -1,12 +1,11 @@
 ﻿using Items.Api.Dtos.Icon;
 
-namespace Items.Api.Dtos;
+namespace Items.Api.Dtos.CollectionItem;
 
-public record TradableItemDto
+public record CollectionItemFullWithFileDto
 {
     public Guid Id { get; init; }
     public string? Name { get; init; }
-    public string? ItemType { get; set; }
+    public Guid? CollectionId { get; init; }
     public IconFileDto? Icon { get; init; }
-    public Guid IconId { get; init; }
 }

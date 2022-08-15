@@ -1,9 +1,9 @@
-﻿using Items.Api.Dtos;
+﻿using Items.Api.Dtos.CollectionItem;
 using MediatR;
 
 namespace Items.Api.Queries.CollectionItem;
 
-public class CollectionItemGetFullByCollectionQuery : IRequest<IEnumerable<CollectionItemFullDto>>
+public class CollectionItemGetFullByCollectionQuery : IRequest<IEnumerable<CollectionItemFullWithFileDto>>
 {
     public Guid CollectionId { get; set; }
 }

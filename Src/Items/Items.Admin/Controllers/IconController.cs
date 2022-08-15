@@ -1,6 +1,6 @@
 ﻿using Items.Api.Commands;
 using Items.Api.Commands.Icon;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Icon;
 using Items.Api.Queries.Icon;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

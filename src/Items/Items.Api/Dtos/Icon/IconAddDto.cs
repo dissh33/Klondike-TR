@@ -1,4 +1,4 @@
-﻿namespace Items.Api.Dtos;
+﻿namespace Items.Api.Dtos.Icon;
 
 public record IconAddDto
 {

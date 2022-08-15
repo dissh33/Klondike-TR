@@ -1,4 +1,7 @@
-﻿namespace Items.Api.Dtos;
+﻿using Items.Api.Dtos.CollectionItem;
+using Items.Api.Dtos.Icon;
+
+namespace Items.Api.Dtos.Collection;
 
 public record CollectionFullDto
 {

@@ -1,4 +1,4 @@
-﻿using Items.Api.Dtos;
+﻿using Items.Api.Dtos.Collection;
 using MediatR;
 
 namespace Items.Api.Queries.Collection;

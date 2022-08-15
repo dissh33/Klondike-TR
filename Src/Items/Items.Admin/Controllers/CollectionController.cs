@@ -1,6 +1,7 @@
 ﻿using Items.Api.Commands;
 using Items.Api.Commands.Collection;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Collection;
+using Items.Api.Dtos.CollectionItem;
 using Items.Api.Queries.Collection;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

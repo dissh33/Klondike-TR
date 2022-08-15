@@ -4,7 +4,6 @@ using Items.Api.Queries;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using MediatR;
-using System.Collections.Generic;
 
 namespace Items.Application.Queries;
 
@@ -24,24 +23,20 @@ public class GetAllTradableItemsHandler : IRequestHandler<GetAllTradableItemsQue
         var materials = (await _uow.MaterialRepository.GetAllActive(ct)).ToList();
         var collections = (await _uow.CollectionRepository.GetAllActive(ct)).ToList();
 
-        var iconsIds = materials.Select(material => material.IconId)
-            .Union(collections.Select(collection => collection.IconId));
+        var tradableItems = materials.Union(collections.Select(collection => (ITradableItem) collection)).ToList();
 
-        var icons = await _uow.IconRepository.GetRange(iconsIds, ct);
+        var iconsIds = tradableItems.Select(item => item.IconId);
+        var icons = (await _uow.IconRepository.GetRange(iconsIds, ct)).ToList();
 
-        foreach (var icon in icons)
+        foreach (var item in tradableItems)
         {
-            var matchedItems = materials.Where(material => material.IconId == icon.Id)
-                .Union(collections.Select(collection => (ITradableItem)collection).Where(item => item.IconId == icon.Id));
+            var currentIcon = icons.First(icon => icon.Id == item.IconId);
 
-            foreach (var currentItem in matchedItems)
-            {
-                currentItem.AddIcon(
-                    icon.Title,
-                    icon.FileBinary,
-                    icon.FileName,
-                    icon.Id);
-            }
+            item.AddIcon(
+                currentIcon.Title,
+                currentIcon.FileBinary,
+                currentIcon.FileName,
+                currentIcon.Id);
         }
 
         var materialsDtos = materials.Select(material => _mapper.Map<TradableItemDto>(material));

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Items.Api.Commands.Material;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Materials;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
