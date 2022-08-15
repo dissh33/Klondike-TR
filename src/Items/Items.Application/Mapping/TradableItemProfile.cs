@@ -13,9 +13,9 @@ public class TradableItemProfile : Profile
             configurationExpression => configurationExpression.MapFrom((material, dto) => dto.ItemType = material.GetType().Name));
 
         CreateMap<Collection, TradableItemDto>().ForMember(dto => dto.ItemType,
-            configurationExpression => configurationExpression.MapFrom((material, dto) => dto.ItemType = material.GetType().Name));
+            configurationExpression => configurationExpression.MapFrom((collection, dto) => dto.ItemType = collection.GetType().Name));
 
         CreateMap<CollectionItem, TradableItemDto>().ForMember(dto => dto.ItemType,
-            configurationExpression => configurationExpression.MapFrom((material, dto) => dto.ItemType = material.GetType().Name));
+            configurationExpression => configurationExpression.MapFrom((collectionItem, dto) => dto.ItemType = collectionItem.GetType().Name));
     }
 }
