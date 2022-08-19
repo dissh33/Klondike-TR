@@ -21,7 +21,7 @@ public class CollectionUpdateHandler : IRequestHandler<CollectionUpdateCommand, 
 
     public async Task<CollectionDto> Handle(CollectionUpdateCommand request, CancellationToken ct)
     {
-        var status = ItemStatus.Active;
+        var status = ItemStatus.Available;
 
         if (request.Status != null)
         {

@@ -21,7 +21,7 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
 
     public async Task<CollectionFullDto> Handle(CollectionConstructCommand request, CancellationToken ct)
     {
-        var status = ItemStatus.Active;
+        var status = ItemStatus.Available;
 
         if (request.Status != null)
         {

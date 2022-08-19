@@ -49,7 +49,7 @@ public class MaterialTests
         var material = new Material("N");
 
         material.Type.Should().HaveFlag(MaterialType.Default);
-        material.Status.Should().HaveFlag(ItemStatus.Active);
+        material.Status.Should().HaveFlag(ItemStatus.Available);
     }
 
     [Fact]

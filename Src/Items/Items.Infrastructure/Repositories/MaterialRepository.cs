@@ -36,10 +36,10 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         return await Logger.DbCall(query, cmd, Metrics);
     }
 
-    public async Task<IEnumerable<Material>> GetAllActive(CancellationToken ct)
+    public async Task<IEnumerable<Material>> GetAllAvailable(CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
-        var activeStatus = (int) ItemStatus.Active;
+        var activeStatus = (int) ItemStatus.Available;
 
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE status='{activeStatus}'",

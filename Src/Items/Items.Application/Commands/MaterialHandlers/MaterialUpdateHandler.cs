@@ -21,7 +21,7 @@ public class MaterialUpdateHandler : IRequestHandler<MaterialUpdateCommand, Mate
 
     public async Task<MaterialDto> Handle(MaterialUpdateCommand request, CancellationToken ct)
     {
-        var status = ItemStatus.Active;
+        var status = ItemStatus.Available;
         var type = MaterialType.Default;
 
         if (request.Status != null)

@@ -25,7 +25,7 @@ public class Collection : BaseEntity, ITradableItem
     public Collection(
         string? name, 
         List<CollectionItem>? items = null,
-        ItemStatus status = ItemStatus.Active, 
+        ItemStatus status = ItemStatus.Available, 
         Guid? id = null, 
         string? externalId = null)
         : base (id, externalId)

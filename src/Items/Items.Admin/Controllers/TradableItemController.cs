@@ -19,7 +19,7 @@ namespace Items.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TradableItemDto>>> GetAllActive(CancellationToken ct)
         {
-            var result = await _mediator.Send(new GetAllTradableItemsQuery(), ct);
+            var result = await _mediator.Send(new GetAllAvailableItemsQuery(), ct);
             return new JsonResult(result);
         }
     }

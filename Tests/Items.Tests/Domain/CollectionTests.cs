@@ -18,7 +18,7 @@ public class CollectionTests
         var id = Guid.NewGuid();
         var collection1 = new Collection("N1");
         var collection2 = new Collection("N2", id: id);
-        var collection3 = new Collection("N3", status: ItemStatus.Active, externalId: "newID");
+        var collection3 = new Collection("N3", status: ItemStatus.Available, externalId: "newID");
 
         collection1.Should().BeOfType(typeof(Collection));
         collection2.Should().BeOfType(typeof(Collection));
@@ -51,7 +51,7 @@ public class CollectionTests
     {
         var collection = new Collection("N");
 
-        collection.Status.Should().HaveFlag(ItemStatus.Active);
+        collection.Status.Should().HaveFlag(ItemStatus.Available);
     }
 
     [Fact]

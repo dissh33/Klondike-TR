@@ -36,10 +36,10 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<IEnumerable<Collection>> GetAllActive(CancellationToken ct)
+    public async Task<IEnumerable<Collection>> GetAllAvailable(CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
-        var activeStatus = (int) ItemStatus.Active;
+        var activeStatus = (int) ItemStatus.Available;
 
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE status='{activeStatus}'",

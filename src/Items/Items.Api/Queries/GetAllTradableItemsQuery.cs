@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Items.Api.Queries;
 
-public class GetAllTradableItemsQuery : IRequest<IEnumerable<TradableItemDto>>
+public class GetAllAvailableItemsQuery : IRequest<IEnumerable<TradableItemDto>>
 {
 
 }

@@ -7,21 +7,21 @@ using MediatR;
 
 namespace Items.Application.Queries;
 
-public class GetAllTradableItemsHandler : IRequestHandler<GetAllTradableItemsQuery, IEnumerable<TradableItemDto>>
+public class GetAllAvailableItemsHandler : IRequestHandler<GetAllAvailableItemsQuery, IEnumerable<TradableItemDto>>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
 
-    public GetAllTradableItemsHandler(IUnitOfWork uow, IMapper mapper)
+    public GetAllAvailableItemsHandler(IUnitOfWork uow, IMapper mapper)
     {
         _uow = uow;
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TradableItemDto>> Handle(GetAllTradableItemsQuery request, CancellationToken ct)
+    public async Task<IEnumerable<TradableItemDto>> Handle(GetAllAvailableItemsQuery request, CancellationToken ct)
     {
-        var materials = (await _uow.MaterialRepository.GetAllActive(ct)).ToList();
-        var collections = (await _uow.CollectionRepository.GetAllActive(ct)).ToList();
+        var materials = (await _uow.MaterialRepository.GetAllAvailable(ct)).ToList();
+        var collections = (await _uow.CollectionRepository.GetAllAvailable(ct)).ToList();
 
         var tradableItems = materials.Union(collections.Select(collection => (ITradableItem) collection)).ToList();
 
