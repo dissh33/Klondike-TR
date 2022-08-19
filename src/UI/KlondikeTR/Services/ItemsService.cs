@@ -19,6 +19,8 @@ public class ItemsService : IItemsService
     public async Task<IEnumerable<TradableItemDto>> GetAllAvailableItems(CancellationToken ct)
     {
         var httpResponse = await _itemsClient.GetAsync("", ct);
+        httpResponse.EnsureSuccessStatusCode();
+
         var stringContent = await httpResponse.Content.ReadAsStringAsync(ct);
 
         var items = JsonConvert.DeserializeObject<IEnumerable<TradableItemDto>>(stringContent);
@@ -29,6 +31,8 @@ public class ItemsService : IItemsService
     public async Task<IEnumerable<CollectionItemDto>> GetCollectionItemsItems(Guid collectionId, CancellationToken ct)
     {
         var httpResponse = await _collectionItemsClient.GetAsync($"/collection/{collectionId}/full", ct);
+        httpResponse.EnsureSuccessStatusCode();
+
         var stringContent = await httpResponse.Content.ReadAsStringAsync(ct);
 
         var items = JsonConvert.DeserializeObject<IEnumerable<CollectionItemDto>>(stringContent);
