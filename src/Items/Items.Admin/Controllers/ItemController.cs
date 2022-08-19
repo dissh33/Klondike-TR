@@ -7,11 +7,11 @@ namespace Items.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TradableItemController : ControllerBase
+    public class ItemController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public TradableItemController(IMediator mediator)
+        public ItemController(IMediator mediator)
         {
             _mediator = mediator;
         }

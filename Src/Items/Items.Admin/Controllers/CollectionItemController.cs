@@ -39,17 +39,17 @@ public class CollectionItemController : ControllerBase
         return new JsonResult(result);
     }
 
-    [HttpGet("collection")]
-    public async Task<ActionResult<IEnumerable<CollectionItemDto>>> GetByCollection([FromQuery] CollectionItemGetByCollectionQuery request, CancellationToken ct)
+    [HttpGet("collection/{collectionId}")]
+    public async Task<ActionResult<IEnumerable<CollectionItemDto>>> GetByCollection(Guid collectionId, CancellationToken ct)
     {
-        var result = await _mediator.Send(request, ct);
+        var result = await _mediator.Send(new CollectionItemGetByCollectionQuery(collectionId), ct);
         return new JsonResult(result);
     }
 
-    [HttpGet("collection/full")]
-    public async Task<ActionResult<IEnumerable<CollectionItemFullDto>>> GetFullByCollection([FromQuery] CollectionItemGetFullByCollectionQuery request, CancellationToken ct)
+    [HttpGet("collection/full/{collectionId}")]
+    public async Task<ActionResult<IEnumerable<CollectionItemFullDto>>> GetFullByCollection(Guid collectionId, CancellationToken ct)
     {
-        var result = await _mediator.Send(request, ct);
+        var result = await _mediator.Send(new CollectionItemGetFullByCollectionQuery(collectionId), ct);
         return new JsonResult(result);
     }
 

@@ -15,7 +15,15 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<IItemsService, ItemsService>();
 
-builder.Services.AddHttpClient("items");
+builder.Services.AddHttpClient("items", client =>
+{
+    client.BaseAddress = new Uri("api/Item");
+});
+
+builder.Services.AddHttpClient("collection-items", client =>
+{
+    client.BaseAddress = new Uri("api/CollectionItem");
+});
 #endregion
 
 
