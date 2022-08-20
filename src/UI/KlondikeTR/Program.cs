@@ -17,12 +17,7 @@ builder.Services.AddTransient<IItemsService, ItemsService>();
 
 builder.Services.AddHttpClient("items", client =>
 {
-    client.BaseAddress = new Uri("api/Item");
-});
-
-builder.Services.AddHttpClient("collection-items", client =>
-{
-    client.BaseAddress = new Uri("api/CollectionItem");
+    client.BaseAddress = new Uri("https://localhost:7127/api/");
 });
 #endregion
 

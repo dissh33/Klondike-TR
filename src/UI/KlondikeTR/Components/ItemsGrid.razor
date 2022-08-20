@@ -1,5 +1,37 @@
-﻿<h3>ItemsGrid</h3>
+﻿@using KlondikeTR.Interfaces
+@using Offers.Api.Dtos
+@using KlondikeTR.Helpers
+
+@implements IDisposable
+
+@inject IItemsService ItemsService
+
+
+<h3>ItemsGrid</h3>
+
+<div>
+    @foreach (var item in _itemsList)
+    {
+        <div>
+            <img src="@ImgHelper.GetSrc(item.Icon?.FileBinary)" alt="@item.Name"/>
+            <p>@item.Name</p>
+        </div>
+    }
+</div>
 
 @code {
+    private readonly CancellationTokenSource _cts = new();
 
+    private IEnumerable<TradableItemDto> _itemsList = Enumerable.Empty<TradableItemDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _itemsList = await ItemsService.GetAllAvailableItems(_cts.Token);
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+    }
 }

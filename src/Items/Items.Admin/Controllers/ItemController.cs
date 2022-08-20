@@ -17,7 +17,7 @@ namespace Items.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TradableItemDto>>> GetAllActive(CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<TradableItemDto>>> Get(CancellationToken ct)
         {
             var result = await _mediator.Send(new GetAllAvailableItemsQuery(), ct);
             return new JsonResult(result);

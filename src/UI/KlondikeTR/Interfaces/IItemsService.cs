@@ -6,5 +6,5 @@ namespace KlondikeTR.Interfaces;
 public interface IItemsService
 {
     Task<IEnumerable<TradableItemDto>> GetAllAvailableItems(CancellationToken ct);
-    Task<IEnumerable<CollectionItemDto>> GetCollectionItemsItems(Guid collectionId, CancellationToken ct);
+    Task<IEnumerable<CollectionItemDto>> GetCollectionItems(Guid collectionId, CancellationToken ct);
 }
