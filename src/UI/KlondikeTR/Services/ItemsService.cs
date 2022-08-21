@@ -1,8 +1,6 @@
 ﻿using Items.Api.Dtos.CollectionItem;
 using KlondikeTR.Interfaces;
-using Newtonsoft.Json;
-using Offers.Api.Dtos;
-using System.Net.Http.Json;
+using Items.Api.Dtos;
 
 namespace KlondikeTR.Services;
 
@@ -15,11 +13,11 @@ public class ItemsService : IItemsService
         _itemsClient = httpClientFactory.CreateClient("items");
     }
 
-    public async Task<IEnumerable<TradableItemDto>> GetAllAvailableItems(CancellationToken ct)
+    public async Task<GroupedTradableItemsDto> GetAllAvailableItems(CancellationToken ct)
     {
-        var result = await _itemsClient.GetFromJsonAsync<IEnumerable<TradableItemDto>>("Item", ct);
+        var result = await _itemsClient.GetFromJsonAsync<GroupedTradableItemsDto>("Item", ct);
 
-        return result ?? Enumerable.Empty<TradableItemDto>();
+        return result ?? new GroupedTradableItemsDto();
     }
 
     public async Task<IEnumerable<CollectionItemDto>> GetCollectionItems(Guid collectionId, CancellationToken ct)

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Items.Application.Queries;
 
-public class GetAllAvailableItemsHandler : IRequestHandler<GetAllAvailableItemsQuery, IEnumerable<TradableItemDto>>
+public class GetAllAvailableItemsHandler : IRequestHandler<GetAllAvailableItemsQuery, GroupedTradableItemsDto>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class GetAllAvailableItemsHandler : IRequestHandler<GetAllAvailableItemsQ
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TradableItemDto>> Handle(GetAllAvailableItemsQuery request, CancellationToken ct)
+    public async Task<GroupedTradableItemsDto> Handle(GetAllAvailableItemsQuery request, CancellationToken ct)
     {
         var materials = (await _uow.MaterialRepository.GetAllAvailable(ct)).ToList();
         var collections = (await _uow.CollectionRepository.GetAllAvailable(ct)).ToList();
@@ -41,8 +41,12 @@ public class GetAllAvailableItemsHandler : IRequestHandler<GetAllAvailableItemsQ
 
         var materialsDtos = materials.Select(material => _mapper.Map<TradableItemDto>(material));
         var collectionDtos = collections.Select(collection => _mapper.Map<TradableItemDto>(collection));
-
-        var result = materialsDtos.Union(collectionDtos);
+        
+        var result = new GroupedTradableItemsDto
+        {
+            Materials = materialsDtos,
+            Collections = collectionDtos,
+        };
 
         return result;
     }

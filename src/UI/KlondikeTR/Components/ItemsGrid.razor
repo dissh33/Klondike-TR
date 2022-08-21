@@ -1,5 +1,5 @@
 ﻿@using KlondikeTR.Interfaces
-@using Offers.Api.Dtos
+@using Items.Api.Dtos
 @using KlondikeTR.Helpers
 
 @implements IDisposable
@@ -8,16 +8,22 @@
 
 
 <div class="container ms-0 d-flex flex-column border border-1 border-dark bg-dark">
-    <p class="text-light fs-4 fw-light m-2 mb-0">Available Items</p>
+    <p class="text-light fs-3 fw-light m-2 mb-0">Available Items</p>
     <hr class="bg-light m-1 mt-0"/>
-
-    <div class="d-flex flex-row mt-3">
-        @foreach (var item in _itemsList)
+    
+    <p class="text-light fs-5 m-1 mt-3 mb-0">Collections</p>
+    <div class="d-flex flex-row">
+        @foreach (var item in _groupedItems.Collections)
         {
-            <div class="d-flex flex-column m-1">
-                <img class="item-img border border-1 border-secondary" src="@item.Icon?.FileBinary.ToImageSrc()" alt="@item.Name?[..6]"/>
-                <div class="item-name badge bg-secondary text-wrap text-break mt-1"><small>@item.Name</small></div>
-            </div>
+            <Item ItemDto="@item" />
+        }
+    </div>
+    
+    <p class="text-light fs-5 m-1 mt-3 mb-0">Materials</p>
+    <div class="d-flex flex-row">
+        @foreach (var item in _groupedItems.Materials)
+        {
+            <Item ItemDto="@item" />
         }
     </div>
 </div>
@@ -25,11 +31,11 @@
 @code {
     private readonly CancellationTokenSource _cts = new();
 
-    private IEnumerable<TradableItemDto> _itemsList = Enumerable.Empty<TradableItemDto>();
+    private GroupedTradableItemsDto _groupedItems = new();
 
     protected override async Task OnInitializedAsync()
     {
-        _itemsList = await ItemsService.GetAllAvailableItems(_cts.Token);
+        _groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
     }
 
     public void Dispose()
