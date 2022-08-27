@@ -71,3 +71,12 @@ a, .btn-link {
 .item-name {
     width: 90px;
 }
+
+.item-search {
+    height: 30px;
+}
+
+.item-search-icon {
+    width: 30px;
+    height: 30px;
+}
