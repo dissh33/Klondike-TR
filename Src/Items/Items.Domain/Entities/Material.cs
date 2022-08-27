@@ -21,7 +21,7 @@ public class Material : BaseEntity, ITradableItem
     public Material(
         string? name, 
         MaterialType type = MaterialType.Default, 
-        ItemStatus status = ItemStatus.Active, 
+        ItemStatus status = ItemStatus.Available, 
         Guid? id = null, 
         string? externalId = null)
         : base(id, externalId)

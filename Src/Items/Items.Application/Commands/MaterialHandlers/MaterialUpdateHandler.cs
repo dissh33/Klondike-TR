@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Items.Api.Commands.Material;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Materials;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
@@ -21,7 +21,7 @@ public class MaterialUpdateHandler : IRequestHandler<MaterialUpdateCommand, Mate
 
     public async Task<MaterialDto> Handle(MaterialUpdateCommand request, CancellationToken ct)
     {
-        var status = ItemStatus.Active;
+        var status = ItemStatus.Available;
         var type = MaterialType.Default;
 
         if (request.Status != null)

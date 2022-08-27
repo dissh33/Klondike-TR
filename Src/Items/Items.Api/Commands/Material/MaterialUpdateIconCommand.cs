@@ -1,4 +1,4 @@
-﻿using Items.Api.Dtos;
+﻿using Items.Api.Dtos.Materials;
 using MediatR;
 
 namespace Items.Api.Commands.Material;

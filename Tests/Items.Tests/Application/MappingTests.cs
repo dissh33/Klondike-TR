@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using AutoMapper;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Icon;
 using Items.Application.Mapping;
 using Items.Domain.Entities;
 using Xunit;

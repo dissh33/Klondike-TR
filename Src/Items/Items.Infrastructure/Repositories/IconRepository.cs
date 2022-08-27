@@ -58,7 +58,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
     public async Task<IEnumerable<Icon>> GetRange(IEnumerable<Guid> ids, CancellationToken ct)
     {
-        var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
         var whereClause = string.Join(", ", ids.Select(id => $"'{id}'"));
 
         var command = new CommandDefinition(

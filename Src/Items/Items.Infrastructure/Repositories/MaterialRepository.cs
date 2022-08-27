@@ -4,6 +4,7 @@ using Dapper;
 using Items.Api.Queries.Material;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
+using Items.Domain.Enums;
 using Items.Infrastructure.Logging;
 using Serilog;
 
@@ -33,6 +34,22 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         var query = async () => await Connection.QueryAsync<Material>(cmd);
 
         return await Logger.DbCall(query, cmd, Metrics);
+    }
+
+    public async Task<IEnumerable<Material>> GetAllAvailable(CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var activeStatus = (int) ItemStatus.Available;
+
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE status='{activeStatus}'",
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.QueryAsync<Material>(command);
+
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<IEnumerable<Material>> GetByFilter(MaterialGetByFilterQuery filter, CancellationToken ct)

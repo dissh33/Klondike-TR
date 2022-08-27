@@ -1,6 +1,6 @@
 ﻿using Items.Api.Commands;
 using Items.Api.Commands.CollectionItem;
-using Items.Api.Dtos;
+using Items.Api.Dtos.CollectionItem;
 using Items.Api.Queries.CollectionItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -39,10 +39,17 @@ public class CollectionItemController : ControllerBase
         return new JsonResult(result);
     }
 
-    [HttpGet("collection")]
-    public async Task<ActionResult<IEnumerable<CollectionItemDto>>> GetByCollection([FromQuery] CollectionItemGetByCollectionQuery request, CancellationToken ct)
+    [HttpGet("collection/{collectionId}")]
+    public async Task<ActionResult<IEnumerable<CollectionItemDto>>> GetByCollection(Guid collectionId, CancellationToken ct)
     {
-        var result = await _mediator.Send(request, ct);
+        var result = await _mediator.Send(new CollectionItemGetByCollectionQuery(collectionId), ct);
+        return new JsonResult(result);
+    }
+
+    [HttpGet("collection/full/{collectionId}")]
+    public async Task<ActionResult<IEnumerable<CollectionItemFullDto>>> GetFullByCollection(Guid collectionId, CancellationToken ct)
+    {
+        var result = await _mediator.Send(new CollectionItemGetFullByCollectionQuery(collectionId), ct);
         return new JsonResult(result);
     }
 

@@ -1,4 +1,4 @@
-﻿using Items.Api.Dtos;
+﻿using Items.Api.Dtos.Icon;
 using MediatR;
 
 namespace Items.Api.Queries.Icon;

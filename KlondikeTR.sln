@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32113.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{B39FD32F-6BEE-4F23-8C67-64AC64164D45}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B39FD32F-6BEE-4F23-8C67-64AC64164D45}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5CC4FA5-F07E-4842-9D2C-681216FA9FD4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C5CC4FA5-F07E-4842-9D2C-681216FA9FD4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Offers", "Offers", "{D5605DEB-38F7-4C22-94F5-E12DC5C25516}"
 EndProject
@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Application", "Src\It
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Infrastructure", "Src\Items\Items.Infrastructure\Items.Infrastructure.csproj", "{A9D0B4AA-CEA7-40B0-8A7C-87C0FF13330C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Tests", "TestsItems.Tests\Items.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Tests", "Tests\Items.Tests\Items.Tests.csproj", "{33453ACD-5E5F-462F-87A3-354AD045C158}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Items.Db", "Src\Items\Items.Db\Items.Db.csproj", "{A672CFA3-A9FC-4888-ABB3-3360C2FFAA15}"
 EndProject
@@ -52,6 +52,31 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Infrastructure", "Src\Offers\Offers.Infrastructure\Offers.Infrastructure.csproj", "{4288E756-8943-4E73-B77A-143511342245}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offers.Tests", "Tests\Offers.Tests\Offers.Tests.csproj", "{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{8DF8609C-AE74-448B-818E-5DBD7B1178B6}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\grafana.yaml = k8s\grafana.yaml
+		k8s\ingress.yaml = k8s\ingress.yaml
+		k8s\items-depl.yaml = k8s\items-depl.yaml
+		k8s\jenkins-values.yaml = k8s\jenkins-values.yaml
+		k8s\local-pvc.yaml = k8s\local-pvc.yaml
+		k8s\postgres-statefulset.yaml = k8s\postgres-statefulset.yaml
+		k8s\prometheus-values.yaml = k8s\prometheus-values.yaml
+		k8s\seq-values.yaml = k8s\seq-values.yaml
+		k8s\terminal-commands.txt = k8s\terminal-commands.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cloud_env", "cloud_env", "{53208E85-461F-4488-B316-951BB2BCA485}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\cloud_env\cert-manager-prod.yaml = k8s\cloud_env\cert-manager-prod.yaml
+		k8s\cloud_env\cert-manager-staging.yaml = k8s\cloud_env\cert-manager-staging.yaml
+		k8s\cloud_env\elasticsearch.yaml = k8s\cloud_env\elasticsearch.yaml
+		k8s\cloud_env\kibana.yaml = k8s\cloud_env\kibana.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{90213A18-C027-49E9-BF46-11352C037173}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlondikeTR", "src\UI\KlondikeTR\KlondikeTR.csproj", "{1876FDF5-391D-4DB4-A5F6-92CAB7192569}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,6 +160,10 @@ Global
 		{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{702C845D-DE9B-4E15-B00D-17A42D4A3F2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1876FDF5-391D-4DB4-A5F6-92CAB7192569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1876FDF5-391D-4DB4-A5F6-92CAB7192569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1876FDF5-391D-4DB4-A5F6-92CAB7192569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1876FDF5-391D-4DB4-A5F6-92CAB7192569}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +192,9 @@ Global
 		{C69677B0-BD26-4CE7-A6EA-D03CC256EA43} = {D5605DEB-38F7-4C22-94F5-E12DC5C25516}
 		{4288E756-8943-4E73-B77A-143511342245} = {D5605DEB-38F7-4C22-94F5-E12DC5C25516}
 		{702C845D-DE9B-4E15-B00D-17A42D4A3F2E} = {C5CC4FA5-F07E-4842-9D2C-681216FA9FD4}
+		{53208E85-461F-4488-B316-951BB2BCA485} = {8DF8609C-AE74-448B-818E-5DBD7B1178B6}
+		{90213A18-C027-49E9-BF46-11352C037173} = {B39FD32F-6BEE-4F23-8C67-64AC64164D45}
+		{1876FDF5-391D-4DB4-A5F6-92CAB7192569} = {90213A18-C027-49E9-BF46-11352C037173}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2EB99BF-658B-40A0-BA42-F02D33E92507}

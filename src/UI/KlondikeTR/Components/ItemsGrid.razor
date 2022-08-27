@@ -1,0 +1,100 @@
+﻿@using KlondikeTR.Interfaces
+@using Items.Api.Dtos
+@using KlondikeTR.Helpers
+
+@implements IDisposable
+
+@inject IItemsService ItemsService
+
+
+<div class="container ms-0 d-flex flex-column border border-1 border-dark bg-dark">
+    
+    <div class="d-flex flex-row">
+        <p class="text-light fs-3 fw-light m-2 me-1 mb-0">Available Items</p>
+        <input class="item-search flex-grow-1 rounded m-3 me-0 p-2 border border-1 border-secondary bg-light" 
+               @bind-value="_searchText" @bind-value:event="oninput" placeholder="Search..." />
+        <div class="item-search-icon fs-5 text-light text-center mt-3 me-2 bg-secondary rounded border border-1 border-light">
+            <span class="oi oi-magnifying-glass text-center" aria-hidden="true"></span>
+        </div>
+    </div>
+    <hr class="bg-light m-1 mt-0"/>
+    
+    @if (_groupedItems.Collections.Any() || _groupedItems.Materials.Any())
+    {
+        @if (FilteredItems.Any())
+        {
+            <p class="text-light fs-5 m-1 mt-3 mb-0">Founded items</p>
+            <div class="d-flex flex-row">
+                @foreach (var item in FilteredItems)
+                {
+                    <Item ItemDto="@item"/>
+                }
+            </div>
+        }
+
+        <p class="text-light fs-5 m-1 mt-3 mb-0">Collections</p>
+        <div class="d-flex flex-row">
+            @foreach (var item in _groupedItems.Collections)
+            {
+                <Item ItemDto="@item"/>
+            }
+        </div>
+
+        <p class="text-light fs-5 m-1 mt-3 mb-0">Materials</p>
+        <div class="d-flex flex-row">
+            @foreach (var item in _groupedItems.Materials)
+            {
+                <Item ItemDto="@item"/>
+            }
+        </div>
+    }
+    else
+    {
+        <h3 class="text-dark m-5">Loading Items...</h3>
+    }
+</div>
+
+@code {
+    private GroupedTradableItemsDto _groupedItems = new();
+
+    private string _searchText = "";
+    private List<TradableItemDto> FilteredItems => Search();
+
+    private readonly CancellationTokenSource _cts = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
+    }
+
+    private List<TradableItemDto> Search()
+    {
+        var allItems = _groupedItems.Collections.ToList();
+        allItems.AddRange(_groupedItems.Materials.ToList());
+
+        return allItems.Where(MatchSearchWords).ToList();
+    }
+
+    private bool MatchSearchWords(TradableItemDto item)
+    {
+        var match = false;
+
+        var nameWords = item.Name?.Split(' ');
+        var searchWords = _searchText.Split(' ').Where(value => value.Length >= 3).ToArray();
+
+        for (var i = 0; i < nameWords?.Length; i++)
+        {
+            if (searchWords.Length == 0 || searchWords.Length < i) continue;
+
+            if (nameWords != null && nameWords[i].Contains(searchWords[i])) match = true;
+        }
+        
+        return match;
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+    }
+}

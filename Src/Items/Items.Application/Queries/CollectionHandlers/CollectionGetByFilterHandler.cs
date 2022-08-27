@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Collection;
 using Items.Api.Queries.Collection;
 using Items.Application.Contracts;
 using MediatR;

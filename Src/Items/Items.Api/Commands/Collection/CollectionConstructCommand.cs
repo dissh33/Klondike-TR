@@ -1,4 +1,6 @@
-﻿using Items.Api.Dtos;
+﻿using Items.Api.Dtos.Collection;
+using Items.Api.Dtos.CollectionItem;
+using Items.Api.Dtos.Icon;
 using MediatR;
 
 namespace Items.Api.Commands.Collection;

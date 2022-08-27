@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Items.Api.Commands.Collection;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Collection;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
@@ -21,7 +21,7 @@ public class CollectionAddHandler : IRequestHandler<CollectionAddCommand, Collec
 
     public async Task<CollectionDto> Handle(CollectionAddCommand request, CancellationToken ct)
     {
-        var status = ItemStatus.Active;
+        var status = ItemStatus.Available;
 
         if (request.Status != null)
         {

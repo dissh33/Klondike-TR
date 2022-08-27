@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Materials;
 using Items.Domain.Entities;
 
 namespace Items.Application.Mapping;

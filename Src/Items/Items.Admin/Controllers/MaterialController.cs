@@ -1,6 +1,6 @@
 ﻿using Items.Api.Commands;
 using Items.Api.Commands.Material;
-using Items.Api.Dtos;
+using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
