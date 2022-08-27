@@ -1,0 +1,18 @@
+﻿@using Offers.Api.Dtos
+
+<div>
+    <div>
+        <img alt="@_offerItem.TradableItem?.Name"/>
+    </div>
+    <div>@_offerItem.TradableItem?.Name</div>
+    <div>x</div>
+    <div>@_offerItem.Amount</div>
+</div>
+
+@code {
+    private OfferItemDto _offerItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}
