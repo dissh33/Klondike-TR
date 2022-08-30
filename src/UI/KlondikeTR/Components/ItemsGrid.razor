@@ -1,6 +1,8 @@
 ﻿@using KlondikeTR.Interfaces
 @using Items.Api.Dtos
 @using KlondikeTR.Helpers
+@using Offers.Api.Dtos
+@using TradableItemDto = Items.Api.Dtos.TradableItemDto
 
 @implements IDisposable
 
@@ -27,7 +29,7 @@
             <div class="d-flex flex-row">
                 @foreach (var item in FilteredItems)
                 {
-                    <Item ItemDto="@item"/>
+                    <Item ItemDto="@item" OnSelect="@PushSelectedItem"/>
                 }
             </div>
         }
@@ -36,7 +38,7 @@
         <div class="d-flex flex-row">
             @foreach (var item in _groupedItems.Collections)
             {
-                <Item ItemDto="@item"/>
+                <Item ItemDto="@item" OnSelect="@PushSelectedItem"/>
             }
         </div>
 
@@ -44,7 +46,7 @@
         <div class="d-flex flex-row">
             @foreach (var item in _groupedItems.Materials)
             {
-                <Item ItemDto="@item"/>
+                <Item ItemDto="@item" OnSelect="@PushSelectedItem"/>
             }
         </div>
     }
@@ -55,6 +57,11 @@
 </div>
 
 @code {
+    [Parameter]
+    public Action<TradableItemDto>? OnSelectItem { get; set; }
+
+    private TradableItemDto _selectedItem = new();
+
     private GroupedTradableItemsDto _groupedItems = new();
 
     private string _searchText = "";
@@ -67,7 +74,7 @@
         _groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
     }
 
-    private List<TradableItemDto> Search()
+    List<TradableItemDto> Search()
     {
         var allItems = _groupedItems.Collections.ToList();
         allItems.AddRange(_groupedItems.Materials.ToList());
@@ -75,7 +82,7 @@
         return allItems.Where(MatchSearchWords).ToList();
     }
 
-    private bool MatchSearchWords(TradableItemDto item)
+    bool MatchSearchWords(TradableItemDto item)
     {
         var match = false;
 
@@ -90,6 +97,11 @@
         }
         
         return match;
+    }
+
+    void PushSelectedItem(TradableItemDto selectedItem)
+    {
+        OnSelectItem?.Invoke(selectedItem);
     }
 
     public void Dispose()

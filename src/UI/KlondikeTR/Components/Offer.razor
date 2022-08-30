@@ -1,8 +1,12 @@
-﻿<h3>Offer</h3>
+﻿@using Offers.Api.Dtos
+@using Items.Api.Dtos
+@using TradableItemDto = Items.Api.Dtos.TradableItemDto
+
+<h3>Offer</h3>
 
 @if (_gridVisible)
 {
-    <ItemsGrid />
+    <ItemsGrid OnSelectItem="@AddToOffer"/>
 }
 else
 {
@@ -11,12 +15,24 @@ else
     </div>
 }
 
+@if (_tradableItem != null)
+{
+    <Item ItemDto="@_tradableItem"/>
+}
 
 @code {
+    private TradableItemDto? _tradableItem;
+
     private bool _gridVisible;
 
     void ShowItemsGrid()
     {
         _gridVisible = true;
+    }
+
+    void AddToOffer(TradableItemDto tradableItem)
+    {
+        _tradableItem = tradableItem;
+        StateHasChanged();
     }
 }
