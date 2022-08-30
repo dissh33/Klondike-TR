@@ -2,7 +2,7 @@
 {
     public static class ImgHelper
     {
-        public static string ToImageSrc(this byte[]? data)
+        public static string ToImgSrc(this byte[]? data)
         {
             var stringData = Convert.ToBase64String(data ?? Array.Empty<byte>());
 

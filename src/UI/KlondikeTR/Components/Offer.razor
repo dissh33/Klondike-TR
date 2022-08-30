@@ -1,5 +1,22 @@
 ﻿<h3>Offer</h3>
 
-@code {
+@if (_gridVisible)
+{
+    <ItemsGrid />
+}
+else
+{
+    <div type="button" @onclick="ShowItemsGrid" class="m-1">
+        <span class="fs-1 text-dark p-3 border border-1 border-dark bg-success rounded oi oi-plus text-center" aria-hidden="true"></span>
+    </div>
+}
 
+
+@code {
+    private bool _gridVisible;
+
+    void ShowItemsGrid()
+    {
+        _gridVisible = true;
+    }
 }
