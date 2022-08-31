@@ -1,8 +1,7 @@
 ﻿@using KlondikeTR.Interfaces
-@using Items.Api.Dtos
 @using KlondikeTR.Helpers
 @using Offers.Api.Dtos
-@using TradableItemDto = Items.Api.Dtos.TradableItemDto
+@using Items.Api.Dtos
 
 @implements IDisposable
 
@@ -19,6 +18,7 @@
             <span class="oi oi-magnifying-glass text-center" aria-hidden="true"></span>
         </div>
     </div>
+
     <hr class="bg-light m-1 mt-0"/>
     
     @if (_groupedItems.Collections.Any() || _groupedItems.Materials.Any())
@@ -54,6 +54,7 @@
     {
         <h3 class="text-dark m-5">Loading Items...</h3>
     }
+
 </div>
 
 @code {

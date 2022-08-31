@@ -6,5 +6,5 @@ public record OfferItemDto
     public int Type { get; init; }
 
     public Guid? OfferPositionId { get; init; }
-    public TradableItemDto? TradableItem { get; init; }
+    public Guid TradableItemId { get; set; }
 }
