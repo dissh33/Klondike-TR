@@ -27,8 +27,8 @@ public class ValidationExceptionTests
 
         var actual = new ValidationException(failures).Errors;
 
-        actual.Keys.Should().BeEquivalentTo(new string[] { "Age" });
-        actual["Age"].Should().BeEquivalentTo(new string[] { "must be over 18" });
+        actual.Keys.Should().BeEquivalentTo(new[] { "Age" });
+        actual["Age"].Should().BeEquivalentTo(new[] { "must be over 18" });
     }
 
     [Fact]
@@ -46,15 +46,15 @@ public class ValidationExceptionTests
 
         var actual = new ValidationException(failures).Errors;
 
-        actual.Keys.Should().BeEquivalentTo(new string[] { "Password", "Age" });
+        actual.Keys.Should().BeEquivalentTo(new[] { "Password", "Age" });
 
-        actual["Age"].Should().BeEquivalentTo(new string[]
+        actual["Age"].Should().BeEquivalentTo(new[]
         {
                 "must be 25 or younger",
                 "must be 18 or older",
         });
 
-        actual["Password"].Should().BeEquivalentTo(new string[]
+        actual["Password"].Should().BeEquivalentTo(new[]
         {
                 "must contain lower case letter",
                 "must contain upper case letter",

@@ -9,5 +9,5 @@ public class OfferPositionDto
 
     public int Type { get; init; }
 
-    public IEnumerable<OfferItemDto> OfferItems { get; init; } = Enumerable.Empty<OfferItemDto>();
+    public IEnumerable<OfferItemDto> OfferItems { get; set; } = Enumerable.Empty<OfferItemDto>();
 }

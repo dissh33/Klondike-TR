@@ -7,6 +7,7 @@ public interface ITradableItem
 
     public Icon? Icon { get; }  
     public Guid IconId { get; }
+
     void AddIcon(
         string? title,
         byte[]? fileBinary,

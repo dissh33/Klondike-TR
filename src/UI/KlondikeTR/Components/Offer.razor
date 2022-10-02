@@ -3,35 +3,34 @@
 
 <h3>Offer</h3>
 
-@if (_gridVisible)
+
+@foreach (var position in _offerPositions)
 {
-    <ItemsGrid OnSelectItem="@AddToOffer"/>
-}
-else
-{
-    <div type="button" @onclick="ShowItemsGrid" class="m-1">
-        <span class="fs-1 text-dark p-3 border border-1 border-dark bg-success rounded oi oi-plus text-center" aria-hidden="true"></span>
-    </div>
+    <OfferPosition OnAddOfferPosition="AddPositionToOffer"/>
 }
 
-@if (_tradableItem != null)
-{
-    <Item ItemDto="@_tradableItem"/>
-}
+<div type="button" @onclick="AddEmptyOfferPosition" class="m-1 border border-1 border-dark bg-warning rounded">
+    <div class="fs-1 text-dark p-3 oi oi-plus text-center" aria-hidden="true"></div>
+</div>
+
 
 @code {
+    private List<OfferPositionDto> _offerPositions = new();
+
     private TradableItemDto? _tradableItem;
 
-    private bool _gridVisible;
+    private bool _positionsVisible;
 
-    void ShowItemsGrid()
+    void AddEmptyOfferPosition()
     {
-        _gridVisible = true;
+        var position = new OfferPositionDto();
+        _offerPositions.Add(position);
     }
 
-    void AddToOffer(TradableItemDto tradableItem)
+    void AddPositionToOffer(OfferPositionDto offerPosition)
     {
-        _tradableItem = tradableItem;
+        _offerPositions.Add(offerPosition);
+
         StateHasChanged();
     }
 }

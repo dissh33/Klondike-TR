@@ -10,11 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddTransient<IItemsService, ItemsService>();
 
 builder.Services.AddHttpClient("items", client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration.GetSection("ItemsApi").Value);
+    client.BaseAddress = new Uri(builder.Configuration["ItemsApiUrl"]);
 });
 #endregion
 
