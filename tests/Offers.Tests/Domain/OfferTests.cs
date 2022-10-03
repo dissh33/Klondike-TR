@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
-using Offers.Domain.TypedIds;
 using Xunit;
 
 namespace Offers.Tests.Domain;
