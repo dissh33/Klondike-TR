@@ -11,7 +11,8 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
     public OfferRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics) 
         : base(transaction, logger, metrics)
     {
-
     }
     
+
+
 }

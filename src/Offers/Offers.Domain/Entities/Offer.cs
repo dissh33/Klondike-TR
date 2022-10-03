@@ -20,7 +20,7 @@ public class Offer : BaseEntity
 
     private Offer()
     {
-        Id = new OfferId(Guid.NewGuid());
+        Id = new OfferId();
     }
 
     public Offer(

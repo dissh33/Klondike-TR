@@ -25,7 +25,7 @@ public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto>
         var binary = fileStream.GetBuffer();
 
         var entity = new Icon(
-            request.Title,
+            request.Title ?? string.Empty,
             binary,
             request.File.FileName,
             request.Id

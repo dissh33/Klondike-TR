@@ -16,7 +16,7 @@ public class OfferItem : BaseEntity
 
     private OfferItem()
     {
-        Id = new OfferItemId(Guid.NewGuid());
+        Id = new OfferItemId();
     }
 
     public OfferItem(

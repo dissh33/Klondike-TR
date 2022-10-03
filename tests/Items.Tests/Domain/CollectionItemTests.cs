@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Items.Domain.Entities;
 using Xunit;
@@ -7,18 +8,29 @@ namespace Items.Tests.Domain;
 
 public class CollectionItemTests
 {
-    [Fact]
-    public void CollectionItem_ShouldConstruct_WithVariousParameters()
+    [Theory]
+    [MemberData(nameof(CollectionItemConstructorParameters))]
+    public void CollectionItem_ShouldConstruct_WithVariousParameters(
+        string? name,
+        Guid collectionId,
+        Guid? id,
+        string? externalId)
     {
-        var collectionItem1 = new CollectionItem("N1", Guid.Empty);
-        var collectionItem2 = new CollectionItem("N2", Guid.Empty, Guid.Empty);
-        var collectionItem3 = new CollectionItem("N3", Guid.Empty, Guid.Empty, externalId: "newID");
+        var collectionItem = new CollectionItem(name, collectionId, id, externalId);
 
-        collectionItem1.Should().BeOfType(typeof(CollectionItem));
-        collectionItem2.Should().BeOfType(typeof(CollectionItem));
-        collectionItem3.Should().BeOfType(typeof(CollectionItem));
+        collectionItem.Should().BeOfType(typeof(CollectionItem));
     }
 
+    private static IEnumerable<object?[]> CollectionItemConstructorParameters()
+    {
+        return new List<object?[]>
+        {
+            new object?[] { "n1", Guid.Empty, null, null },
+            new object?[] { "n2", Guid.Empty, Guid.Empty, null },
+            new object?[] { "n3", Guid.Empty, Guid.Empty, "eID" },
+        };
+    }
+       
     [Fact]
     public void CollectionItem_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
@@ -32,7 +44,7 @@ public class CollectionItemTests
     }
 
     [Fact]
-    public void CollectionItem_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
+    public void CollectionItem_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
     {
         var id = Guid.NewGuid();
         var collectionItem = new CollectionItem("N", Guid.Empty, id);

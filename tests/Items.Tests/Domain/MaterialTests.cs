@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security;
 using FluentAssertions;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
@@ -8,39 +10,51 @@ namespace Items.Tests.Domain;
 
 public class MaterialTests
 {
-    [Fact]
-    public void Material_ShouldConstruct_WithVariousParameters()
+    [Theory]
+    [MemberData(nameof(MaterialConstructorParameters))]
+    public void Material_ShouldConstruct_WithVariousParameters(
+        string? name,
+        MaterialType type,
+        ItemStatus status,
+        Guid? id,
+        string? externalId)
     {
-        var material = new Material("N1", MaterialType.Specific);
-        var material1 = new Material("N2", id: Guid.Empty);
-        var material2 = new Material("N3", id: Guid.Empty, externalId: "newID");
-        var material3 = new Material("N5", MaterialType.Specific, ItemStatus.Removed, Guid.Empty, "E");
+        var material = new Material(name, type, status, id, externalId);
 
         material.Should().BeOfType(typeof(Material));
-        material1.Should().BeOfType(typeof(Material));
-        material2.Should().BeOfType(typeof(Material));
-        material3.Should().BeOfType(typeof(Material));
+    }
+
+    private static IEnumerable<object?[]> MaterialConstructorParameters()
+    {
+        return new List<object?[]>
+        {
+            new object?[] { "n1", default, default, null, null },
+            new object?[] { "n2", MaterialType.Specific, default, null, null },
+            new object?[] { "n3", MaterialType.Specific, ItemStatus.Disabled, null, null },
+            new object?[] { "n4", default, default, Guid.Empty, null },
+            new object?[] { "n5", MaterialType.Specific, ItemStatus.Disabled, Guid.Empty, "eID" },
+        };
     }
 
     [Fact]
     public void Material_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
-        var collection1 = new Material("N");
-        var collection2 = new Material("N");
+        var material1 = new Material("N");
+        var material2 = new Material("N");
 
-        collection1.Id.Should().NotBeEmpty();
-        collection2.Id.Should().NotBeEmpty();
+        material1.Id.Should().NotBeEmpty();
+        material2.Id.Should().NotBeEmpty();
 
-        collection1.Id.Should().NotBe(collection2.Id);
+        material1.Id.Should().NotBe(material2.Id);
     }
 
     [Fact]
-    public void Material_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
+    public void Material_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
     {
         var id = Guid.NewGuid();
-        var collection = new Material("N", id: id);
+        var material = new Material("N", id: id);
         
-        collection.Id.Should().Be(id);
+        material.Id.Should().Be(id);
     }
 
     [Fact]
@@ -53,11 +67,11 @@ public class MaterialTests
     }
 
     [Fact]
-    public void Material_ShouldConstruct_WithSpecifiedMaterialTypeAndItemStatus_WhenParametersPassedThroughConstructor()
+    public void Material_ShouldConstruct_WithSpecifiedMaterialTypeAndItemStatus_WhenTypeAndStatusPassed()
     {
         var type = MaterialType.Specific;
         var status = ItemStatus.Disabled;
-        var material = new Material("N", type:type, status: status);
+        var material = new Material("N", type: type, status: status);
 
         material.Type.Should().HaveFlag(type);
         material.Status.Should().HaveFlag(status);

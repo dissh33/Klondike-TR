@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Items.Domain.Entities;
 using Xunit;
@@ -7,17 +8,28 @@ namespace Items.Tests.Domain;
 
 public class IconTests
 {
-    [Fact]
-    public void Icon_ShouldConstruct_WithVariousParameters()
+    [Theory]
+    [MemberData(nameof(IconConstructorParameters))]
+    public void Icon_ShouldConstruct_WithVariousParameters(
+        string title,
+        byte[] fileBinary,
+        string fileName,
+        Guid? id,
+        string? externalId)
     {
-        var id = Guid.NewGuid();
-        var icon1 = new Icon("T", Array.Empty<byte>(), "F", id);
-        var icon2 = new Icon("T2", Array.Empty<byte>(), "F2", externalId: "newid");
-        var icon3 = new Icon(Guid.Empty);
+        var icon = new Icon(title, fileBinary, fileName, id, externalId);
 
-        icon1.Should().BeOfType(typeof(Icon));
-        icon2.Should().BeOfType(typeof(Icon));
-        icon3.Should().BeOfType(typeof(Icon));
+        icon.Should().BeOfType(typeof(Icon));
+    }
+
+    private static IEnumerable<object?[]> IconConstructorParameters()
+    {
+        return new List<object?[]>
+        {
+            new object?[] { "t1", Array.Empty<byte>(), "f1", Guid.Empty, "eID" },
+            new object?[] { "t2", null, null, null, "eID" },
+            new object?[] { null , null, null, Guid.Empty, "eID" },
+        };
     }
 
     [Fact]
@@ -33,7 +45,7 @@ public class IconTests
     }
 
     [Fact]
-    public void Icon_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
+    public void Icon_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
     {
         var id = Guid.NewGuid();
         var icon = new Icon("T", Array.Empty<byte>(), "F", id);
