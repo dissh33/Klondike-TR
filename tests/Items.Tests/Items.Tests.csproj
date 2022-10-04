@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\Src\Items\Items.Application\Items.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Commands\Materials\" />
+  </ItemGroup>
+
 </Project>

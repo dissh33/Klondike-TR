@@ -32,8 +32,21 @@ public class OfferItemTests
         };
     }
 
-    public void OfferItem_ShouldConstruct_EveryTimeWithNewId_WhenIdNotSpecified()
+    [Fact]
+    public void OfferItem_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
+        var item1 = new OfferItem(new OfferPositionId(), Guid.Empty, 1, default);
+        var item2 = new OfferItem(new OfferPositionId(), Guid.Empty, 1, default);
+        
+        item1.Id.Should().NotBe(item2.Id);
+    }
 
+    [Fact]
+    public void OfferItem_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
+    {
+        var id = new OfferItemId(Guid.NewGuid());
+        var offerItem = new OfferItem(new OfferPositionId(), Guid.Empty, 1, default, id.Value);
+
+        offerItem.Id.Should().Be(id);
     }
 }

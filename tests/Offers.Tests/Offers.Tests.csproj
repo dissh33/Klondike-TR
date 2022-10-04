@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Offers\Offers.Application\Offers.Application.csproj" />
     <ProjectReference Include="..\..\src\Offers\Offers.Domain\Offers.Domain.csproj" />
   </ItemGroup>
