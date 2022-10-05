@@ -12,8 +12,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly ILogger _logger;
     private readonly IMetrics _metrics;
+    private readonly IConfiguration _configuration;
 
-    private readonly IDbConnection _connection;
+    private IDbConnection _connection;
     private IDbTransaction _transaction;
     private Guid _transactionId;
 
@@ -21,16 +22,23 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     {
         _logger = logger;
         _metrics = metrics;
+        _configuration = configuration;
 
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-        _connection = new NpgsqlConnection(connectionString);
-        _connection.Open();
+        CreateConnection();
+        _connection!.Open();
         _metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter);
 
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
         _logger.Information("Begin transaction {@id}", _transactionId);
+    }
+
+    public IDbConnection CreateConnection()
+    {
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+        _connection = new NpgsqlConnection(connectionString);
+
+        return _connection;
     }
 
     private IIconRepository? _iconRepository;
@@ -90,6 +98,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
 
     private bool _disposed;
+
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed && disposing)

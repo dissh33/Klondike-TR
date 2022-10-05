@@ -14,11 +14,11 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
     protected const int SQL_TIMEOUT = 3600;
     protected const string SCHEMA_NAME = "public";
 
-    protected IDbTransaction Transaction { get; }
-    protected ILogger Logger { get; }
-    protected IMetrics Metrics { get; }
+    public IDbTransaction Transaction { get; }
+    public ILogger Logger { get; }
+    public IMetrics Metrics { get; }
     
-    protected IDbConnection? Connection { get; }
+    public IDbConnection? Connection { get; }
 
     protected string TableName { get; }
 
