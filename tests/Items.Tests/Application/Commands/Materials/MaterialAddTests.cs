@@ -40,7 +40,7 @@ public class MaterialAddTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task MaterialAddHandler_ShouldAddNewMaterialToMaterialsSet()
+    public async Task ShouldAddNewMaterialToMaterialsSet()
     {
         //act
         await _sut.Handle(_command, CancellationToken.None);
@@ -52,7 +52,7 @@ public class MaterialAddTests : MaterialTestsSetupBase
 
 
     [Fact]
-    public async Task MaterialAddHandler_ShouldReturnMaterialDtoFromCommand()
+    public async Task ShouldAddAndReturnMaterialDto_WithValuesFromCommand() 
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
@@ -66,7 +66,7 @@ public class MaterialAddTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task MaterialAddHandler_ShouldReturnAddedMaterialDto() 
+    public async Task ShouldReturnAddedMaterialDto() 
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
@@ -78,7 +78,7 @@ public class MaterialAddTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task MaterialAddHandler_ShouldCommitOnce()
+    public async Task ShouldCommitOnce()
     {
         //act
         await _sut.Handle(_command, CancellationToken.None);

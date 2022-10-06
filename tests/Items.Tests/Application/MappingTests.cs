@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AutoMapper;
 using Items.Api.Dtos.Collection;

@@ -1,11 +1,7 @@
 ﻿using System;
-using AutoMapper;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
-using Items.Application.Mapping;
 using Items.Application.QueryHandlers.MaterialHandlers;
-using Items.Tests.Application.Mocks;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using FluentAssertions;
@@ -28,7 +24,7 @@ public class MaterialGetByIdTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task MaterialGetByIdHandler_ShouldReturnCorrectMaterialDto_WhenMaterialExists()
+    public async Task ShouldReturnCorrectMaterialDto_WhenMaterialExists()
     {
         //arrange
         var id = Guid.NewGuid();
@@ -46,7 +42,7 @@ public class MaterialGetByIdTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task MaterialGetByIdHandler_ShouldReturnNull_WhenMaterialDoesNotExists()
+    public async Task ShouldReturnNull_WhenMaterialDoesNotExists()
     {
         //arrange
         var request = new MaterialGetByIdQuery(Guid.Empty);
@@ -61,12 +57,12 @@ public class MaterialGetByIdTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task MaterialGetByIdHandler_ShouldNotCommit()
+    public async Task ShouldNotCommit()
     {
         //act
         await _sut.Handle(new MaterialGetByIdQuery(Guid.Empty), CancellationToken.None);
-        
+
         //assert
-        _uow.Received(0).Commit();
+        _uow.DidNotReceiveWithAnyArgs().Commit();
     }
 }
