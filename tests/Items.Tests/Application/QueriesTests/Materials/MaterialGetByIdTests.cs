@@ -1,24 +1,23 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
 using Items.Application.QueryHandlers.MaterialHandlers;
-using System.Threading.Tasks;
-using System.Threading;
-using FluentAssertions;
-using Items.Domain.Entities;
 using Items.Domain.Enums;
+using Items.Tests.Application.Setups;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
-using Items.Tests.Application.Setups;
 
-namespace Items.Tests.Application.Queries.Materials;
+namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetByIdTests : MaterialTestsSetupBase
+public class IconGetByIdTests : MaterialTestsSetupBase
 {
     private readonly MaterialGetByIdHandler _sut;
 
-    public MaterialGetByIdTests()
+    public IconGetByIdTests()
     {
         _sut = new MaterialGetByIdHandler(_uow, _mapper);
     }
@@ -29,7 +28,7 @@ public class MaterialGetByIdTests : MaterialTestsSetupBase
         //arrange
         var id = Guid.NewGuid();
         var request = new MaterialGetByIdQuery(id);
-        var materialResult = new Material("n1", MaterialType.Default, ItemStatus.Disabled, id);
+        var materialResult = new Items.Domain.Entities.Material("n1", MaterialType.Default, ItemStatus.Disabled, id);
 
         _uow.MaterialRepository.GetById(id, CancellationToken.None).Returns(materialResult);
 

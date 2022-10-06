@@ -14,9 +14,9 @@ using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.Commands.Materials;
+namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class MaterialAddTests : MaterialTestsSetupBase
+public class IconAddTests : MaterialTestsSetupBase
 {
     private readonly MaterialAddHandler _sut;
     private readonly MaterialGetAllHandler _getAll;
@@ -24,7 +24,7 @@ public class MaterialAddTests : MaterialTestsSetupBase
 
     private readonly MaterialAddCommand _command;
 
-    public MaterialAddTests()
+    public IconAddTests()
     {
         _sut = new MaterialAddHandler(_uow, _mapper);
         _getAll = new MaterialGetAllHandler(_uow, _mapper);

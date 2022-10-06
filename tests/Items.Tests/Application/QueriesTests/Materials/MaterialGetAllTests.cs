@@ -10,13 +10,13 @@ using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.Queries.Materials;
+namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetAllTests : MaterialTestsSetupBase
+public class IconGetAllTests : MaterialTestsSetupBase
 {
     private readonly MaterialGetAllHandler _sut;
 
-    public MaterialGetAllTests()
+    public IconGetAllTests()
     {
         _sut = new MaterialGetAllHandler(_uow, _mapper);
     }

@@ -10,7 +10,7 @@ namespace Items.Tests.Application.Mocks;
 
 internal static class IconRepositoryMock
 {
-    public static IEnumerable<Icon> FakeData => SeedData();
+    public static IEnumerable<Icon> InitialFakeDataSet => SeedData();
 
     private static IEnumerable<Icon> SeedData()
     {
@@ -18,7 +18,7 @@ internal static class IconRepositoryMock
 
         for (int i = 0; i < 5; i++)
         {
-            var icon = new Icon($"t{i}", Array.Empty<byte>(), $"f{i}", Guid.NewGuid());
+            var icon = new Icon($"title{i}-{i}", Array.Empty<byte>(), $"file-name{i}-{i}", Guid.NewGuid());
             data.Add(icon);
         }
 
@@ -29,10 +29,33 @@ internal static class IconRepositoryMock
     {
         var repository = Substitute.For<IIconRepository>();
 
-        repository.GetAll(CancellationToken.None).Returns(FakeData);
+        var fakeDataSet = SeedData().ToList();
 
-        repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!
-            .Returns(call => FakeData.FirstOrDefault(icon => icon.Id == call.Arg<Guid>()));
+        repository.GetAll(CancellationToken.None).Returns(fakeDataSet);
+
+        repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
+            fakeDataSet.FirstOrDefault(fake => fake.Id == call.Arg<Guid>()));
+
+        repository.Insert(Arg.Any<Icon>(), CancellationToken.None).Returns(async call =>
+        {
+            var icon = call.Arg<Icon>();
+
+            fakeDataSet.Add(icon);
+
+            return await repository.GetById(icon.Id, CancellationToken.None);
+        });
+
+        repository.Update(Arg.Any<Icon>(), CancellationToken.None).Returns(async call =>
+        {
+            var icon = call.Arg<Icon>();
+
+            var iconFromSet = fakeDataSet.First(fake => fake.Id == icon.Id);
+
+            fakeDataSet.Remove(iconFromSet);
+            fakeDataSet.Add(icon);
+
+            return await repository.GetById(icon.Id, CancellationToken.None);
+        });
 
         return repository;
     }

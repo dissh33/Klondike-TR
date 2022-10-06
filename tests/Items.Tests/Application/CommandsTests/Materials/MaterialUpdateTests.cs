@@ -1,59 +1,59 @@
-﻿using Items.Api.Commands.Material;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Items.Api.Commands.Material;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
 using Items.Application.CommandHandlers.MaterialHandlers;
 using Items.Application.QueryHandlers.MaterialHandlers;
-using Items.Tests.Application.Mocks;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using System.Linq;
-using FluentAssertions;
 using Items.Domain.Enums;
+using Items.Tests.Application.Mocks;
 using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.Commands.Materials;
+namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class MaterialUpdateStatusTests : MaterialTestsSetupBase
+public class IconUpdateTests : MaterialTestsSetupBase
 {
-    private readonly MaterialUpdateStatusHandler _sut;
+    private readonly MaterialUpdateHandler _sut;
     private readonly MaterialGetAllHandler _getAll;
     private readonly MaterialGetByIdHandler _getById;
 
-    private readonly MaterialUpdateStatusCommand _command;
+    private readonly MaterialUpdateCommand _command;
 
-    public MaterialUpdateStatusTests()
+    public IconUpdateTests()
     {
-        _sut = new MaterialUpdateStatusHandler(_uow, _mapper);
+        _sut = new MaterialUpdateHandler(_uow, _mapper);
         _getAll = new MaterialGetAllHandler(_uow, _mapper);
         _getById = new MaterialGetByIdHandler(_uow, _mapper);
 
         var fakeId = _getAll.Handle(new MaterialGetAllQuery(), CancellationToken.None).GetAwaiter().GetResult().First().Id;
 
-        _command = new MaterialUpdateStatusCommand()
+        _command = new MaterialUpdateCommand
         {
             Id = fakeId,
-            Status = (int) ItemStatus.Removed,
+            IconId = Guid.NewGuid(),
+            Name = "update",
+            Type = (int) MaterialType.Specific,
+            Status = (int) ItemStatus.Disabled,
         };
     }
 
     [Fact]
-    public async Task ShouldUpdateAndReturnMaterialDto_WithNewIconButSameRestValues()
+    public async Task ShouldUpdateAndReturnMaterialDto_WithValuesFromCommand()
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
-
+        
         //assert
         actual.Should().BeOfType<MaterialDto>();
-
+        actual.IconId.Should().Be(_command.IconId);
+        actual.Type.Should().Be(_command.Type);
         actual.Status.Should().Be(_command.Status);
-        actual.Id.Should().Be(_command.Id);
-
-        actual.IconId.Should().Be(MaterialRepositoryMock.InitialFakeDataSet.First().IconId);
-        actual.Name.Should().Be(MaterialRepositoryMock.InitialFakeDataSet.First().Name);
-        actual.Type.Should().Be((int)MaterialRepositoryMock.InitialFakeDataSet.First().Type);
+        actual.Name.Should().Be(_command.Name);
     }
 
     [Fact]

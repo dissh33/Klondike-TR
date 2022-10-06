@@ -1,20 +1,19 @@
-﻿using Items.Api.Commands.Material;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Items.Api.Commands.Material;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
 using Items.Application.CommandHandlers.MaterialHandlers;
 using Items.Application.QueryHandlers.MaterialHandlers;
-using Items.Domain.Enums;
 using Items.Tests.Application.Mocks;
 using Items.Tests.Application.Setups;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using System.Linq;
-using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.Commands.Materials;
+namespace Items.Tests.Application.CommandsTests.Materials;
 
 public class MaterialUpdateIconTests : MaterialTestsSetupBase
 {

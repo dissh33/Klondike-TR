@@ -1,16 +1,15 @@
 ﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
 using Items.Application.QueryHandlers.MaterialHandlers;
-using Items.Tests.Application.Mocks;
-using System.Threading.Tasks;
-using System.Threading;
-using FluentAssertions;
 using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.Queries.Materials;
+namespace Items.Tests.Application.QueriesTests.Materials;
 
 public class MaterialGetByFilterTests : MaterialTestsSetupBase
 {
