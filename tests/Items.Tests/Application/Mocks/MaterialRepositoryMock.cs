@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Items.Api.Queries.Material;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
@@ -19,7 +20,7 @@ public static class MaterialRepositoryMock
 
         for (int i = 0; i < 3; i++)
         {
-            var material = new Material($"n{i}", MaterialType.Default, ItemStatus.Disabled, Guid.NewGuid());
+            var material = new Material($"name{i}-{i}", MaterialType.Default, ItemStatus.Disabled, Guid.NewGuid());
             data.Add(material);
         }
 
@@ -35,7 +36,18 @@ public static class MaterialRepositoryMock
         repository.GetAll(CancellationToken.None).Returns(fakeDataSet);
 
         repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call => 
-            fakeDataSet.FirstOrDefault(material => material.Id == call.Arg<Guid>()));
+            fakeDataSet.FirstOrDefault(fake => fake.Id == call.Arg<Guid>()));
+
+        repository.GetByFilter(Arg.Any<MaterialGetByFilterQuery>(), CancellationToken.None).Returns(call =>
+        {
+            var filter = call.Arg<MaterialGetByFilterQuery>();
+
+            return fakeDataSet.Where(fake =>
+                (fake.Name is null || filter.Name is null || fake.Name.ToLower().Contains(filter.Name.ToLower())) &&
+                (filter.Type is null || fake.Type == (MaterialType) filter.Type) &&
+                (filter.Status is null || fake.Status == (ItemStatus) filter.Status) && 
+                filter.StartDate is null && filter.EndDate is null);
+        });
 
         repository.Insert(Arg.Any<Material>(), CancellationToken.None).Returns(async call =>
         {

@@ -76,7 +76,7 @@ public class MaterialUpdateStatusTests : MaterialTestsSetupBase
         var all = await _getAll.Handle(new MaterialGetAllQuery(), CancellationToken.None);
 
         //assert
-        all.Should().HaveCount(MaterialRepositoryMock.InitialFakeDataSet.Count()-1);
+        all.Should().HaveCount(MaterialRepositoryMock.InitialFakeDataSet.Count());
     }
 
     [Fact]
