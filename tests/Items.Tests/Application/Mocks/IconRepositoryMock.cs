@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
+using Items.Domain.Enums;
 using NSubstitute;
 
 namespace Items.Tests.Application.Mocks;
@@ -49,12 +50,68 @@ internal static class IconRepositoryMock
         {
             var icon = call.Arg<Icon>();
 
-            var iconFromSet = fakeDataSet.First(fake => fake.Id == icon.Id);
+            var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == icon.Id);
+
+            if (iconFromSet is null) return null!;
 
             fakeDataSet.Remove(iconFromSet);
             fakeDataSet.Add(icon);
 
             return await repository.GetById(icon.Id, CancellationToken.None);
+        });
+
+        repository.UpdateTitle(Arg.Any<Guid>(), Arg.Any<string>(), CancellationToken.None).Returns(async call =>
+        {
+            var iconId = call.Arg<Guid>();
+            var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == iconId);
+
+            if (iconFromSet is null) return null!;
+
+            var newTitle = call.Arg<string>();
+            var updatedIcon = new Icon(
+                newTitle,
+                iconFromSet.FileBinary,
+                iconFromSet.FileName,
+                iconFromSet.Id,
+                iconFromSet.ExternalId);
+
+            fakeDataSet.Remove(iconFromSet);
+            fakeDataSet.Add(updatedIcon);
+
+            return await repository.GetById(updatedIcon.Id, CancellationToken.None);
+        });
+
+        repository.UpdateFile(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<byte[]>(), CancellationToken.None).Returns(async call =>
+        {
+            var iconId = call.Arg<Guid>();
+            var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == iconId);
+
+            if (iconFromSet is null) return null!;
+
+            var newFileName = call.Arg<string>();
+            var newFileBinary = call.Arg<byte[]>();
+            var updatedIcon = new Icon(
+                iconFromSet.Title,
+                newFileBinary,
+                newFileName,
+                iconFromSet.Id,
+                iconFromSet.ExternalId);
+
+            fakeDataSet.Remove(iconFromSet);
+            fakeDataSet.Add(updatedIcon);
+
+            return await repository.GetById(updatedIcon.Id, CancellationToken.None);
+        });
+
+        repository.Delete(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
+        {
+            var iconId = call.Arg<Guid>();
+
+            var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == iconId);
+
+            if (iconFromSet is not null) fakeDataSet.Remove(iconFromSet);
+
+            return iconFromSet is not null ? 0 : 1;
         });
 
         return repository;

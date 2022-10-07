@@ -1,61 +1,61 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using FluentAssertions;
 using Items.Api.Commands.Icon;
 using Items.Api.Dtos.Icon;
 using Items.Api.Queries.Icon;
 using Items.Application.CommandHandlers.IconHandlers;
 using Items.Application.QueryHandlers.IconHandlers;
 using Items.Tests.Application.Mocks;
+using System.Threading.Tasks;
+using System.Threading;
+using FluentAssertions;
 using Items.Tests.Application.Setups;
 using Microsoft.AspNetCore.Http.Internal;
 using NSubstitute;
 using Xunit;
+using System;
 
 namespace Items.Tests.Application.CommandsTests.Icons;
 
-public class IconUpdateTests : IconTestsSetupBase
+public class IconUpdateFileTests : IconTestsSetupBase
 {
-    private readonly IconUpdateHandler _sut;
+    private readonly IconUpdateFileHandler _sut;
     private readonly IconGetAllHandler _getAll;
     private readonly IconGetByIdHandler _getById;
 
-    private readonly IconUpdateCommand _command;
+    private readonly IconUpdateFileCommand _command;
 
-    public IconUpdateTests()
+    public IconUpdateFileTests()
     {
-        _sut = new IconUpdateHandler(_uow, _mapper);
+        _sut = new IconUpdateFileHandler(_uow, _mapper);
         _getAll = new IconGetAllHandler(_uow, _mapper);
         _getById = new IconGetByIdHandler(_uow, _mapper);
 
         var fakeId = _getAll.Handle(new IconGetAllQuery(), CancellationToken.None).GetAwaiter().GetResult().First().Id;
 
-        _command = new IconUpdateCommand
+        _command = new IconUpdateFileCommand()
         {
             Id = fakeId,
-            Title = "update-icon",
-            File = new FormFile(new MemoryStream(), 0, 0, "file", "f1"),
+            File = new FormFile(new MemoryStream(), 0, 0, "file", "new-file-name"),
         };
     }
 
     [Fact]
-    public async Task ShouldUpdateAndReturnIconDto_WithValuesFromCommand_WhenIconExists()
+    public async Task ShouldUpdateAndReturnIconDto_WithNewFileButSameRestValues()
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
-        
+
         //assert
         actual.Should().BeOfType<IconDto>();
+
         actual.Id.Should().Be(_command.Id);
-        actual.Title.Should().Be(_command.Title);
         actual.FileName.Should().Be(_command.File?.FileName);
+        actual.Title.Should().Be(IconRepositoryMock.InitialFakeDataSet.First().Title);
     }
 
     [Fact]
-    public async Task ShouldReturnUpdatedIconDto_WhenIconExists()
+    public async Task ShouldReturnUpdatedIconDto()
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
@@ -70,10 +70,9 @@ public class IconUpdateTests : IconTestsSetupBase
     public async Task ShouldJustReturnNull_WhenIconDoesNotExists()
     {
         //arrange
-        var doesNotExistsCommand = new IconUpdateCommand
+        var doesNotExistsCommand = new IconUpdateFileCommand
         {
             Id = new Guid(),
-            Title = "update-icon",
             File = new FormFile(new MemoryStream(), 0, 0, "file", "f1"),
         };
 

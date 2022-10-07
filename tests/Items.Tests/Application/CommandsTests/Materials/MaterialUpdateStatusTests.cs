@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Items.Api.Commands.Icon;
 using Items.Api.Commands.Material;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
@@ -15,7 +17,7 @@ using Xunit;
 
 namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class MaterialUpdateStatusTests : MaterialTestsSetupBase
+public class IconUpdateTitleTests : MaterialTestsSetupBase
 {
     private readonly MaterialUpdateStatusHandler _sut;
     private readonly MaterialGetAllHandler _getAll;
@@ -23,7 +25,7 @@ public class MaterialUpdateStatusTests : MaterialTestsSetupBase
 
     private readonly MaterialUpdateStatusCommand _command;
 
-    public MaterialUpdateStatusTests()
+    public IconUpdateTitleTests()
     {
         _sut = new MaterialUpdateStatusHandler(_uow, _mapper);
         _getAll = new MaterialGetAllHandler(_uow, _mapper);
@@ -39,7 +41,7 @@ public class MaterialUpdateStatusTests : MaterialTestsSetupBase
     }
 
     [Fact]
-    public async Task ShouldUpdateAndReturnMaterialDto_WithNewIconButSameRestValues()
+    public async Task ShouldUpdateAndReturnMaterialDto_WithNewStatusButSameRestValues()
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
@@ -65,6 +67,23 @@ public class MaterialUpdateStatusTests : MaterialTestsSetupBase
         //assert
         actual.Should().BeOfType<MaterialDto>();
         actual.Id.Should().Be(updated.Id);
+    }
+
+    [Fact]
+    public async Task ShouldJustReturnNull_WhenMaterialDoesNotExists()
+    {
+        //arrange
+        var doesNotExistsCommand = new MaterialUpdateStatusCommand()
+        {
+            Id = new Guid(),
+            Status = 1,
+        };
+
+        //act
+        var actual = await _sut.Handle(doesNotExistsCommand, CancellationToken.None);
+
+        //assert
+        actual.Should().BeNull();
     }
 
     [Fact]

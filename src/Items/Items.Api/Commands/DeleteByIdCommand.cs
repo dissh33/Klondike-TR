@@ -2,7 +2,7 @@
 
 namespace Items.Api.Commands;
 
-public  class DeleteByIdCommand : IRequest<int>
+public class DeleteByIdCommand : IRequest<int>
 {
     public DeleteByIdCommand(Guid id)
     {

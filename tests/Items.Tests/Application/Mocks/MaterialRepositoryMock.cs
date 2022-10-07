@@ -62,7 +62,9 @@ public static class MaterialRepositoryMock
         {
             var material = call.Arg<Material>();
 
-            var materialFromSet = fakeDataSet.First(fake => fake.Id == material.Id);
+            var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == material.Id);
+
+            if (materialFromSet is null) return null!;
 
             fakeDataSet.Remove(materialFromSet);
             fakeDataSet.Add(material);
@@ -73,8 +75,10 @@ public static class MaterialRepositoryMock
         repository.UpdateStatus(Arg.Any<Guid>(), Arg.Any<int>(), CancellationToken.None).Returns(async call =>
         {
             var materialId = call.Arg<Guid>();
-            var materialFromSet = fakeDataSet.First(fake => fake.Id == materialId);
-
+            var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == materialId);
+            
+            if (materialFromSet is null) return null!;
+            
             var newStatus = (ItemStatus) call.Arg<int>();
             var updatedMaterial = new Material(
                 materialFromSet.Name, 
@@ -93,12 +97,25 @@ public static class MaterialRepositoryMock
         {
             var materialId = call.ArgAt<Guid>(0);
 
-            var materialFromSet = fakeDataSet.First(fake => fake.Id == materialId);
+            var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == materialId);
+
+            if (materialFromSet is null) return null!;
 
             var newIconId = call.ArgAt<Guid>(1);
             materialFromSet.AddIcon(newIconId);
 
             return await repository.GetById(materialId, CancellationToken.None);
+        });
+
+        repository.Delete(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
+        {
+            var materialId = call.Arg<Guid>();
+
+            var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == materialId);
+
+            if (materialFromSet is not null) fakeDataSet.Remove(materialFromSet);
+
+            return materialFromSet is not null ? 0 : 1;
         });
 
         return repository;

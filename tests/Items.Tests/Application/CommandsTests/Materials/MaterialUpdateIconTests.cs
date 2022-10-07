@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Items.Api.Commands.Icon;
 using Items.Api.Commands.Material;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
@@ -65,6 +66,23 @@ public class MaterialUpdateIconTests : MaterialTestsSetupBase
         //assert
         actual.Should().BeOfType<MaterialDto>();
         actual.Id.Should().Be(updated.Id);
+    }
+
+    [Fact]
+    public async Task ShouldJustReturnNull_WhenMaterialDoesNotExists()
+    {
+        //arrange
+        var doesNotExistsCommand = new MaterialUpdateIconCommand()
+        {
+            Id = new Guid(),
+            IconId = Guid.NewGuid(),
+        };
+
+        //act
+        var actual = await _sut.Handle(doesNotExistsCommand, CancellationToken.None);
+
+        //assert
+        actual.Should().BeNull();
     }
 
     [Fact]
