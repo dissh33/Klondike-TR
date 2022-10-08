@@ -57,7 +57,9 @@ public class IconAddTests : IconTestsSetupBase
 
         //assert
         actual.Should().BeOfType<IconDto>();
-        actual.Title.Should().Be(_command.Title);
+        actual.Should().NotBeNull();
+
+        actual!.Title.Should().Be(_command.Title);
         actual.FileName.Should().Be(_command.File?.FileName);
     }
 

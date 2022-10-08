@@ -12,7 +12,12 @@ public class MaterialTestsSetupBase
 
     public MaterialTestsSetupBase()
     {
-        var mapperConfig = new MapperConfiguration(configuration => configuration.AddProfile<MaterialProfile>());
+        var mapperConfig = new MapperConfiguration(configuration =>
+        {
+            configuration.AddProfile<MaterialProfile>();
+            configuration.AddProfile<IconProfile>();
+        });
+
         _mapper = mapperConfig.CreateMapper();
 
         _uow = UnitOfWorkMock.GetMock();

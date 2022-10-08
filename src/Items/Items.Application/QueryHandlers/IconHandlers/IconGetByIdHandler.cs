@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.IconHandlers;
 
-public class IconGetByIdHandler : IRequestHandler<IconGetByIdQuery, IconDto>
+public class IconGetByIdHandler : IRequestHandler<IconGetByIdQuery, IconDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,10 +17,10 @@ public class IconGetByIdHandler : IRequestHandler<IconGetByIdQuery, IconDto>
         _mapper = mapper;
     }
 
-    public async Task<IconDto> Handle(IconGetByIdQuery request, CancellationToken ct)
+    public async Task<IconDto?> Handle(IconGetByIdQuery request, CancellationToken ct)
     {
         var result = await _uow.IconRepository.GetById(request.Id, ct);
 
-        return _mapper.Map<IconDto>(result);
+        return _mapper.Map<IconDto?>(result);
     }
 }

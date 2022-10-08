@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.MaterialHandlers;
 
-public class MaterialUpdateStatusHandler : IRequestHandler<MaterialUpdateStatusCommand, MaterialDto>
+public class MaterialUpdateStatusHandler : IRequestHandler<MaterialUpdateStatusCommand, MaterialDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,12 +17,12 @@ public class MaterialUpdateStatusHandler : IRequestHandler<MaterialUpdateStatusC
         _mapper = mapper;
     }
 
-    public async Task<MaterialDto> Handle(MaterialUpdateStatusCommand request, CancellationToken ct)
+    public async Task<MaterialDto?> Handle(MaterialUpdateStatusCommand request, CancellationToken ct)
     {
         var result = await _uow.MaterialRepository.UpdateStatus(request.Id, request.Status, ct);
 
         _uow.Commit();
 
-        return _mapper.Map<MaterialDto>(result);
+        return _mapper.Map<MaterialDto?>(result);
     }
 }

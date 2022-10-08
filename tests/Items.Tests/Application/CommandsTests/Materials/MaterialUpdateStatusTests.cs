@@ -48,8 +48,9 @@ public class IconUpdateTitleTests : MaterialTestsSetupBase
 
         //assert
         actual.Should().BeOfType<MaterialDto>();
+        actual.Should().NotBeNull();
 
-        actual.Status.Should().Be(_command.Status);
+        actual!.Status.Should().Be(_command.Status);
         actual.Id.Should().Be(_command.Id);
 
         actual.IconId.Should().Be(MaterialRepositoryMock.InitialFakeDataSet.First().IconId);
@@ -66,7 +67,10 @@ public class IconUpdateTitleTests : MaterialTestsSetupBase
 
         //assert
         actual.Should().BeOfType<MaterialDto>();
-        actual.Id.Should().Be(updated.Id);
+        actual.Should().NotBeNull();
+        updated.Should().NotBeNull();
+
+        actual.Id.Should().Be(updated!.Id);
     }
 
     [Fact]

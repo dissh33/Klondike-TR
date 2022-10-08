@@ -5,6 +5,7 @@ using FluentAssertions;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
 using Items.Application.QueryHandlers.MaterialHandlers;
+using Items.Domain.Entities;
 using Items.Domain.Enums;
 using Items.Tests.Application.Setups;
 using NSubstitute;
@@ -13,11 +14,11 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class IconGetByIdTests : MaterialTestsSetupBase
+public class MaterialGetByIdTests : MaterialTestsSetupBase
 {
     private readonly MaterialGetByIdHandler _sut;
 
-    public IconGetByIdTests()
+    public MaterialGetByIdTests()
     {
         _sut = new MaterialGetByIdHandler(_uow, _mapper);
     }
@@ -28,16 +29,21 @@ public class IconGetByIdTests : MaterialTestsSetupBase
         //arrange
         var id = Guid.NewGuid();
         var request = new MaterialGetByIdQuery(id);
-        var materialResult = new Items.Domain.Entities.Material("n1", MaterialType.Default, ItemStatus.Disabled, id);
+        var materialEntity = new Material("n1", MaterialType.Default, ItemStatus.Disabled, id);
 
-        _uow.MaterialRepository.GetById(id, CancellationToken.None).Returns(materialResult);
+        _uow.MaterialRepository.GetById(id, CancellationToken.None).Returns(materialEntity);
 
         //act
         var actual = await _sut.Handle(request, CancellationToken.None);
 
         //assert
         actual.Should().BeOfType(typeof(MaterialDto));
-        actual.Id.Should().Be(id);
+        actual.Should().NotBeNull();
+
+        actual!.Id.Should().Be(materialEntity.Id);
+        actual.Name.Should().Be(materialEntity.Name);
+        actual.Type.Should().Be((int) materialEntity.Type);
+        actual.Status.Should().Be((int) materialEntity.Status);
     }
 
     [Fact]

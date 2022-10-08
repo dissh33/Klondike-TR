@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.MaterialHandlers;
 
-public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDto>
+public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDt
         _mapper = mapper;
     }
 
-    public async Task<MaterialDto> Handle(MaterialAddCommand request, CancellationToken ct)
+    public async Task<MaterialDto?> Handle(MaterialAddCommand request, CancellationToken ct)
     {
         var status = ItemStatus.Available;
         var type = MaterialType.Default;
@@ -46,6 +46,6 @@ public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDt
 
         _uow.Commit();
 
-        return _mapper.Map<MaterialDto>(result);
+        return _mapper.Map<MaterialDto?>(result);
     }
 }

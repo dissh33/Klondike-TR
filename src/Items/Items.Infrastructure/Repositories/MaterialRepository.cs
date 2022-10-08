@@ -18,7 +18,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
     }
 
-    public async Task<Material> GetById(Guid id, CancellationToken ct)
+    public async Task<Material?> GetById(Guid id, CancellationToken ct)
     {
         var command = GetByIdBaseCommand(id, ct);
 
@@ -68,7 +68,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<Material> Insert(Material material, CancellationToken ct)
+    public async Task<Material?> Insert(Material material, CancellationToken ct)
     {
         var command = InsertBaseCommand(material, ct);
 
@@ -79,7 +79,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         return await GetById(id, ct);
     }
 
-    public async Task<Material> Update(Material material, CancellationToken ct)
+    public async Task<Material?> Update(Material material, CancellationToken ct)
     {
         var command = UpdateBaseCommand(material, ct);
 
@@ -90,7 +90,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         return await GetById(id, ct);
     }
     
-    public async Task<Material> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
+    public async Task<Material?> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
@@ -105,7 +105,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
         return await GetById(id, ct);
     }
 
-    public async Task<Material> UpdateStatus(Guid id, int status, CancellationToken ct)
+    public async Task<Material?> UpdateStatus(Guid id, int status, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET status=@status WHERE id = @id RETURNING id",

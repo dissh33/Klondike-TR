@@ -59,7 +59,9 @@ public class IconAddTests : MaterialTestsSetupBase
 
         //assert
         actual.Should().BeOfType<MaterialDto>();
-        actual.IconId.Should().Be(_command.IconId);
+        actual.Should().NotBeNull();
+
+        actual!.IconId.Should().Be(_command.IconId);
         actual.Name.Should().Be(_command.Name);
         actual.Type.Should().Be(_command.Type);
         actual.Status.Should().Be(_command.Status);

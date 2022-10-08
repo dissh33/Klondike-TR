@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.MaterialHandlers;
 
-public class MaterialGetByIdHandler : IRequestHandler<MaterialGetByIdQuery, MaterialDto>
+public class MaterialGetByIdHandler : IRequestHandler<MaterialGetByIdQuery, MaterialDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,10 +17,10 @@ public class MaterialGetByIdHandler : IRequestHandler<MaterialGetByIdQuery, Mate
         _mapper = mapper;
     }
 
-    public async Task<MaterialDto> Handle(MaterialGetByIdQuery request, CancellationToken ct)
+    public async Task<MaterialDto?> Handle(MaterialGetByIdQuery request, CancellationToken ct)
     {
         var result = await _uow.MaterialRepository.GetById(request.Id, ct);
 
-        return _mapper.Map<MaterialDto>(result);
+        return _mapper.Map<MaterialDto?>(result);
     }
 }

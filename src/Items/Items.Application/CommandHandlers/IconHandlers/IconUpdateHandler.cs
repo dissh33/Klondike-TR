@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.IconHandlers;
 
-public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto>
+public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto>
         _mapper = mapper;
     }
 
-    public async Task<IconDto> Handle(IconUpdateCommand request, CancellationToken ct)
+    public async Task<IconDto?> Handle(IconUpdateCommand request, CancellationToken ct)
     {
         var fileStream = new MemoryStream();
         await request.File!.CopyToAsync(fileStream, ct);
@@ -35,6 +35,6 @@ public class IconUpdateHandler : IRequestHandler<IconUpdateCommand, IconDto>
 
         _uow.Commit();
 
-        return _mapper.Map<IconDto>(result);
+        return _mapper.Map<IconDto?>(result);
     }
 }

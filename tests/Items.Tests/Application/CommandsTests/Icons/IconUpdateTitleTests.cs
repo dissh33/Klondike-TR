@@ -49,8 +49,9 @@ public class IconUpdateTitleTests : IconTestsSetupBase
 
         //assert
         actual.Should().BeOfType<IconDto>();
+        actual.Should().NotBeNull();
 
-        actual.Id.Should().Be(_command.Id);
+        actual!.Id.Should().Be(_command.Id);
         actual.Title.Should().Be(_command.Title);
         actual.FileName.Should().Be(IconRepositoryMock.InitialFakeDataSet.First().FileName);
     }
@@ -64,7 +65,10 @@ public class IconUpdateTitleTests : IconTestsSetupBase
 
         //assert
         actual.Should().BeOfType<IconDto>();
-        actual.Id.Should().Be(updated.Id);
+        actual.Should().NotBeNull();
+        updated.Should().NotBeNull();
+
+        actual.Id.Should().Be(updated!.Id);
     }
 
     [Fact]
