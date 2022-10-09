@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
-using Items.Domain.Enums;
 using NSubstitute;
 
 namespace Items.Tests.Application.Mocks;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,10 +8,8 @@ using Items.Api.Dtos.Icon;
 using Items.Api.Queries.Icon;
 using Items.Application.CommandHandlers.IconHandlers;
 using Items.Application.QueryHandlers.IconHandlers;
-using Items.Domain.Enums;
 using Items.Tests.Application.Mocks;
 using Items.Tests.Application.Setups;
-using Microsoft.AspNetCore.Http.Internal;
 using NSubstitute;
 using Xunit;
 

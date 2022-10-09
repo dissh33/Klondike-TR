@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Items.Api.Commands.Icon;
 using Items.Api.Commands.Material;
 using Items.Api.Dtos.Materials;
 using Items.Api.Queries.Material;
