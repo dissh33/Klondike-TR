@@ -14,11 +14,11 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetByIdTests : MaterialTestsSetupBase
+public class CollectionItemGetByIdTests : MaterialTestsSetup
 {
     private readonly MaterialGetByIdHandler _sut;
 
-    public MaterialGetByIdTests()
+    public CollectionItemGetByIdTests()
     {
         _sut = new MaterialGetByIdHandler(_uow, _mapper);
     }

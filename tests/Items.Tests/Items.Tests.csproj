@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\Src\Items\Items.Application\Items.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\CommandsTests\CollectionItems\" />
+  </ItemGroup>
+
 </Project>

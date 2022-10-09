@@ -5,7 +5,7 @@ namespace Items.Tests.Application.Mocks;
 
 public static class UnitOfWorkMock
 {
-    public static IUnitOfWork GetMock()
+    public static IUnitOfWork GetUnitOfWork()
     {
         var uow = Substitute.For<IUnitOfWork>();
 

@@ -23,6 +23,6 @@ public class MaterialUpdateStatusHandler : IRequestHandler<MaterialUpdateStatusC
 
         _uow.Commit();
 
-        return _mapper.Map<MaterialDto?>(result);
+        return _mapper.Map<MaterialDto>(result);
     }
 }

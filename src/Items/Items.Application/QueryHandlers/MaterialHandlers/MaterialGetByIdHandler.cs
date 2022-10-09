@@ -21,6 +21,6 @@ public class MaterialGetByIdHandler : IRequestHandler<MaterialGetByIdQuery, Mate
     {
         var result = await _uow.MaterialRepository.GetById(request.Id, ct);
 
-        return _mapper.Map<MaterialDto?>(result);
+        return _mapper.Map<MaterialDto>(result);
     }
 }

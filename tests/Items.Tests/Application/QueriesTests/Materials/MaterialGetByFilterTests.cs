@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetByFilterTests : MaterialTestsSetupBase
+public class MaterialGetByFilterTests : MaterialTestsSetup
 {
     private readonly MaterialGetByFilterHandler _sut;
 

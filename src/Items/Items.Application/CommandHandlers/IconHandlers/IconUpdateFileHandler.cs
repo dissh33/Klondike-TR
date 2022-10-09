@@ -27,6 +27,6 @@ public class IconUpdateFileHandler : IRequestHandler<IconUpdateFileCommand, Icon
 
         _uow.Commit();
 
-        return _mapper.Map<IconDto?>(result);
+        return _mapper.Map<IconDto>(result);
     }
 }

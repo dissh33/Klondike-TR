@@ -18,7 +18,7 @@ using Xunit;
 
 namespace Items.Tests.Application.CommandsTests.Icons;
 
-public class IconUpdateTitleTests : IconTestsSetupBase
+public class IconUpdateTitleTests : IconTestsSetup
 {
     private readonly IconUpdateTitleHandler _sut;
     private readonly IconGetAllHandler _getAll;
@@ -61,14 +61,14 @@ public class IconUpdateTitleTests : IconTestsSetupBase
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
-        var updated = await _getById.Handle(new IconGetByIdQuery(actual.Id), CancellationToken.None);
+        var updated = await _getById.Handle(new IconGetByIdQuery(actual?.Id ?? Guid.Empty), CancellationToken.None);
 
         //assert
         actual.Should().BeOfType<IconDto>();
         actual.Should().NotBeNull();
         updated.Should().NotBeNull();
 
-        actual.Id.Should().Be(updated!.Id);
+        actual!.Id.Should().Be(updated!.Id);
     }
 
     [Fact]

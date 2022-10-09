@@ -5,16 +5,21 @@ using Items.Tests.Application.Mocks;
 
 namespace Items.Tests.Application.Setups;
 
-public class IconTestsSetupBase
+public class MaterialTestsSetup
 {
     protected readonly IMapper _mapper;
     protected readonly IUnitOfWork _uow;
 
-    public IconTestsSetupBase()
+    public MaterialTestsSetup()
     {
-        var mapperConfig = new MapperConfiguration(configuration => configuration.AddProfile<IconProfile>());
+        var mapperConfig = new MapperConfiguration(configuration =>
+        {
+            configuration.AddProfile<MaterialProfile>();
+            configuration.AddProfile<IconProfile>();
+        });
+
         _mapper = mapperConfig.CreateMapper();
 
-        _uow = UnitOfWorkMock.GetMock();
+        _uow = UnitOfWorkMock.GetUnitOfWork();
     }
 }

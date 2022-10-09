@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Icons;
 
-public class IconGetAllTests : IconTestsSetupBase
+public class IconGetAllTests : IconTestsSetup
 {
     private readonly IconGetAllHandler _sut;
 

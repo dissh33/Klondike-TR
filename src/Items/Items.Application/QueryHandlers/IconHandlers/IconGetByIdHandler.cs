@@ -21,6 +21,6 @@ public class IconGetByIdHandler : IRequestHandler<IconGetByIdQuery, IconDto?>
     {
         var result = await _uow.IconRepository.GetById(request.Id, ct);
 
-        return _mapper.Map<IconDto?>(result);
+        return _mapper.Map<IconDto>(result);
     }
 }

@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class IconAddTests : MaterialTestsSetupBase
+public class IconAddTests : MaterialTestsSetup
 {
     private readonly MaterialAddHandler _sut;
     private readonly MaterialGetAllHandler _getAll;
@@ -72,7 +72,7 @@ public class IconAddTests : MaterialTestsSetupBase
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
-        var added = await _getById.Handle(new MaterialGetByIdQuery(actual.Id), CancellationToken.None);
+        var added = await _getById.Handle(new MaterialGetByIdQuery(actual?.Id ?? Guid.Empty), CancellationToken.None);
         
         //assert
         actual.Should().BeOfType<MaterialDto>();

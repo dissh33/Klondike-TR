@@ -23,6 +23,6 @@ public class IconUpdateTitleHandler : IRequestHandler<IconUpdateTitleCommand, Ic
 
         _uow.Commit();
 
-        return _mapper.Map<IconDto?>(result);
+        return _mapper.Map<IconDto>(result);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ using Xunit;
 
 namespace Items.Tests.Application.CommandsTests.Icons;
 
-public class IconAddTests : IconTestsSetupBase
+public class IconAddTests : IconTestsSetup
 {
     private readonly IconAddHandler _sut;
     private readonly IconGetAllHandler _getAll;
@@ -68,7 +69,7 @@ public class IconAddTests : IconTestsSetupBase
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
-        var added = await _getById.Handle(new IconGetByIdQuery(actual.Id), CancellationToken.None);
+        var added = await _getById.Handle(new IconGetByIdQuery(actual?.Id ?? Guid.Empty), CancellationToken.None);
         
         //assert
         actual.Should().BeOfType<IconDto>();

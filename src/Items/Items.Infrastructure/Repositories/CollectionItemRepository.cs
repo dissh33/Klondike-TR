@@ -15,7 +15,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
     }
 
-    public async Task<CollectionItem> GetById(Guid id, CancellationToken ct)
+    public async Task<CollectionItem?> GetById(Guid id, CancellationToken ct)
     {
         var command = GetByIdBaseCommand(id, ct);
 
@@ -49,7 +49,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<CollectionItem> Insert(CollectionItem collectionItem, CancellationToken ct)
+    public async Task<CollectionItem?> Insert(CollectionItem collectionItem, CancellationToken ct)
     {
         var command = InsertBaseCommand(collectionItem, ct);
 
@@ -81,7 +81,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         return await GetByCollection(collectionId, ct);
     }
 
-    public async Task<CollectionItem> Update(CollectionItem collectionItem, CancellationToken ct)
+    public async Task<CollectionItem?> Update(CollectionItem collectionItem, CancellationToken ct)
     {
         var command = UpdateBaseCommand(collectionItem, ct);
 
@@ -92,7 +92,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         return await GetById(id, ct);
     }
 
-    public async Task<CollectionItem> UpdateName(Guid id, string? name, CancellationToken ct)
+    public async Task<CollectionItem?> UpdateName(Guid id, string? name, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET name=@name WHERE id = @id RETURNING id",
@@ -107,7 +107,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         return await GetById(id, ct);
     }
 
-    public async Task<CollectionItem> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
+    public async Task<CollectionItem?> UpdateIcon(Guid id, Guid? iconId, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET icon_id=@iconId WHERE id = @id RETURNING id",
@@ -122,7 +122,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
         return await GetById(id, ct);
     }
 
-    public async Task<CollectionItem> UpdateCollection(Guid id, Guid? collectionId, CancellationToken ct)
+    public async Task<CollectionItem?> UpdateCollection(Guid id, Guid? collectionId, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET collection_id=@collectionId WHERE id = @id RETURNING id",

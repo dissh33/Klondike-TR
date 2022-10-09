@@ -12,11 +12,11 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class IconGetAllTests : MaterialTestsSetupBase
+public class MaterialGetAllTests : MaterialTestsSetup
 {
     private readonly MaterialGetAllHandler _sut;
 
-    public IconGetAllTests()
+    public MaterialGetAllTests()
     {
         _sut = new MaterialGetAllHandler(_uow, _mapper);
     }

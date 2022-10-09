@@ -17,7 +17,7 @@ using Xunit;
 
 namespace Items.Tests.Application.CommandsTests.Icons;
 
-public class IconDeleteTests : IconTestsSetupBase
+public class IconDeleteTests : IconTestsSetup
 {
     private readonly IconDeleteHandler _sut;
     private readonly IconGetAllHandler _getAll;

@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetFullTests : MaterialTestsSetupBase
+public class MaterialGetFullTests : MaterialTestsSetup
 {
     private readonly MaterialGetFullHandler _sut;
 

@@ -15,7 +15,7 @@ using NSubstitute.Core;
 
 namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class IconDeleteTests : MaterialTestsSetupBase
+public class IconDeleteTests : MaterialTestsSetup
 {
     private readonly MaterialDeleteHandler _sut;
     private readonly MaterialGetAllHandler _getAll;

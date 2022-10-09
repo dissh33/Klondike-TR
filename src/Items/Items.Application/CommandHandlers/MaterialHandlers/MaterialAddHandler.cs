@@ -46,6 +46,6 @@ public class MaterialAddHandler : IRequestHandler<MaterialAddCommand, MaterialDt
 
         _uow.Commit();
 
-        return _mapper.Map<MaterialDto?>(result);
+        return _mapper.Map<MaterialDto>(result);
     }
 }

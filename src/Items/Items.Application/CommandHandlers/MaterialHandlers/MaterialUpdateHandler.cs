@@ -50,6 +50,6 @@ public class MaterialUpdateHandler : IRequestHandler<MaterialUpdateCommand, Mate
 
         _uow.Commit();
 
-        return _mapper.Map<MaterialDto?>(result);
+        return _mapper.Map<MaterialDto>(result);
     }
 }

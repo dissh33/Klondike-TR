@@ -21,6 +21,6 @@ public class IconGetFileHandler : IRequestHandler<IconGetFileQuery, IconFileDto?
     {
         var result = await _uow.IconRepository.GetFile(request.Id, ct);
 
-        return _mapper.Map<IconFileDto?>(result);
+        return _mapper.Map<IconFileDto>(result);
     }
 }
