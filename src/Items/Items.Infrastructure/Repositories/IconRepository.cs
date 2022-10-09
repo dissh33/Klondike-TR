@@ -16,7 +16,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
     }
 
-    public async Task<Icon> GetById(Guid id, CancellationToken ct)
+    public async Task<Icon?> GetById(Guid id, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
 
@@ -32,7 +32,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<Icon> GetFile(Guid id, CancellationToken ct)
+    public async Task<Icon?> GetFile(Guid id, CancellationToken ct)
     {
         var command = GetByIdBaseCommand(id, ct);
 
@@ -72,7 +72,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<Icon> Insert(Icon icon, CancellationToken ct)
+    public async Task<Icon?> Insert(Icon icon, CancellationToken ct)
     {
         var command = InsertBaseCommand(icon, ct);
 
@@ -106,7 +106,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await GetRange(collectionItemsList.Select(icon => icon.Id), ct);
     }
 
-    public async Task<Icon> Update(Icon icon, CancellationToken ct)
+    public async Task<Icon?> Update(Icon icon, CancellationToken ct)
     {
         var command = UpdateBaseCommand(icon, ct);
 
@@ -117,7 +117,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await GetById(id, ct);
     }
 
-    public async Task<Icon> UpdateTitle(Guid id, string? title, CancellationToken ct)
+    public async Task<Icon?> UpdateTitle(Guid id, string? title, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET title=@title WHERE id = @id RETURNING id",
@@ -132,7 +132,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
         return await GetById(id, ct);
     }
 
-    public async Task<Icon> UpdateFile(Guid id, string fileName, byte[] fileBinary, CancellationToken ct)
+    public async Task<Icon?> UpdateFile(Guid id, string fileName, byte[] fileBinary, CancellationToken ct)
     {
         var command = new CommandDefinition(
             commandText: $"UPDATE {SCHEMA_NAME}.{TableName} SET file_name=@fileName, file_binary=@fileBinary WHERE id = @id RETURNING id",

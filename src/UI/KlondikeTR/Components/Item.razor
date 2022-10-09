@@ -2,8 +2,8 @@
 @using KlondikeTR.Helpers
 
 
-<div type="button" class="d-flex flex-column m-1" @onclick="() => { }">
-     <img class="item-img border border-1 border-secondary" src="@ItemDto.Icon?.FileBinary.ToImageSrc()" alt="@ItemDto.Name?[..6]"/>
+<div type="button" @onclick="@Select" class="d-flex flex-column m-1">
+     <img class="item-img border border-1 border-secondary" src="@ItemDto.Icon?.FileBinary.ToImgSrc()" alt="@ItemDto.Name?[..6]"/>
      <div class="item-name badge bg-secondary text-wrap text-break mt-1"><small>@ItemDto.Name</small></div>
 </div>
 
@@ -12,4 +12,12 @@
 
     [Parameter]
     public TradableItemDto ItemDto { get; set; } = new();
+
+    [Parameter]
+    public Action<TradableItemDto>? OnSelect { get; set; }
+
+    void Select()
+    {
+        OnSelect?.Invoke(ItemDto);
+    }
 }

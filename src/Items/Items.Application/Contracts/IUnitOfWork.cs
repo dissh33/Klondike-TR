@@ -1,4 +1,6 @@
-﻿namespace Items.Application.Contracts;
+﻿using System.Data;
+
+namespace Items.Application.Contracts;
 
 public interface IUnitOfWork 
 {
@@ -6,6 +8,8 @@ public interface IUnitOfWork
     IMaterialRepository MaterialRepository { get; }
     ICollectionRepository CollectionRepository { get; }
     ICollectionItemRepository CollectionItemRepository { get; }
+
+    IDbConnection CreateConnection();
 
     public void Commit();
     public void Rollback();

@@ -1,7 +1,5 @@
 using KlondikeTR.Interfaces;
 using KlondikeTR.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,12 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddMemoryCache();
+
 builder.Services.AddTransient<IItemsService, ItemsService>();
 
 builder.Services.AddHttpClient("items", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7127/api/");
+    client.BaseAddress = new Uri(builder.Configuration["ItemsApiUrl"]);
 });
 #endregion
 

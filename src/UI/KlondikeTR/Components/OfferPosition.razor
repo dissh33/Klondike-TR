@@ -1,5 +1,30 @@
-﻿<h3>OfferPosition</h3>
+﻿@using Offers.Api.Dtos
+
+<div class="border border-1 border-dark rounded bg-light">
+
+    <h5>OfferPosition</h5>
+
+    <OfferItem OnAddOfferItem="AddItemToOfferPosition"/>
+
+    @foreach (var item in _offerItems)
+    {
+        <OfferItem OfferItemDto="item" OnAddOfferItem="AddItemToOfferPosition"/>
+    }
+
+</div>
 
 @code {
+    [Parameter]
+    public Action<OfferPositionDto>? OnAddOfferPosition { get; set; }
 
+    private OfferPositionDto _offerPosition = new();
+    private readonly List<OfferItemDto> _offerItems = new();
+
+    private void AddItemToOfferPosition(OfferItemDto offerItem)
+    {
+        _offerItems.Add(offerItem);
+
+        _offerPosition.OfferItems = _offerItems;
+        StateHasChanged();
+    }
 }

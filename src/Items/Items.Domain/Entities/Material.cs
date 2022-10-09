@@ -28,7 +28,7 @@ public class Material : BaseEntity, ITradableItem
     {
         Name = name;
         Type = type;
-
+        
         if (Icon != null) IconId = Icon.Id;
 
         Status = status;

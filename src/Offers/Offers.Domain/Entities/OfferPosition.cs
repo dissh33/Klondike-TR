@@ -20,7 +20,7 @@ public class OfferPosition : BaseEntity
 
     private OfferPosition()
     {
-        Id = new OfferPositionId(Guid.NewGuid());
+        Id = new OfferPositionId();
     }
 
     public OfferPosition(

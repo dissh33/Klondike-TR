@@ -1,5 +1,36 @@
-﻿<h3>Offer</h3>
+﻿@using Offers.Api.Dtos
+@using Items.Api.Dtos
+
+<h3>Offer</h3>
+
+
+@foreach (var position in _offerPositions)
+{
+    <OfferPosition OnAddOfferPosition="AddPositionToOffer"/>
+}
+
+<div type="button" @onclick="AddEmptyOfferPosition" class="m-1 border border-1 border-dark bg-warning rounded">
+    <div class="fs-1 text-dark p-3 oi oi-plus text-center" aria-hidden="true"></div>
+</div>
+
 
 @code {
+    private List<OfferPositionDto> _offerPositions = new();
 
+    private TradableItemDto? _tradableItem;
+
+    private bool _positionsVisible;
+
+    void AddEmptyOfferPosition()
+    {
+        var position = new OfferPositionDto();
+        _offerPositions.Add(position);
+    }
+
+    void AddPositionToOffer(OfferPositionDto offerPosition)
+    {
+        _offerPositions.Add(offerPosition);
+
+        StateHasChanged();
+    }
 }

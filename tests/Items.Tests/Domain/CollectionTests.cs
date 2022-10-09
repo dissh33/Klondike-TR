@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using Items.Domain;
 using Items.Domain.Entities;
@@ -12,17 +11,28 @@ namespace Items.Tests.Domain;
 
 public class CollectionTests
 {
-    [Fact]
-    public void Collection_ShouldConstruct_WithVariousParameters()
+    [Theory]
+    [MemberData(nameof(CollectionConstructorParameters))]
+    public void Collection_ShouldConstruct_WithVariousParameters(
+        string? name,
+        List<CollectionItem>? items,
+        ItemStatus status, 
+        Guid? id,
+        string? externalId)
     {
-        var id = Guid.NewGuid();
-        var collection1 = new Collection("N1");
-        var collection2 = new Collection("N2", id: id);
-        var collection3 = new Collection("N3", status: ItemStatus.Available, externalId: "newID");
+        var collection = new Collection(name, items, status, id, externalId);
 
-        collection1.Should().BeOfType(typeof(Collection));
-        collection2.Should().BeOfType(typeof(Collection));
-        collection3.Should().BeOfType(typeof(Collection));
+        collection.Should().BeOfType(typeof(Collection));
+    }
+
+    private static IEnumerable<object?[]> CollectionConstructorParameters()
+    {
+        return new List<object?[]>
+        {
+            new object?[] { "n1", null, default, null, null },
+            new object?[] { "n2", null, default, Guid.Empty, null },
+            new object?[] { "n3", null, ItemStatus.Disabled, Guid.Empty, "eID" },
+        };
     }
 
     [Fact]
@@ -38,7 +48,7 @@ public class CollectionTests
     }
 
     [Fact]
-    public void Collection_ShouldConstruct_WithSpecifiedId_WhenIdPassedThroughConstructor()
+    public void Collection_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
     {
         var id = Guid.NewGuid();
         var collection = new Collection("N", id: id);
@@ -55,7 +65,7 @@ public class CollectionTests
     }
 
     [Fact]
-    public void Collection_ShouldConstruct_WithSpecifiedItems_WhenItemsPassedThroughConstructor()
+    public void Collection_ShouldConstruct_WithSpecifiedItems_WhenItemsPassed()
     {
         var collectionId = Guid.NewGuid();
         var items = new List<CollectionItem>();
@@ -65,14 +75,14 @@ public class CollectionTests
             var item = new CollectionItem("N", collectionId);
             items.Add(item);
         }
-
+        
         var collection = new Collection("N", items: items, id: collectionId);
 
         collection.Items.Should().BeEquivalentTo(items);
     }
 
     [Fact]
-    public void Collection_ShouldConstruct_WithSpecifiedItemStatus_WhenStatusPassedThroughConstructor()
+    public void Collection_ShouldConstruct_WithSpecifiedItemStatus_WhenStatusPassed()
     {
         var status = ItemStatus.Disabled;
         var collection = new Collection("N", status: status);
@@ -132,7 +142,7 @@ public class CollectionTests
         var collection = new Collection("N", id: collectionId);
         var items = new List<CollectionItem>();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER - 1; i++)
         {
             var item = new CollectionItem("N", collectionId);
             items.Add(item);
@@ -151,7 +161,7 @@ public class CollectionTests
         var collection = new Collection("N", id: collectionId);
         var items = new List<CollectionItem>();
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER + 1; i++)
         {
             var item = new CollectionItem("N", collectionId);
             items.Add(item);

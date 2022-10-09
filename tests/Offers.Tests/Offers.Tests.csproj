@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.4.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -22,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
-    <Folder Include="Domain\" />
+    <ProjectReference Include="..\..\src\Offers\Offers.Application\Offers.Application.csproj" />
+    <ProjectReference Include="..\..\src\Offers\Offers.Domain\Offers.Domain.csproj" />
   </ItemGroup>
 
 </Project>

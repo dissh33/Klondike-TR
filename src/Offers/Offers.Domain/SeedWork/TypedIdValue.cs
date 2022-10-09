@@ -4,6 +4,11 @@ public abstract class TypedIdValue : IEquatable<TypedIdValue>
 {
     public Guid Value { get; }
 
+    protected TypedIdValue()
+    {
+        Value = Guid.NewGuid();
+    }
+
     protected TypedIdValue(Guid? value)
     {
         Value = value ?? Guid.NewGuid();
@@ -29,11 +34,7 @@ public abstract class TypedIdValue : IEquatable<TypedIdValue>
     {
         if (Equals(obj1, null))
         {
-            if (Equals(obj2, null))
-            {
-                return true;
-            }
-            return false;
+            return Equals(obj2, null);
         }
         return obj1.Equals(obj2);
     }
