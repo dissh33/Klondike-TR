@@ -51,7 +51,7 @@ internal static class IconRepositoryMock
 
             var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == icon.Id);
 
-            if (iconFromSet is null) return null!;
+            if (iconFromSet is null) return null;
 
             fakeDataSet.Remove(iconFromSet);
             fakeDataSet.Add(icon);
@@ -64,7 +64,7 @@ internal static class IconRepositoryMock
             var iconId = call.Arg<Guid>();
             var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == iconId);
 
-            if (iconFromSet is null) return null!;
+            if (iconFromSet is null) return null;
 
             var newTitle = call.Arg<string>();
             var updatedIcon = new Icon(
@@ -85,7 +85,7 @@ internal static class IconRepositoryMock
             var iconId = call.Arg<Guid>();
             var iconFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == iconId);
 
-            if (iconFromSet is null) return null!;
+            if (iconFromSet is null) return null;
 
             var newFileName = call.Arg<string>();
             var newFileBinary = call.Arg<byte[]>();

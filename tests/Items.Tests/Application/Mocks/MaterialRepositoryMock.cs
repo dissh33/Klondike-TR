@@ -64,7 +64,7 @@ public static class MaterialRepositoryMock
 
             var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == material.Id);
 
-            if (materialFromSet is null) return null!;
+            if (materialFromSet is null) return null;
 
             fakeDataSet.Remove(materialFromSet);
             fakeDataSet.Add(material);
@@ -77,7 +77,7 @@ public static class MaterialRepositoryMock
             var materialId = call.Arg<Guid>();
             var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == materialId);
             
-            if (materialFromSet is null) return null!;
+            if (materialFromSet is null) return null;
             
             var newStatus = (ItemStatus) call.Arg<int>();
             var updatedMaterial = new Material(
@@ -99,7 +99,7 @@ public static class MaterialRepositoryMock
 
             var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == materialId);
 
-            if (materialFromSet is null) return null!;
+            if (materialFromSet is null) return null;
 
             var newIconId = call.ArgAt<Guid>(1);
             materialFromSet.AddIcon(newIconId);

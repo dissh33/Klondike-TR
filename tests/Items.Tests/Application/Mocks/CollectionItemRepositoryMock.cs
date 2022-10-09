@@ -3,7 +3,6 @@ using NSubstitute;
 using System.Threading;
 using System;
 using Items.Domain.Entities;
-using Items.Domain.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -44,6 +43,20 @@ public static class CollectionItemRepositoryMock
         {
             var collectionItem = call.Arg<CollectionItem>();
 
+            fakeDataSet.Add(collectionItem);
+
+            return await repository.GetById(collectionItem.Id, CancellationToken.None);
+        });
+
+        repository.Update(Arg.Any<CollectionItem>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionItem = call.Arg<CollectionItem>();
+
+            var itemFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionItem.Id);
+
+            if (itemFromSet is null) return null;
+
+            fakeDataSet.Remove(itemFromSet);
             fakeDataSet.Add(collectionItem);
 
             return await repository.GetById(collectionItem.Id, CancellationToken.None);
