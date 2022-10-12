@@ -18,9 +18,15 @@ public static class CollectionItemRepositoryMock
 
         foreach (var collection in CollectionRepositoryMock.InitialFakeDataSet)
         {
+            var icons = IconRepositoryMock.InitialFakeDataSet.ToList();
+
             for (int i = 0; i < 5; i++)
             {
                 var collectionItem = new CollectionItem($"name{i}-{i}", collection.Id, Guid.NewGuid());
+
+                var icon = icons[i];
+                collectionItem.AddIcon(icon.Title, icon.FileBinary, icon.FileName, icon.Id, icon.ExternalId);
+
                 data.Add(collectionItem);
             }
         }
@@ -36,8 +42,11 @@ public static class CollectionItemRepositoryMock
 
         repository.GetAll(CancellationToken.None).Returns(fakeDataSet);
 
-        repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
+        repository.GetById(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
             fakeDataSet.FirstOrDefault(fake => fake.Id == call.Arg<Guid>()));
+
+        repository.GetByCollection(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
+            fakeDataSet.Where(fake => fake.CollectionId == call.Arg<Guid>()));
 
         repository.Insert(Arg.Any<CollectionItem>(), CancellationToken.None).Returns(async call =>
         {

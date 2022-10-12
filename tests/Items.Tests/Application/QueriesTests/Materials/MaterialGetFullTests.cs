@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetFullTests : MaterialTestsSetup
+public class CollectionItemGetFullTests : MaterialTestsSetup
 {
     private readonly MaterialGetFullHandler _sut;
 
@@ -23,7 +23,7 @@ public class MaterialGetFullTests : MaterialTestsSetup
     private readonly Material _materialEntity;
     private readonly Icon _iconEntity;
 
-    public MaterialGetFullTests()
+    public CollectionItemGetFullTests()
     {
         _sut = new MaterialGetFullHandler(_uow, _mapper);
         

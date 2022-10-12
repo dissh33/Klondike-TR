@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Items.Application.Contracts;
+using Items.Domain;
 using Items.Domain.Entities;
 using NSubstitute;
 
@@ -35,7 +36,7 @@ internal static class IconRepositoryMock
 
         repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
             fakeDataSet.FirstOrDefault(fake => fake.Id == call.Arg<Guid>()));
-
+        
         repository.Insert(Arg.Any<Icon>(), CancellationToken.None).Returns(async call =>
         {
             var icon = call.Arg<Icon>();
