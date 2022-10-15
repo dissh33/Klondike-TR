@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Items.Api.Dtos.CollectionItem;
 using Items.Api.Queries.CollectionItem;
-using Items.Api.Queries.Icon;
 using Items.Application.QueryHandlers.CollectionItemHandlers;
-using Items.Application.QueryHandlers.IconHandlers;
 using Items.Domain;
 using Items.Domain.Entities;
 using Items.Tests.Application.Mocks;
 using Items.Tests.Application.Setups;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.CollectionItems;
@@ -56,8 +53,9 @@ public class CollectionItemGetFullByCollectionTests : CollectionItemTestsSetup
         actual.Should().AllBeOfType(typeof(CollectionItemFullWithFileDto));
         actual.Should().HaveCount(Constants.COLLECTION_ITEM_NUMBER);
 
-        actual.Select(fullDto => fullDto.Icon).Should()
-            .BeEquivalentTo(_icons, options => options.Excluding(icon => icon.Id).Excluding(icon => icon.ExternalId));
+        actual.Select(fullDto => fullDto.Icon).Should().BeEquivalentTo(_icons, 
+        options => options.Excluding(icon => icon.Id)
+                                .Excluding(icon => icon.ExternalId));
 
         actual.Should().BeEquivalentTo(itemByCollection, options => options.Excluding(dto => dto.IconId));
     }

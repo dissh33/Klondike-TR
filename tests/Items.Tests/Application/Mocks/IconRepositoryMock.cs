@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Items.Application.Contracts;
-using Items.Domain;
 using Items.Domain.Entities;
 using NSubstitute;
 

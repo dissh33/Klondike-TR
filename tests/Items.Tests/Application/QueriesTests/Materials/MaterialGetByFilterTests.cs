@@ -11,11 +11,11 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.Materials;
 
-public class MaterialGetByFilterTests : MaterialTestsSetup
+public class CollectionGetByFilterTests : MaterialTestsSetup
 {
     private readonly MaterialGetByFilterHandler _sut;
 
-    public MaterialGetByFilterTests()
+    public CollectionGetByFilterTests()
     {
         _sut = new MaterialGetByFilterHandler(_uow, _mapper);
     }
