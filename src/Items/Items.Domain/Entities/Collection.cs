@@ -24,7 +24,7 @@ public class Collection : BaseEntity, ITradableItem
 
     public Collection(
         string? name, 
-        List<CollectionItem>? items = null,
+        IEnumerable<CollectionItem>? items = null,
         ItemStatus status = ItemStatus.Available, 
         Guid? id = null, 
         string? externalId = null)
@@ -64,11 +64,13 @@ public class Collection : BaseEntity, ITradableItem
         IconId = Icon.Id;
     }
 
-    public void Fill(List<CollectionItem> items)
+    public void Fill(IEnumerable<CollectionItem> items)
     {
-        if (items.Count != Constants.COLLECTION_ITEM_NUMBER)
-            throw new WrongCollectionItemsNumberException(items.Count);
+        var collectionItems = items.ToList();
 
-        _items.AddRange(items);
+        if (collectionItems.Count != Constants.COLLECTION_ITEM_NUMBER)
+            throw new WrongCollectionItemsNumberException(collectionItems.Count);
+
+        _items.AddRange(collectionItems);
     }
 }

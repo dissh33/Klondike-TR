@@ -14,14 +14,14 @@ using Items.Tests.Application.Setups;
 
 namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class IconDeleteTests : MaterialTestsSetup
+public class MaterialDeleteTests : MaterialTestsSetup
 {
     private readonly MaterialDeleteHandler _sut;
     private readonly MaterialGetAllHandler _getAll;
 
     private readonly DeleteByIdCommand _command;
 
-    public IconDeleteTests()
+    public MaterialDeleteTests()
     {
         _sut = new MaterialDeleteHandler(_uow);
         _getAll = new MaterialGetAllHandler(_uow, _mapper);

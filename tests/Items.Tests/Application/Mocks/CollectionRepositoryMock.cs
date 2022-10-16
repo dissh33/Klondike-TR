@@ -48,6 +48,94 @@ public static class CollectionRepositoryMock
                 filter.StartDate is null && filter.EndDate is null);
         });
 
+        repository.Insert(Arg.Any<Collection>(), CancellationToken.None).Returns(async call =>
+        {
+            var collection = call.Arg<Collection>();
+
+            fakeDataSet.Add(collection);
+
+            return await repository.GetById(collection.Id, CancellationToken.None);
+        });
+
+        repository.Update(Arg.Any<Collection>(), CancellationToken.None).Returns(async call =>
+        {
+            var collection = call.Arg<Collection>();
+
+            var collectionFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collection.Id);
+
+            if (collectionFromSet is null) return null;
+
+            fakeDataSet.Remove(collectionFromSet);
+            fakeDataSet.Add(collection);
+
+            return await repository.GetById(collection.Id, CancellationToken.None);
+        });
+
+        repository.UpdateName(Arg.Any<Guid>(), Arg.Any<string>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionId = call.Arg<Guid>();
+            var collectionFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionId);
+
+            if (collectionFromSet is null) return null;
+
+            var newName = call.Arg<string>();
+            var updatedCollection = new Collection(
+                newName,
+                status: collectionFromSet.Status ?? ItemStatus.Disabled,
+                id: collectionFromSet.Id,
+                externalId: collectionFromSet.ExternalId);
+
+            fakeDataSet.Remove(collectionFromSet);
+            fakeDataSet.Add(updatedCollection);
+
+            return await repository.GetById(updatedCollection.Id, CancellationToken.None);
+        });
+
+        repository.UpdateStatus(Arg.Any<Guid>(), Arg.Any<int>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionId = call.Arg<Guid>();
+            var collectionFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionId);
+
+            if (collectionFromSet is null) return null;
+
+            var newStatus = (ItemStatus)call.Arg<int>();
+            var updatedCollection = new Collection(
+                collectionFromSet.Name,
+                status: newStatus,
+                id: collectionFromSet.Id,
+                externalId: collectionFromSet.ExternalId);
+
+            fakeDataSet.Remove(collectionFromSet);
+            fakeDataSet.Add(updatedCollection);
+
+            return await repository.GetById(updatedCollection.Id, CancellationToken.None);
+        });
+
+        repository.UpdateIcon(Arg.Any<Guid>(), Arg.Any<Guid>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionId = call.ArgAt<Guid>(0);
+
+            var collectionFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionId);
+
+            if (collectionFromSet is null) return null;
+
+            var newIconId = call.ArgAt<Guid>(1);
+            collectionFromSet.AddIcon(newIconId);
+
+            return await repository.GetById(collectionId, CancellationToken.None);
+        });
+
+        repository.Delete(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
+        {
+            var collectionId = call.Arg<Guid>();
+
+            var collectionFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionId);
+
+            if (collectionFromSet is not null) fakeDataSet.Remove(collectionFromSet);
+
+            return collectionFromSet is not null ? 0 : 1;
+        });
+
         return repository;
     }
 }
