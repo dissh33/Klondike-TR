@@ -10,7 +10,7 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 
-namespace Items.Tests.Application.QueriesTests.Collectionы;
+namespace Items.Tests.Application.QueriesTests.Collections;
 
 public class CollectionGetByIdTests : CollectionTestsSetup
 {

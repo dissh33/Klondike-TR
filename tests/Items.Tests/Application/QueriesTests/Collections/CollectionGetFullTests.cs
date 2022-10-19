@@ -8,7 +8,6 @@ using Items.Api.Dtos.Collection;
 using Items.Api.Dtos.CollectionItem;
 using Items.Api.Dtos.Icon;
 using Items.Api.Queries.Collection;
-using Items.Api.Queries.CollectionItem;
 using Items.Application.QueryHandlers.CollectionHandlers;
 using Items.Domain;
 using Items.Domain.Entities;
@@ -17,7 +16,6 @@ using Items.Domain.Exceptions;
 using Items.Tests.Application.Mocks;
 using Items.Tests.Application.Setups;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 

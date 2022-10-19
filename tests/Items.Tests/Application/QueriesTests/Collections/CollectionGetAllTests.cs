@@ -10,7 +10,7 @@ using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.QueriesTests.Collectionы;
+namespace Items.Tests.Application.QueriesTests.Collections;
 
 public class CollectionGetAllTests : CollectionTestsSetup
 {

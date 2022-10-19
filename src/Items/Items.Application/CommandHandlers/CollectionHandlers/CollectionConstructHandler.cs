@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.CollectionHandlers;
 
-public class CollectionConstructHandler : IRequestHandler<CollectionConstructCommand, CollectionFullDto>
+public class CollectionConstructHandler : IRequestHandler<CollectionConstructCommand, CollectionFullDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         _mapper = mapper;
     }
 
-    public async Task<CollectionFullDto> Handle(CollectionConstructCommand request, CancellationToken ct)
+    public async Task<CollectionFullDto?> Handle(CollectionConstructCommand request, CancellationToken ct)
     {
         var status = ItemStatus.Available;
 
@@ -49,19 +49,28 @@ public class CollectionConstructHandler : IRequestHandler<CollectionConstructCom
         collection.AddIcon(request.Icon.Title, request.Icon.FileBinary, request.Icon.FileName);
 
         var collectionResult = await _uow.CollectionRepository.Insert(collection, ct);
-        var collectionIconResult = await _uow.IconRepository.Insert(collection.Icon!, ct);        
+        var collectionIconResult = await _uow.IconRepository.Insert(collection.Icon!, ct);
+
+        if (collectionResult is null)
+        {
+            _uow.Rollback();
+            return null;
+        }
 
         var collectionItemsIconResult = (await _uow.IconRepository.BulkInsert(collection.Items.Select(collectionItem => collectionItem.Icon!), ct)).ToList();
         var collectionItemsResult = (await _uow.CollectionItemRepository.BulkInsert(collection.Items, ct)).ToList();
 
         _uow.Commit();
 
-        collectionResult.AddIcon(
-            collectionIconResult.Title,
-            collectionIconResult.FileBinary,
-            collectionIconResult.FileName,
-            collectionIconResult.Id,
-            collectionIconResult.ExternalId);
+        if (collectionIconResult is not null)
+        {
+            collectionResult.AddIcon(
+                collectionIconResult.Title,
+                collectionIconResult.FileBinary,
+                collectionIconResult.FileName,
+                collectionIconResult.Id,
+                collectionIconResult.ExternalId);
+        }
         
         foreach (var item in collectionItemsResult)
         {
