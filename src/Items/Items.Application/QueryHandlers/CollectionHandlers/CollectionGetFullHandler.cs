@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.CollectionHandlers;
 
-public class CollectionGetFullHandler : IRequestHandler<CollectionGetFullQuery, CollectionFullDto>
+public class CollectionGetFullHandler : IRequestHandler<CollectionGetFullQuery, CollectionFullDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,17 +17,22 @@ public class CollectionGetFullHandler : IRequestHandler<CollectionGetFullQuery, 
         _mapper = mapper;
     }
 
-    public async Task<CollectionFullDto> Handle(CollectionGetFullQuery request, CancellationToken ct)
+    public async Task<CollectionFullDto?> Handle(CollectionGetFullQuery request, CancellationToken ct)
     {
         var collection = await _uow.CollectionRepository.GetById(request.Id, ct);
+        if (collection is null) return null;
+        
         var collectionIcon = await _uow.IconRepository.GetById(collection.IconId, ct);
 
-        collection.AddIcon(
-            collectionIcon.Title,
-            collectionIcon.FileBinary,
-            collectionIcon.FileName,
-            collectionIcon.Id,
-            collectionIcon.ExternalId);
+        if (collectionIcon is not null)
+        {
+            collection.AddIcon(
+                collectionIcon.Title,
+                collectionIcon.FileBinary,
+                collectionIcon.FileName,
+                collectionIcon.Id,
+                collectionIcon.ExternalId);
+        }
 
         var collectionItems = (await _uow.CollectionItemRepository.GetByCollection(collection.Id, ct)).ToList();
         var collectionItemsIcons = (await _uow.IconRepository.GetRange(collectionItems.Select(item => item.IconId), ct)).ToList();

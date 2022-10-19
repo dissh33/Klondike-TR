@@ -9,7 +9,7 @@ using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.QueriesTests.Collection;
+namespace Items.Tests.Application.QueriesTests.Collectionы;
 
 public class CollectionGetByFilterTests : CollectionTestsSetup
 {
