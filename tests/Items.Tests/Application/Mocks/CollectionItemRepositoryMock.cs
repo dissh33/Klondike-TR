@@ -18,9 +18,15 @@ public static class CollectionItemRepositoryMock
 
         foreach (var collection in CollectionRepositoryMock.InitialFakeDataSet)
         {
+            var icons = IconRepositoryMock.InitialFakeDataSet.ToList();
+
             for (int i = 0; i < 5; i++)
             {
                 var collectionItem = new CollectionItem($"name{i}-{i}", collection.Id, Guid.NewGuid());
+
+                var icon = icons[i];
+                collectionItem.AddIcon(icon.Title, icon.FileBinary, icon.FileName, icon.Id, icon.ExternalId);
+
                 data.Add(collectionItem);
             }
         }
@@ -36,8 +42,11 @@ public static class CollectionItemRepositoryMock
 
         repository.GetAll(CancellationToken.None).Returns(fakeDataSet);
 
-        repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
+        repository.GetById(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
             fakeDataSet.FirstOrDefault(fake => fake.Id == call.Arg<Guid>()));
+
+        repository.GetByCollection(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
+            fakeDataSet.Where(fake => fake.CollectionId == call.Arg<Guid>()));
 
         repository.Insert(Arg.Any<CollectionItem>(), CancellationToken.None).Returns(async call =>
         {
@@ -46,6 +55,15 @@ public static class CollectionItemRepositoryMock
             fakeDataSet.Add(collectionItem);
 
             return await repository.GetById(collectionItem.Id, CancellationToken.None);
+        });
+
+        repository.BulkInsert(Arg.Any<IEnumerable<CollectionItem>>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionItems = (call.Arg<IEnumerable<CollectionItem>>()).ToList();
+
+            fakeDataSet.AddRange(collectionItems);
+
+            return await repository.GetByCollection(collectionItems.First().CollectionId ?? Guid.Empty, CancellationToken.None);
         });
 
         repository.Update(Arg.Any<CollectionItem>(), CancellationToken.None).Returns(async call =>
@@ -60,6 +78,60 @@ public static class CollectionItemRepositoryMock
             fakeDataSet.Add(collectionItem);
 
             return await repository.GetById(collectionItem.Id, CancellationToken.None);
+        });
+
+        repository.UpdateIcon(Arg.Any<Guid>(), Arg.Any<Guid>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionItemId = call.ArgAt<Guid>(0);
+
+            var materialFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionItemId);
+
+            if (materialFromSet is null) return null;
+
+            var newIconId = call.ArgAt<Guid>(1);
+            materialFromSet.AddIcon(newIconId);
+
+            return await repository.GetById(collectionItemId, CancellationToken.None);
+        });
+
+        repository.UpdateName(Arg.Any<Guid>(), Arg.Any<string>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionItemId = call.Arg<Guid>();
+            var itemFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionItemId);
+
+            if (itemFromSet is null) return null;
+
+            var newName = call.Arg<string>();
+            var updatedIcon = new CollectionItem(
+                newName,
+                itemFromSet.CollectionId ?? Guid.Empty,
+                itemFromSet.Id,
+                itemFromSet.ExternalId);
+
+            fakeDataSet.Remove(itemFromSet);
+            fakeDataSet.Add(updatedIcon);
+
+            return await repository.GetById(updatedIcon.Id, CancellationToken.None);
+        });
+
+        repository.UpdateCollection(Arg.Any<Guid>(), Arg.Any<Guid>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionItemId = call.ArgAt<Guid>(0);
+            var itemFromSet = fakeDataSet.FirstOrDefault(fake => fake.Id == collectionItemId);
+
+            if (itemFromSet is null) return null;
+
+            var newCollectionId = call.ArgAt<Guid>(1);
+            var updatedIcon = new CollectionItem(
+                itemFromSet.Name,
+                newCollectionId,
+                itemFromSet.Id,
+                itemFromSet.ExternalId);
+
+            fakeDataSet.Remove(itemFromSet);
+            fakeDataSet.Add(updatedIcon);
+
+            return await repository.GetById(updatedIcon.Id, CancellationToken.None);
         });
 
         repository.Delete(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>

@@ -12,11 +12,11 @@ using Xunit;
 
 namespace Items.Tests.Application.QueriesTests.CollectionItems;
 
-public class CollectionItemGetAllTests : CollectionItemTestsSetup
+public class CollectionGetAllTests : CollectionItemTestsSetup
 {
     private readonly CollectionItemGetAllHandler _sut;
 
-    public CollectionItemGetAllTests()
+    public CollectionGetAllTests()
     {
         _sut = new CollectionItemGetAllHandler(_uow, _mapper);
     }

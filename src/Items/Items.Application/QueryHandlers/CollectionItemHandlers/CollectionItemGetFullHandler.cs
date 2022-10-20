@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.CollectionItemHandlers;
 
-public class CollectionItemGetFullHandler : IRequestHandler<CollectionItemGetFullQuery, CollectionItemFullDto>
+public class CollectionItemGetFullHandler : IRequestHandler<CollectionItemGetFullQuery, CollectionItemFullDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,17 +17,22 @@ public class CollectionItemGetFullHandler : IRequestHandler<CollectionItemGetFul
         _mapper = mapper;
     }
 
-    public async Task<CollectionItemFullDto> Handle(CollectionItemGetFullQuery request, CancellationToken ct)
+    public async Task<CollectionItemFullDto?> Handle(CollectionItemGetFullQuery request, CancellationToken ct)
     {
         var collectionItem = await _uow.CollectionItemRepository.GetById(request.Id, ct);
-        var icon = await _uow.IconRepository.GetById(collectionItem.IconId, ct);
+        if (collectionItem is null) return null;
 
-        collectionItem.AddIcon(
-            icon.Title,
-            icon.FileBinary,
-            icon.FileName,
-            icon.Id,
-            icon.ExternalId);
+        var icon = await _uow.IconRepository.GetById(collectionItem.IconId, ct);
+        
+        if (icon is not null)
+        {
+            collectionItem.AddIcon(
+                icon.Title,
+                icon.FileBinary,
+                icon.FileName,
+                icon.Id,
+                icon.ExternalId);
+        }
 
         return _mapper.Map<CollectionItemFullDto>(collectionItem);
     }

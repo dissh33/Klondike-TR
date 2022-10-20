@@ -26,6 +26,9 @@ public class CollectionItemGetFullByCollectionHandler : IRequestHandler<Collecti
         var iconsIds = collectionItems.Select(item => item.IconId);
         var icons = (await _uow.IconRepository.GetRange(iconsIds, ct)).ToList();
 
+        if (icons.Count <= 0)
+            return collectionItems.Select(collectionItem => _mapper.Map<CollectionItemFullWithFileDto>(collectionItem));
+        
         foreach (var collectionItem in collectionItems)
         {
             var currentIcon = icons.First(icon => icon.Id == collectionItem.IconId);

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.CollectionHandlers;
 
-public class CollectionGetByIdHandler : IRequestHandler<CollectionGetByIdQuery, CollectionDto>
+public class CollectionGetByIdHandler : IRequestHandler<CollectionGetByIdQuery, CollectionDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class CollectionGetByIdHandler : IRequestHandler<CollectionGetByIdQuery, 
         _mapper = mapper;
     }
 
-    public async Task<CollectionDto> Handle(CollectionGetByIdQuery request, CancellationToken ct)
+    public async Task<CollectionDto?> Handle(CollectionGetByIdQuery request, CancellationToken ct)
     {
         var result = await _uow.CollectionRepository.GetById(request.Id, ct);
 

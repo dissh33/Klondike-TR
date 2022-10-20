@@ -35,7 +35,7 @@ internal static class IconRepositoryMock
 
         repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
             fakeDataSet.FirstOrDefault(fake => fake.Id == call.Arg<Guid>()));
-
+        
         repository.Insert(Arg.Any<Icon>(), CancellationToken.None).Returns(async call =>
         {
             var icon = call.Arg<Icon>();
@@ -43,6 +43,15 @@ internal static class IconRepositoryMock
             fakeDataSet.Add(icon);
 
             return await repository.GetById(icon.Id, CancellationToken.None);
+        });
+
+        repository.BulkInsert(Arg.Any<IEnumerable<Icon>>(), CancellationToken.None).Returns(async call =>
+        {
+            var icons = (call.Arg<IEnumerable<Icon>>()).ToList();
+
+            fakeDataSet.AddRange(icons);
+
+            return await repository.GetRange(icons.Select(x => x.Id), CancellationToken.None);
         });
 
         repository.Update(Arg.Any<Icon>(), CancellationToken.None).Returns(async call =>

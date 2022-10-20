@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Items.Tests.Application.CommandsTests.Materials;
 
-public class IconUpdateTitleTests : MaterialTestsSetup
+public class MaterialUpdateStatusTests : MaterialTestsSetup
 {
     private readonly MaterialUpdateStatusHandler _sut;
     private readonly MaterialGetAllHandler _getAll;
@@ -24,7 +24,7 @@ public class IconUpdateTitleTests : MaterialTestsSetup
 
     private readonly MaterialUpdateStatusCommand _command;
 
-    public IconUpdateTitleTests()
+    public MaterialUpdateStatusTests()
     {
         _sut = new MaterialUpdateStatusHandler(_uow, _mapper);
         _getAll = new MaterialGetAllHandler(_uow, _mapper);

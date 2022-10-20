@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.CollectionHandlers;
 
-public class CollectionUpdateIconHandler : IRequestHandler<CollectionUpdateIconCommand, CollectionDto>
+public class CollectionUpdateIconHandler : IRequestHandler<CollectionUpdateIconCommand, CollectionDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class CollectionUpdateIconHandler : IRequestHandler<CollectionUpdateIconC
         _mapper = mapper;
     }
 
-    public async Task<CollectionDto> Handle(CollectionUpdateIconCommand request, CancellationToken ct)
+    public async Task<CollectionDto?> Handle(CollectionUpdateIconCommand request, CancellationToken ct)
     {
         var result = await _uow.CollectionRepository.UpdateIcon(request.Id, request.IconId, ct);
 

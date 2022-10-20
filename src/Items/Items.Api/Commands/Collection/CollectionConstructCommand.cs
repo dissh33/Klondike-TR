@@ -5,10 +5,10 @@ using MediatR;
 
 namespace Items.Api.Commands.Collection;
 
-public class CollectionConstructCommand : IRequest<CollectionFullDto>
+public record CollectionConstructCommand : IRequest<CollectionFullDto>
 {
-    public string? Name { get; set; }
-    public IconAddDto Icon { get; set; } = new();
-    public int? Status { get; set; }
-    public IEnumerable<CollectionItemAddDto> Items { get; set; } = Enumerable.Empty<CollectionItemAddDto>();
+    public string? Name { get; init; }
+    public IconAddDto Icon { get; init; } = new();
+    public int? Status { get; init; }
+    public IEnumerable<CollectionItemAddDto> Items { get; init; } = Enumerable.Empty<CollectionItemAddDto>();
 }
