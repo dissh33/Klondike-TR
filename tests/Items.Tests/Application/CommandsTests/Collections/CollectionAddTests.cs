@@ -14,7 +14,7 @@ using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.CommandsTests.Collection;
+namespace Items.Tests.Application.CommandsTests.Collections;
 
 public class CollectionAddTests : CollectionTestsSetup
 {

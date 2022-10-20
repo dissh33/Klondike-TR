@@ -57,6 +57,15 @@ public static class CollectionItemRepositoryMock
             return await repository.GetById(collectionItem.Id, CancellationToken.None);
         });
 
+        repository.BulkInsert(Arg.Any<IEnumerable<CollectionItem>>(), CancellationToken.None).Returns(async call =>
+        {
+            var collectionItems = (call.Arg<IEnumerable<CollectionItem>>()).ToList();
+
+            fakeDataSet.AddRange(collectionItems);
+
+            return await repository.GetByCollection(collectionItems.First().CollectionId ?? Guid.Empty, CancellationToken.None);
+        });
+
         repository.Update(Arg.Any<CollectionItem>(), CancellationToken.None).Returns(async call =>
         {
             var collectionItem = call.Arg<CollectionItem>();

@@ -8,38 +8,39 @@ using Items.Api.Dtos.Collection;
 using Items.Api.Queries.Collection;
 using Items.Application.CommandHandlers.CollectionHandlers;
 using Items.Application.QueryHandlers.CollectionHandlers;
+using Items.Domain.Enums;
 using Items.Tests.Application.Mocks;
 using Items.Tests.Application.Setups;
 using NSubstitute;
 using Xunit;
 
-namespace Items.Tests.Application.CommandsTests.Collection;
+namespace Items.Tests.Application.CommandsTests.Collections;
 
-public class CollectionUpdateIconTests : CollectionTestsSetup
+public class CollectionUpdateStatusTests : CollectionTestsSetup
 {
-    private readonly CollectionUpdateIconHandler _sut;
+    private readonly CollectionUpdateStatusHandler _sut;
     private readonly CollectionGetAllHandler _getAll;
     private readonly CollectionGetByIdHandler _getById;
 
-    private readonly CollectionUpdateIconCommand _command;
+    private readonly CollectionUpdateStatusCommand _command;
 
-    public CollectionUpdateIconTests()
+    public CollectionUpdateStatusTests()
     {
-        _sut = new CollectionUpdateIconHandler(_uow, _mapper);
+        _sut = new CollectionUpdateStatusHandler(_uow, _mapper);
         _getAll = new CollectionGetAllHandler(_uow, _mapper);
         _getById = new CollectionGetByIdHandler(_uow, _mapper);
 
         var fakeId = _getAll.Handle(new CollectionGetAllQuery(), CancellationToken.None).GetAwaiter().GetResult().First().Id;
 
-        _command = new CollectionUpdateIconCommand()
+        _command = new CollectionUpdateStatusCommand()
         {
             Id = fakeId,
-            IconId = Guid.NewGuid(),
+            Status = (int) ItemStatus.Removed,
         };
     }
 
     [Fact]
-    public async Task ShouldUpdateAndReturnCollectionDto_WithNewIconButSameRestValues()
+    public async Task ShouldUpdateAndReturnCollectionDto_WithNewStatusButSameRestValues()
     {
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
@@ -48,11 +49,11 @@ public class CollectionUpdateIconTests : CollectionTestsSetup
         actual.Should().BeOfType<CollectionDto>();
         actual.Should().NotBeNull();
 
-        actual!.IconId.Should().Be(_command.IconId);
+        actual!.Status.Should().Be(_command.Status);
         actual.Id.Should().Be(_command.Id);
 
+        actual.IconId.Should().Be(CollectionRepositoryMock.InitialFakeDataSet.First().IconId);
         actual.Name.Should().Be(CollectionRepositoryMock.InitialFakeDataSet.First().Name);
-        actual.Status.Should().Be((int)CollectionRepositoryMock.InitialFakeDataSet.First().Status!);
     }
 
     [Fact]
@@ -74,10 +75,10 @@ public class CollectionUpdateIconTests : CollectionTestsSetup
     public async Task ShouldJustReturnNull_WhenCollectionDoesNotExists()
     {
         //arrange
-        var doesNotExistsCommand = new CollectionUpdateIconCommand()
+        var doesNotExistsCommand = new CollectionUpdateStatusCommand()
         {
             Id = new Guid(),
-            IconId = Guid.NewGuid(),
+            Status = 1,
         };
 
         //act

@@ -45,6 +45,15 @@ internal static class IconRepositoryMock
             return await repository.GetById(icon.Id, CancellationToken.None);
         });
 
+        repository.BulkInsert(Arg.Any<IEnumerable<Icon>>(), CancellationToken.None).Returns(async call =>
+        {
+            var icons = (call.Arg<IEnumerable<Icon>>()).ToList();
+
+            fakeDataSet.AddRange(icons);
+
+            return await repository.GetRange(icons.Select(x => x.Id), CancellationToken.None);
+        });
+
         repository.Update(Arg.Any<Icon>(), CancellationToken.None).Returns(async call =>
         {
             var icon = call.Arg<Icon>();
