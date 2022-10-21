@@ -179,7 +179,7 @@ public class CollectionConstructTests : CollectionTestsSetup
     }
 
     [Fact]
-    public async Task ShouldThrowException_WhenCountOfAddedCollectionItemsIsNotFive()
+    public async Task ShouldThrowExceptionAndRollback_WhenCountOfAddedCollectionItemsIsNotFive()
     {
         //arrange
         _uow.CollectionItemRepository.GetByCollection(Arg.Any<Guid>(), CancellationToken.None).Returns(Enumerable.Empty<CollectionItem>());
@@ -189,6 +189,7 @@ public class CollectionConstructTests : CollectionTestsSetup
 
         //assert
         await act.Should().ThrowAsync<WrongCollectionItemsNumberException>();
+        _uow.Received(1).Rollback();
     }
 
     [Fact]
