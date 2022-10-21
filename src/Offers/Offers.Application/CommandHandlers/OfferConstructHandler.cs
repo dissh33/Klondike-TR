@@ -24,6 +24,12 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         var offer = ConstructOfferForInsert(request);
 
         var offerResult = await _uow.OfferRepository.Insert(offer, ct);
+        var positionsResult = await _uow.OfferPositionRepository.BulkInsert(offer.Positions, ct);
+
+        foreach (var position in positionsResult)
+        {
+            var itemsResult = await _uow.OfferItemRepository.BulkInsert(position.OfferItems, ct);
+        }
 
         return _mapper.Map<OfferDto>(offerResult);
     }

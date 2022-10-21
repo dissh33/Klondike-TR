@@ -51,6 +51,34 @@ public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemReposito
         return await GetById(id, ct);
     }
 
+    public async Task<IEnumerable<OfferItem>> BulkInsert(IEnumerable<OfferItem> offerPositions, CancellationToken ct)
+    {
+        var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var subSql = string.Join(", ",
+            offerPositions.Select(position =>
+                $"('{position.Id.Value}', " +
+                $"'{position.OfferPositionId?.Value}', " +
+                $"'{position.TradableItemId}', " +
+                $"'{position.Amount}', " +
+                $"'{position.Type}', " +
+                $"'{position.CreateDate}')"));
+
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING position_id;";
+
+        var command = new CommandDefinition(
+            commandText: sql,
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
+
+        var positionId = await Logger.DbCall(query, command, Metrics);
+
+        return await GetByPosition(positionId, ct);
+    }
+
     public async Task<int> Delete(Guid id, CancellationToken ct)
     {
         var command = DeleteBaseCommand(id, ct);

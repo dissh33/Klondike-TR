@@ -24,7 +24,7 @@ public class OfferPositionRepository : BaseRepository<OfferPosition>, IOfferPosi
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<IEnumerable<OfferPosition>> GetByCollection(Guid offerId, CancellationToken ct)
+    public async Task<IEnumerable<OfferPosition>> GetByOffer(Guid offerId, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
@@ -77,7 +77,7 @@ public class OfferPositionRepository : BaseRepository<OfferPosition>, IOfferPosi
 
         var collectionId = await Logger.DbCall(query, command, Metrics);
 
-        return await GetByCollection(collectionId, ct);
+        return await GetByOffer(collectionId, ct);
     }
 
     public async Task<int> Delete(Guid id, CancellationToken ct)
