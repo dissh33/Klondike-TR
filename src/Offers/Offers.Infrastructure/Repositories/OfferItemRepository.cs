@@ -8,25 +8,25 @@ using Serilog;
 
 namespace Offers.Infrastructure.Repositories;
 
-public class OfferRepository : BaseRepository<Offer>, IOfferRepository
+public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemRepository
 {
-    public OfferRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics) 
+    public OfferItemRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
         : base(transaction, logger, metrics)
     {
     }
 
-    public async Task<Offer?> GetById(Guid id, CancellationToken ct)
+    public async Task<OfferItem?> GetById(Guid id, CancellationToken ct)
     {
         var command = GetByIdBaseCommand(id, ct);
 
-        var query = async () => await Connection.QueryFirstOrDefaultAsync<Offer>(command);
+        var query = async () => await Connection.QueryFirstOrDefaultAsync<OfferItem>(command);
 
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<Offer?> Insert(Offer offer, CancellationToken ct)
+    public async Task<OfferItem?> Insert(OfferItem offerItem, CancellationToken ct)
     {
-        var command = InsertBaseCommand(offer, ct);
+        var command = InsertBaseCommand(offerItem, ct);
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 

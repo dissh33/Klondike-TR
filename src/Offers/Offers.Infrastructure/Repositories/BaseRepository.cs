@@ -39,7 +39,48 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
 
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
     }
-    
+
+    protected CommandDefinition GetByIdBaseCommand(Guid id, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+
+        var sql = $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE id = @id";
+
+        return new CommandDefinition(
+            commandText: sql,
+            parameters: new { id },
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+    }
+
+    protected CommandDefinition InsertBaseCommand(T entity, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var insertColumns = $"({selectColumns}) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))})";
+
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
+
+        return new CommandDefinition(
+            commandText: sql,
+            parameters: entity,
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+    }
+
+    protected CommandDefinition DeleteBaseCommand(Guid id, CancellationToken ct)
+    {
+        var sql = $"DELETE FROM {SCHEMA_NAME}.{TableName} WHERE id = @id";
+
+        return new CommandDefinition(
+            commandText: sql,
+            parameters: new { id },
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+    }
+
     protected IEnumerable<string> GetColumns()
     {
         return typeof(T)
