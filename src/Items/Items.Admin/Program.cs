@@ -57,7 +57,6 @@ var app = builder.Build();
 
 #region Configure pipeline
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

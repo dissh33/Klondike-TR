@@ -3,7 +3,7 @@ using Offers.Api.Dtos;
 
 namespace Offers.Api.Commands;
 
-public class OfferConstructCommand : IRequest<OfferDto>
+public class OfferConstructCommand : IRequest<OfferDto?>
 {
     public string? Title { get; set; }
     public string? Message { get; set; }

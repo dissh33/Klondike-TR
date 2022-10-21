@@ -8,7 +8,7 @@ using Offers.Domain.Enums;
 
 namespace Offers.Application.CommandHandlers;
 
-public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, OfferDto>
+public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, OfferDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -19,17 +19,42 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         _mapper = mapper;
     }
 
-    public async Task<OfferDto> Handle(OfferConstructCommand request, CancellationToken ct)
+    public async Task<OfferDto?> Handle(OfferConstructCommand request, CancellationToken ct)
     {
         var offer = ConstructOfferForInsert(request);
 
         var offerResult = await _uow.OfferRepository.Insert(offer, ct);
-        var positionsResult = await _uow.OfferPositionRepository.BulkInsert(offer.Positions, ct);
 
+        if (offerResult is null)
+        {
+            _uow.Rollback();
+            return null;
+        }
+
+        var positionsResult = await _uow.OfferPositionRepository.BulkInsert(offer.Positions, ct);
+        
         foreach (var position in positionsResult)
         {
             var itemsResult = await _uow.OfferItemRepository.BulkInsert(position.OfferItems, ct);
+
+            foreach (var item in itemsResult)
+            {
+                position.AddOfferItem(
+                    item.TradableItemId, 
+                    item.Amount, 
+                    item.Type, 
+                    item.Id.Value);
+            }
+
+            offerResult.AddPosition(
+                position.PriceRate,
+                position.WithTrader,
+                position.Message,
+                position.Type,
+                position.Id.Value);
         }
+
+        _uow.Commit();
 
         return _mapper.Map<OfferDto>(offerResult);
     }
