@@ -26,8 +26,29 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
 
     public async Task<Offer?> Insert(Offer offer, CancellationToken ct)
     {
-        var command = InsertBaseCommand(offer, ct);
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var insertColumns = $"({selectColumns}) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))})";
 
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
+
+        var parameter = new
+        {
+            Id = offer.Id.Value,
+            offer.Title,
+            offer.Message,
+            offer.Expression,
+            offer.Type,
+            offer.Status,
+            offer.CreateDate,
+        };
+
+        var command = new CommandDefinition(
+            commandText: sql,
+            parameters: parameter,
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+        
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
         var id = await Logger.DbCall(query, command, Metrics);

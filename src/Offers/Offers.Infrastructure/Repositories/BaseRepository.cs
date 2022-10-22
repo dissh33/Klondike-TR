@@ -68,10 +68,9 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
         var insertColumns = $"({selectColumns}) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))})";
 
         var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
-
+        
         return new CommandDefinition(
             commandText: sql,
-            parameters: entity,
             transaction: Transaction,
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
