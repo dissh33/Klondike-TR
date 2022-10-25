@@ -18,7 +18,7 @@ namespace Offers.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<OfferDto>> Get([FromForm] OfferConstructCommand command, CancellationToken ct)
+        public async Task<ActionResult<OfferDto>> Get([FromBody] OfferConstructCommand command, CancellationToken ct)
         {
             var result = await _mediator.Send(command, ct);
             return new JsonResult(result);

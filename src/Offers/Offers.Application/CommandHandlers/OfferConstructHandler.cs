@@ -23,40 +23,47 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
     {
         var offer = ConstructOfferForInsert(request);
 
-        var offerResult = await _uow.OfferRepository.Insert(offer, ct);
+        var offerFromDb = await _uow.OfferRepository.Insert(offer, ct);
 
-        if (offerResult is null)
+        if (offerFromDb is null)
         {
             _uow.Rollback();
             return null;
         }
 
-        var positionsResult = await _uow.OfferPositionRepository.BulkInsert(offer.Positions, ct);
-        
-        foreach (var position in positionsResult)
-        {
-            var itemsResult = await _uow.OfferItemRepository.BulkInsert(position.OfferItems, ct);
+        var positionsFromDb = (await _uow.OfferPositionRepository.BulkInsert(offer.Positions, ct)).ToList();
 
-            foreach (var item in itemsResult)
+        foreach (var positionFromDto in offer.Positions)
+        {
+            var currentPositionFromDb = positionsFromDb.FirstOrDefault(fromDb => fromDb.Id == positionFromDto.Id);
+
+            if (currentPositionFromDb is not null)
             {
-                position.AddOfferItem(
-                    item.TradableItemId, 
-                    item.Amount, 
-                    item.Type, 
-                    item.Id.Value);
+                offerFromDb.AddPosition(
+                        currentPositionFromDb.PriceRate,
+                        currentPositionFromDb.WithTrader,
+                        currentPositionFromDb.Message,
+                        currentPositionFromDb.Type,
+                        currentPositionFromDb.Id.Value); 
             }
 
-            offerResult.AddPosition(
-                position.PriceRate,
-                position.WithTrader,
-                position.Message,
-                position.Type,
-                position.Id.Value);
+            var currentPositionInOffer = offerFromDb.Positions.FirstOrDefault(offerPosition => offerPosition.Id == positionFromDto.Id);
+
+            var itemsFromDb = await _uow.OfferItemRepository.BulkInsert(positionFromDto.OfferItems, ct);
+
+            foreach (var item in itemsFromDb)
+            {
+                currentPositionInOffer?.AddOfferItem(
+                    item.TradableItemId,
+                    item.Amount,
+                    item.Type,
+                    item.Id.Value);
+            }
         }
 
         _uow.Commit();
 
-        return _mapper.Map<OfferDto>(offerResult);
+        return _mapper.Map<OfferDto>(offerFromDb);
     }
 
     private static Offer ConstructOfferForInsert(OfferConstructCommand request)

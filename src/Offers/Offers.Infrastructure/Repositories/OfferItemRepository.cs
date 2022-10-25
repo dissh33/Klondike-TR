@@ -24,13 +24,13 @@ public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemReposito
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<IEnumerable<OfferItem>> GetByPosition(Guid positionId, CancellationToken ct)
+    public async Task<IEnumerable<OfferItem>> GetByPosition(Guid offerPositionId, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
         var command = new CommandDefinition(
-            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE position_id = @positionId",
-            parameters: new { positionId },
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE offer_position_id = @offerPositionId",
+            parameters: new { offerPositionId },
             transaction: Transaction,
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
@@ -51,20 +51,20 @@ public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemReposito
         return await GetById(id, ct);
     }
 
-    public async Task<IEnumerable<OfferItem>> BulkInsert(IEnumerable<OfferItem> offerPositions, CancellationToken ct)
+    public async Task<IEnumerable<OfferItem>> BulkInsert(IEnumerable<OfferItem> offerItems, CancellationToken ct)
     {
         var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
         var subSql = string.Join(", ",
-            offerPositions.Select(position =>
-                $"('{position.Id.Value}', " +
-                $"'{position.OfferPositionId?.Value}', " +
-                $"'{position.TradableItemId}', " +
-                $"'{position.Amount}', " +
-                $"'{position.Type}', " +
-                $"'{position.CreateDate}')"));
+            offerItems.Select(item =>
+                $"('{item.Id.Value}', " +
+                $"'{item.OfferPositionId?.Value}', " +
+                $"'{item.TradableItemId}', " +
+                $"'{item.Amount}', " +
+                $"'{(int)item.Type}', " +
+                $"'{item.CreateDate}')"));
 
-        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING position_id;";
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING offer_position_id;";
 
         var command = new CommandDefinition(
             commandText: sql,

@@ -44,7 +44,7 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
     }
 
-    protected List<string> ExcludeProperties = new() {  "DomainEvents", "OfferItems", "Positions", "Expression" };
+    protected List<string> ExcludeProperties = new() {  "DomainEvents", "OfferItems", "Positions", "Expression"};
     
     protected IEnumerable<string> GetColumns()
     {

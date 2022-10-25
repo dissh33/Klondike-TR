@@ -57,15 +57,15 @@ public class OfferPositionRepository : BaseRepository<OfferPosition>, IOfferPosi
 
         var subSql = string.Join(", ", 
             offerPositions.Select(position => 
-                $"'{position.Id.Value}', " +
+                $"('{position.Id.Value}', " +
                 $"'{position.OfferId?.Value}', " +
                 $"'{position.PriceRate}', " +
                 $"'{position.WithTrader}', " +
                 $"'{position.Message}', " +
-                $"'{position.Type}', " +
-                $"'{position.CreateDate}'"));
+                $"'{(int)position.Type}', " +
+                $"'{position.CreateDate}')"));
 
-        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES ({subSql}) RETURNING offer_id;";
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING offer_id;";
 
         var command = new CommandDefinition(
             commandText: sql,
@@ -75,9 +75,9 @@ public class OfferPositionRepository : BaseRepository<OfferPosition>, IOfferPosi
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var collectionId = await Logger.DbCall(query, command, Metrics);
+        var offerId = await Logger.DbCall(query, command, Metrics);
 
-        return await GetByOffer(collectionId, ct);
+        return await GetByOffer(offerId, ct);
     }
 
     public async Task<int> Delete(Guid id, CancellationToken ct)
