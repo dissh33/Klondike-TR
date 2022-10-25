@@ -2,10 +2,12 @@
 using Dapper;
 using Serilog;
 using System.Data;
+using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using Offers.Application.Contracts;
 using Offers.Domain.SeedWork;
+using Offers.Domain.TypedIds;
 
 namespace Offers.Infrastructure.Repositories;
 
@@ -25,6 +27,10 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
     static BaseRepository()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+        SqlMapper.AddTypeHandler(typeof(OfferId), new TypedIdHandler());
+        SqlMapper.AddTypeHandler(typeof(OfferPositionId), new TypedIdHandler());
+        SqlMapper.AddTypeHandler(typeof(OfferItemId), new TypedIdHandler());
     }
 
     protected BaseRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
@@ -38,7 +44,7 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
     }
 
-    protected List<string> ExcludeProperties = new() {  "DomainEvents", "OfferItems", "Positions" };
+    protected List<string> ExcludeProperties = new() {  "DomainEvents", "OfferItems", "Positions", "Expression" };
     
     protected IEnumerable<string> GetColumns()
     {
@@ -130,6 +136,25 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
         public object? Parse(Type destinationType, object value)
         {
             return JsonConvert.DeserializeObject(value.ToString()!, destinationType);
+        }
+    }
+
+    public class TypedIdHandler : SqlMapper.ITypeHandler
+    {
+        public void SetValue(IDbDataParameter parameter, object? value)
+        {
+            var typedId = value as TypedIdValue;
+
+            parameter.Value = (typedId == null)
+                ? DBNull.Value
+                : typedId.Value;
+
+            parameter.DbType = DbType.Guid;
+        }
+
+        public object? Parse(Type destinationType, object value)
+        {
+            return Activator.CreateInstance(destinationType, value);
         }
     }
 }

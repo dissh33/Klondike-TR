@@ -27,24 +27,13 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
     public async Task<Offer?> Insert(Offer offer, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
-        var insertColumns = $"({selectColumns}) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))})";
+        var insertColumns = $"({selectColumns}, expression) VALUES ({string.Join(", ", GetColumns().Select(e => "@" + e))}, CAST(@Expression AS json))";
 
         var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
-
-        var parameter = new
-        {
-            Id = offer.Id.Value,
-            offer.Title,
-            offer.Message,
-            offer.Expression,
-            offer.Type,
-            offer.Status,
-            offer.CreateDate,
-        };
-
+        
         var command = new CommandDefinition(
             commandText: sql,
-            parameters: parameter,
+            parameters: offer,
             transaction: Transaction,
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
