@@ -2,6 +2,8 @@
 
 public record OfferDto
 {
+    public Guid Id { get; init; }
+
     public string? Title { get; init; }
     public string? Message { get; init; }
 

@@ -8,6 +8,10 @@ public class OfferItemProfile : Profile
 {
     public OfferItemProfile()
     {
-        CreateMap<OfferItem, OfferItemDto>();
+        CreateMap<OfferItem, OfferItemDto>()
+            .ForMember(dto => dto.Id,
+                expression => expression.MapFrom(offerPosition => offerPosition.Id.Value))
+            .ForMember(dto => dto.OfferPositionId,
+                expression => expression.MapFrom(offerPosition => offerPosition.OfferPositionId != null ? offerPosition.OfferPositionId.Value : Guid.Empty));
     }
 }

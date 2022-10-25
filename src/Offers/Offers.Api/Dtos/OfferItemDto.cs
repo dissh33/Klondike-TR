@@ -2,6 +2,8 @@
 
 public record OfferItemDto
 {
+    public Guid Id { get; init; }
+
     public int Amount { get; init; }
     public int Type { get; init; }
 

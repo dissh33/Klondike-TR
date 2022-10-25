@@ -8,6 +8,8 @@ public class OfferProfile : Profile
 {
     public OfferProfile()
     {
-        CreateMap<Offer, OfferDto>();
+        CreateMap<Offer, OfferDto>()
+            .ForMember(dto => dto.Id,
+                expression => expression.MapFrom(offerPosition => offerPosition.Id.Value));
     }
 }

@@ -2,6 +2,8 @@
 
 public class OfferPositionDto
 {
+    public Guid Id { get; init; }
+
     public Guid? OfferId { get; init; }
     public string? PriceRate { get; init; }
     public bool WithTrader { get; init; }
