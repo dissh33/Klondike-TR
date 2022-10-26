@@ -1,9 +1,7 @@
 ﻿namespace Offers.Api.Dtos;
 
-public record OfferPositionDto
+public record OfferPositionAddDto
 {
-    public Guid Id { get; init; }
-
     public Guid? OfferId { get; init; }
     public string? PriceRate { get; init; }
     public bool WithTrader { get; init; }
@@ -11,5 +9,5 @@ public record OfferPositionDto
 
     public int Type { get; init; }
 
-    public IEnumerable<OfferItemDto> OfferItems { get; set; } = Enumerable.Empty<OfferItemDto>();
+    public IEnumerable<OfferItemAddDto> OfferItems { get; init; } = Enumerable.Empty<OfferItemAddDto>();
 }

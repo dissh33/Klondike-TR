@@ -16,7 +16,7 @@ public class OfferConstructTests
     private readonly IUnitOfWork _uow;
 
     private readonly OfferConstructHandler _sut;
-
+    
     private readonly OfferConstructCommand _command;
 
     public OfferConstructTests()
