@@ -24,15 +24,16 @@ public static class OfferPositionRepositoryMock
 
         return data;
     }
+    public static IEnumerable<OfferPosition> FakeDataSet { get; set; } = SeedData();
 
     public static IOfferPositionRepository GetRepository()
     {
         var repository = Substitute.For<IOfferPositionRepository>();
 
-        var fakeDataSet = SeedData().ToList();
+        //var fakeDataSet = SeedData().ToList();
 
         repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
-            fakeDataSet.FirstOrDefault(fake => fake.Id.Value == call.Arg<Guid>()));
+            FakeDataSet.FirstOrDefault(fake => fake.Id.Value == call.Arg<Guid>()));
 
         return repository;
     }

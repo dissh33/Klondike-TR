@@ -130,8 +130,7 @@ public class CollectionConstructTests : CollectionTestsSetup
         allIcons.Should().HaveCount(IconRepositoryMock.InitialFakeDataSet.Count() + Constants.COLLECTION_ITEM_NUMBER + 1); //+1 for collection entity
         allItems.Should().HaveCount(CollectionItemRepositoryMock.InitialFakeDataSet.Count() + Constants.COLLECTION_ITEM_NUMBER);
     }
-
-
+    
     [Fact]
     public async Task ShouldReturnCollectionFullDto_WithValuesFromCommand() 
     {
@@ -150,6 +149,37 @@ public class CollectionConstructTests : CollectionTestsSetup
 
         actual!.Items.Should().BeEquivalentTo(_command.Items, options =>
             options.Excluding(item => item.Icon.FileBinary));
+    }
+
+
+    [Fact]
+    public async Task ShouldReturnAddedCollectionFullDto()
+    {
+        //act
+        var actual = await _sut.Handle(_command, CancellationToken.None);
+        var added = await _getById.Handle(new CollectionGetByIdQuery(actual?.Id ?? Guid.Empty), CancellationToken.None);
+
+        //assert
+        actual.Should().BeOfType<CollectionFullDto>();
+        added.Should().NotBeNull();
+
+        added.Should().BeEquivalentTo(actual, options =>
+            options.Excluding(dto => dto!.Icon).Excluding(dto => dto!.Items));
+    }
+
+    [Fact]
+    public async Task ShouldRollbackAndReturnNull_WhenCantAddCollectionEntity()
+    {
+        //arrange
+        _uow.CollectionRepository.GetById(Arg.Any<Guid>(), CancellationToken.None).ReturnsNull();
+        _uow.CollectionRepository.Insert(Arg.Any<Collection>(), CancellationToken.None).ReturnsNull();
+
+        //act
+        var actual = await _sut.Handle(_command, CancellationToken.None);
+
+        //assert
+        _uow.Received(1).Rollback();
+        actual.Should().BeNull();
     }
 
     [Fact]
@@ -190,36 +220,6 @@ public class CollectionConstructTests : CollectionTestsSetup
         //assert
         await act.Should().ThrowAsync<WrongCollectionItemsNumberException>();
         _uow.Received(1).Rollback();
-    }
-
-    [Fact]
-    public async Task ShouldReturnAddedCollectionFullDto()
-    {
-        //act
-        var actual = await _sut.Handle(_command, CancellationToken.None);
-        var added = await _getById.Handle(new CollectionGetByIdQuery(actual?.Id ?? Guid.Empty), CancellationToken.None);
-        
-        //assert
-        actual.Should().BeOfType<CollectionFullDto>();
-        added.Should().NotBeNull();
-
-        added.Should().BeEquivalentTo(actual, options => 
-            options.Excluding(dto => dto!.Icon).Excluding(dto => dto!.Items));
-    }
-
-    [Fact]
-    public async Task ShouldRollbackOnceAndReturnNull_WhenCantAddCollectionEntity()
-    {
-        //arrange
-        _uow.CollectionRepository.GetById(Arg.Any<Guid>(), CancellationToken.None).ReturnsNull();
-        _uow.CollectionRepository.Insert(Arg.Any<Collection>(), CancellationToken.None).ReturnsNull();
-
-        //act
-        var actual = await _sut.Handle(_command, CancellationToken.None);
-
-        //assert
-        _uow.Received(1).Rollback();
-        actual.Should().BeNull();
     }
 
     [Fact]
