@@ -21,7 +21,7 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
 
     public async Task<OfferDto?> Handle(OfferConstructCommand request, CancellationToken ct)
     {
-        var offer = ConstructOfferForInsert(request);
+        var offer = ConstructOfferEntity(request);
 
         var offerFromDb = await _uow.OfferRepository.Insert(offer, ct);
 
@@ -66,13 +66,15 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         return _mapper.Map<OfferDto>(offerFromDb);
     }
 
-    private static Offer ConstructOfferForInsert(OfferConstructCommand request)
+    private static Offer ConstructOfferEntity(OfferConstructCommand request)
     {
         var status = OfferStatus.Draft;
-        if (request.Status != null) status = (OfferStatus) request.Status;
+        if (request.Status != null) 
+            status = (OfferStatus) request.Status;
 
         var offerType = OfferType.Default;
-        if (request.Type != null) offerType = (OfferType) request.Type;
+        if (request.Type != null) 
+            offerType = (OfferType) request.Type;
 
         var offer = new Offer(
             request.Title,
@@ -91,13 +93,13 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
                 offerPositionDto.Message,
                 offerPositionType);
 
-            var currentPosition = offer.Positions.First(position => position.Id == offerPositionId);
+            var currentPosition = offer.Positions.FirstOrDefault(position => position.Id == offerPositionId);
 
             foreach (var offerItemDto in offerPositionDto.OfferItems)
             {
                 var offerItemType = (OfferItemType) offerItemDto.Type;
 
-                currentPosition.AddOfferItem(
+                currentPosition?.AddOfferItem(
                     offerItemDto.TradableItemId,
                     offerItemDto.Amount,
                     offerItemType);
