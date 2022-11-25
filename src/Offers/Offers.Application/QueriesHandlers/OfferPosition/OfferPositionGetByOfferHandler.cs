@@ -17,8 +17,24 @@ public class OfferPositionGetByOfferHandler : IRequestHandler<OfferPositionGetBy
         _mapper = mapper;
     }
 
-    public Task<IEnumerable<OfferPositionDto>> Handle(OfferPositionGetByOfferQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<OfferPositionDto>> Handle(OfferPositionGetByOfferQuery request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var offerPositions = (await _uow.OfferPositionRepository.GetByOffer(request.OfferId, ct)).ToList();
+
+        foreach (var offerPosition in offerPositions)
+        {
+            var offerItems = await _uow.OfferItemRepository.GetByPosition(offerPosition.Id.Value, ct);
+
+            foreach (var offerItem in offerItems)
+            {
+                offerPosition.AddOfferItem(
+                    offerItem.TradableItemId,
+                    offerItem.Amount,
+                    offerItem.Type,
+                    offerItem.Id.Value);
+            }
+        }
+
+        return offerPositions.Select(position => _mapper.Map<OfferPositionDto>(position));
     }
 }

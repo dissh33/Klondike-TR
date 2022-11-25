@@ -6,7 +6,7 @@ using Offers.Application.Contracts;
 
 namespace Offers.Application.QueriesHandlers.OfferPosition;
 
-public class OfferPositionGetByIdHandler : IRequestHandler<OfferPositionGetByIdQuery, OfferPositionDto>
+public class OfferPositionGetByIdHandler : IRequestHandler<OfferPositionGetByIdQuery, OfferPositionDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,8 +17,22 @@ public class OfferPositionGetByIdHandler : IRequestHandler<OfferPositionGetByIdQ
         _mapper = mapper;
     }
 
-    public Task<OfferPositionDto> Handle(OfferPositionGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<OfferPositionDto?> Handle(OfferPositionGetByIdQuery request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var offerPosition = await _uow.OfferPositionRepository.GetById(request.Id, ct);
+        if (offerPosition is null) return null;
+
+        var offerItems = await _uow.OfferItemRepository.GetByPosition(offerPosition.Id.Value, ct);
+
+        foreach (var offerItem in offerItems)
+        {
+            offerPosition.AddOfferItem(
+                offerItem.TradableItemId,
+                offerItem.Amount,
+                offerItem.Type,
+                offerItem.Id.Value);
+        }
+
+        return _mapper.Map<OfferPositionDto?>(offerPosition);
     }
 }

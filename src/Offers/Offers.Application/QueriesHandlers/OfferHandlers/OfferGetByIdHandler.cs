@@ -6,7 +6,7 @@ using Offers.Application.Contracts;
 
 namespace Offers.Application.QueriesHandlers.OfferHandlers;
 
-public class OfferItemGetByIdHandler : IRequestHandler<OfferGetByIdQuery, OfferDto>
+public class OfferItemGetByIdHandler : IRequestHandler<OfferGetByIdQuery, OfferDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,8 +17,34 @@ public class OfferItemGetByIdHandler : IRequestHandler<OfferGetByIdQuery, OfferD
         _mapper = mapper;
     }
 
-    public Task<OfferDto> Handle(OfferGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<OfferDto?> Handle(OfferGetByIdQuery request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var offer = await _uow.OfferRepository.GetById(request.Id, ct);
+        if (offer is null) return null;
+
+        var offerPositions = (await _uow.OfferPositionRepository.GetByOffer(offer.Id.Value, ct)).ToList();
+
+        foreach (var offerPosition in offerPositions)
+        {
+            var offerItems = await _uow.OfferItemRepository.GetByPosition(offerPosition.Id.Value, ct);
+
+            foreach (var offerItem in offerItems)
+            {
+                offerPosition.AddOfferItem(
+                    offerItem.TradableItemId, 
+                    offerItem.Amount, 
+                    offerItem.Type, 
+                    offerItem.Id.Value);
+            }
+
+            offer.AddPosition(
+                offerPosition.PriceRate, 
+                offerPosition.WithTrader, 
+                offerPosition.Message,
+                offerPosition.Type, 
+                offerPosition.Id.Value);
+        }
+
+        return _mapper.Map<OfferDto?>(offer);
     }
 }

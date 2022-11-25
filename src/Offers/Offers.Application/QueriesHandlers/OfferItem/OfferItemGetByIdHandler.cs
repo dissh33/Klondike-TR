@@ -6,7 +6,7 @@ using Offers.Application.Contracts;
 
 namespace Offers.Application.QueriesHandlers.OfferItem;
 
-public class OfferItemGetByIdHandler : IRequestHandler<OfferItemGetByIdQuery, OfferItemDto>
+public class OfferItemGetByIdHandler : IRequestHandler<OfferItemGetByIdQuery, OfferItemDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
@@ -17,8 +17,10 @@ public class OfferItemGetByIdHandler : IRequestHandler<OfferItemGetByIdQuery, Of
         _mapper = mapper;
     }
 
-    public Task<OfferItemDto> Handle(OfferItemGetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<OfferItemDto?> Handle(OfferItemGetByIdQuery request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var result = await _uow.OfferItemRepository.GetById(request.Id, ct);
+
+        return _mapper.Map<OfferItemDto?>(result);
     }
 }

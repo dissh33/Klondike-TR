@@ -17,8 +17,10 @@ public class OfferItemGetByPositionHandler : IRequestHandler<OfferItemGetByPosit
         _mapper = mapper;
     }
 
-    public Task<IEnumerable<OfferItemDto>> Handle(OfferItemGetByPositionQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<OfferItemDto>> Handle(OfferItemGetByPositionQuery request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var result = await _uow.OfferItemRepository.GetByPosition(request.PositionId, ct);
+
+        return result.Select(offerItem => _mapper.Map<OfferItemDto>(offerItem));
     }
 }
