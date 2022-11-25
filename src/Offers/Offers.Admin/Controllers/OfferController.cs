@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Offers.Api.Commands;
 using Offers.Api.Dtos;
+using Offers.Api.Queries.Offer;
 
 namespace Offers.Admin.Controllers
 {
@@ -17,8 +17,15 @@ namespace Offers.Admin.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<OfferDto>> Get([FromBody] OfferConstructCommand command, CancellationToken ct)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OfferDto>> GetById([FromRoute] Guid id, CancellationToken ct)
+        {
+            var result = await _mediator.Send(new OfferGetByIdQuery(id), ct);
+            return new JsonResult(result);
+        }
+
+        [HttpPost("Construct")]
+        public async Task<ActionResult<OfferDto>> Construct([FromBody] OfferConstructCommand command, CancellationToken ct)
         {
             var result = await _mediator.Send(command, ct);
             return new JsonResult(result);

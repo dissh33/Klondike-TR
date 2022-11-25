@@ -26,23 +26,26 @@ public class OfferItemGetByIdHandler : IRequestHandler<OfferGetByIdQuery, OfferD
 
         foreach (var offerPosition in offerPositions)
         {
-            var offerItems = await _uow.OfferItemRepository.GetByPosition(offerPosition.Id.Value, ct);
-
-            foreach (var offerItem in offerItems)
-            {
-                offerPosition.AddOfferItem(
-                    offerItem.TradableItemId, 
-                    offerItem.Amount, 
-                    offerItem.Type, 
-                    offerItem.Id.Value);
-            }
-
             offer.AddPosition(
                 offerPosition.PriceRate, 
                 offerPosition.WithTrader, 
                 offerPosition.Message,
                 offerPosition.Type, 
                 offerPosition.Id.Value);
+        }
+
+        foreach (var resultPosition in offer.Positions)
+        {
+            var offerItems = await _uow.OfferItemRepository.GetByPosition(resultPosition.Id.Value, ct);
+
+            foreach (var offerItem in offerItems)
+            {
+                resultPosition.AddOfferItem(
+                    offerItem.TradableItemId,
+                    offerItem.Amount,
+                    offerItem.Type,
+                    offerItem.Id.Value);
+            }
         }
 
         return _mapper.Map<OfferDto?>(offer);
