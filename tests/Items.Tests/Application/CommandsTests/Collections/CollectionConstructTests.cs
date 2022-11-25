@@ -171,7 +171,6 @@ public class CollectionConstructTests : CollectionTestsSetup
     public async Task ShouldRollbackAndReturnNull_WhenCantAddCollectionEntity()
     {
         //arrange
-        _uow.CollectionRepository.GetById(Arg.Any<Guid>(), CancellationToken.None).ReturnsNull();
         _uow.CollectionRepository.Insert(Arg.Any<Collection>(), CancellationToken.None).ReturnsNull();
 
         //act

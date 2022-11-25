@@ -55,7 +55,7 @@ public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemReposito
     {
         var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
-        var subSql = string.Join(", ",
+        var valuesSql = string.Join(", ",
             offerItems.Select(item =>
                 $"('{item.Id.Value}', " +
                 $"'{item.OfferPositionId?.Value}', " +
@@ -64,7 +64,7 @@ public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemReposito
                 $"'{(int)item.Type}', " +
                 $"'{item.CreateDate}')"));
 
-        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING offer_position_id;";
+        var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {valuesSql} RETURNING offer_position_id;";
 
         var command = new CommandDefinition(
             commandText: sql,

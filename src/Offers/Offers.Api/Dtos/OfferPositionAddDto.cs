@@ -2,7 +2,6 @@
 
 public record OfferPositionAddDto
 {
-    public Guid? OfferId { get; init; }
     public string? PriceRate { get; init; }
     public bool WithTrader { get; init; }
     public string? Message { get; init; }

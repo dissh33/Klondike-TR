@@ -13,5 +13,5 @@ public record OfferConstructCommand : IRequest<OfferDto?>
     public int? Type { get; init; }
     public int? Status { get; init; }
 
-    public IEnumerable<OfferPositionAddDto> Positions { get; init; } = Enumerable.Empty<OfferPositionAddDto>();
+    public IEnumerable<OfferPositionAddDto> Positions { get; set; } = Enumerable.Empty<OfferPositionAddDto>();
 }

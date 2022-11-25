@@ -44,7 +44,7 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
                         currentPositionFromDb.WithTrader,
                         currentPositionFromDb.Message,
                         currentPositionFromDb.Type,
-                        currentPositionFromDb.Id.Value); 
+                        currentPositionFromDb.Id.Value);
             }
 
             var currentPositionInOffer = offerFromDb.Positions.FirstOrDefault(offerPosition => offerPosition.Id == positionFromDto.Id);

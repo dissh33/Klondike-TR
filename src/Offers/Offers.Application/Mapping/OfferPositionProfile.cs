@@ -11,7 +11,7 @@ public class OfferPositionProfile : Profile
         CreateMap<OfferPosition, OfferPositionDto>()
             .ForMember(dto => dto.Id,
                 expression => expression.MapFrom(offerPosition => offerPosition.Id.Value))
-            .ForMember(dto=> dto.OfferId, 
+            .ForMember(dto => dto.OfferId,
                 expression => expression.MapFrom(offerPosition => offerPosition.OfferId != null ? offerPosition.OfferId.Value : Guid.Empty));
     }
 }

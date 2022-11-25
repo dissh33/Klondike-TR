@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Offers.Api.Commands;
 using Offers.Api.Dtos;
 using Offers.Application.CommandHandlers;
 using Offers.Application.Contracts;
 using Offers.Application.Mapping;
+using Offers.Domain.Entities;
 using Offers.Domain.Enums;
+using Offers.Domain.TypedIds;
 using Offers.Tests.Application.Mocks;
 using Xunit;
 
@@ -39,7 +43,7 @@ public class OfferConstructTests
             Message = "msg-new",
             Type = (int) OfferType.New,
             Status = (int) OfferStatus.Disable,
-            Positions = new List<OfferPositionDto>
+            Positions = new List<OfferPositionAddDto>
             {
                 new()
                 {
@@ -47,7 +51,7 @@ public class OfferConstructTests
                     PriceRate = "1to10-new",
                     WithTrader = false,
                     Type = (int) OfferPositionType.Buying,
-                    OfferItems = new List<OfferItemDto>
+                    OfferItems = new List<OfferItemAddDto>
                     {
                         new()
                         {
@@ -66,10 +70,10 @@ public class OfferConstructTests
                 new()
                 {
                     Message = "msg-pos-new-2",
-                    PriceRate = "101to3-new-2",
+                    PriceRate = "10to3-new-2",
                     WithTrader = false,
                     Type = (int) OfferPositionType.Buying,
-                    OfferItems = new List<OfferItemDto>
+                    OfferItems = new List<OfferItemAddDto>
                     {
                         new()
                         {
@@ -92,16 +96,43 @@ public class OfferConstructTests
     [Fact]
     public async Task ShouldAddNewEntitiesToTheirSets()
     {
+        //act
+        await _sut.Handle(_command, CancellationToken.None);
+        
+        //assert
+        OfferRepositoryMock.FakeDataSet.Should().HaveCount(OfferRepositoryMock.InitialFakeDataSet.Count + 1);
+        OfferPositionRepositoryMock.FakeDataSet.Should().HaveCount(OfferPositionRepositoryMock.InitialFakeDataSet.Count + 2);
+        OfferItemRepositoryMock.FakeDataSet.Should().HaveCount(OfferItemRepositoryMock.InitialFakeDataSet.Count + 4);
     }
 
     [Fact]
     public async Task ShouldReturnAddedOfferDto()
     {
+        //act
+        var actual = await _sut.Handle(_command, CancellationToken.None);
+
+        //TODO: with OfferGetByIdHandler
+        var added = OfferRepositoryMock.FakeDataSet.FirstOrDefault(offer => offer.Id == new OfferId(actual?.Id ?? Guid.Empty));
+
+        //assert
+        actual.Should().BeOfType<OfferDto>();
+        added.Should().NotBeNull();
+
+        added.Should().BeEquivalentTo(actual, options => options.Excluding(dto => dto!.Positions));
     }
 
     [Fact]
     public async Task ShouldRollbackAndReturnNull_WhenCantAddOfferEntity()
     {
+        //arrange
+        _uow.OfferRepository.Insert(Arg.Any<Offer>(), CancellationToken.None).ReturnsNull();
+
+        //act
+        var actual = await _sut.Handle(_command, CancellationToken.None);
+
+        //assert
+        _uow.Received(1).Rollback();
+        actual.Should().BeNull();
     }
 
     [Fact]
@@ -112,11 +143,18 @@ public class OfferConstructTests
     [Fact]
     public async Task ShouldReturnOfferDto_WithEmptyPositions_WhenPositionsNotSpecified()
     {
+        //arrange
+        var specificCommand = _command;
+        specificCommand.Positions = new List<OfferPositionAddDto>();
+
+        //act
+        var actual = await _sut.Handle(specificCommand, CancellationToken.None);
     }
 
     [Fact]
     public async Task ShouldReturnOfferDto_WithEmptyOfferItems_WhenItemsNotSpecified()
     {
+        //Need this?
     }
 
 

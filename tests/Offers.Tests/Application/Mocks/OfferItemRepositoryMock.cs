@@ -7,9 +7,9 @@ namespace Offers.Tests.Application.Mocks;
 
 public static class OfferItemRepositoryMock
 {
-    public static IEnumerable<OfferItem> InitialFakeDataSet => SeedData();
+    public static List<OfferItem> InitialFakeDataSet => SeedData();
 
-    private static IEnumerable<OfferItem> SeedData()
+    private static List<OfferItem> SeedData()
     {
         var data = new List<OfferItem>();
 
@@ -25,16 +25,26 @@ public static class OfferItemRepositoryMock
         return data;
     }
 
-    public static IEnumerable<OfferItem> FakeDataSet { get; set; } = SeedData();
+    public static List<OfferItem> FakeDataSet { get; set; } = SeedData();
 
     public static IOfferItemRepository GetRepository()
     {
         var repository = Substitute.For<IOfferItemRepository>();
-
-        //var fakeDataSet = SeedData().ToList();
-
+        
         repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
             FakeDataSet.FirstOrDefault(fake => fake.Id.Value == call.Arg<Guid>()));
+
+        repository.GetByPosition(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
+            FakeDataSet.Where(fake => fake.OfferPositionId?.Value == call.Arg<Guid>()));
+
+        repository.BulkInsert(Arg.Any<IEnumerable<OfferItem>>(), CancellationToken.None).Returns(async call =>
+        {
+            var offerItems = (call.Arg<IEnumerable<OfferItem>>()).ToList();
+
+            FakeDataSet.AddRange(offerItems);
+
+            return await repository.GetByPosition(offerItems.First().OfferPositionId?.Value ?? Guid.Empty, CancellationToken.None);
+        });
 
         return repository;
     }
