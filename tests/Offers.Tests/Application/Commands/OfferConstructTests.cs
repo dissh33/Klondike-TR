@@ -169,7 +169,7 @@ public class OfferConstructTests
     }
 
     [Fact]
-    public async Task ShouldReturnOfferDto_WithEmptyOfferItems_WhenItemsNotSpecified()
+    public async Task ShouldThrow_MissingOfferItemsException_WhenItemsNotSpecified()
     {
         //Need this?
     }

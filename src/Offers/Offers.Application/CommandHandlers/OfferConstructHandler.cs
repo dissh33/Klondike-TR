@@ -37,7 +37,7 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         
         foreach (var positionFromDto in offer.Positions)
         {
-            var itemsFromDb = await _uow.OfferItemRepository.BulkInsert(positionFromDto.OfferItems, ct);
+            var itemsFromDb = (await _uow.OfferItemRepository.BulkInsert(positionFromDto.OfferItems, ct)).ToList();
             var currentPosition = positionsFromDb.FirstOrDefault(p => p.Id == positionFromDto.Id);
 
             currentPosition?.AddOfferItems(itemsFromDb);

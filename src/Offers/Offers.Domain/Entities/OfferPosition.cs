@@ -1,4 +1,5 @@
 ﻿using Offers.Domain.Enums;
+using Offers.Domain.Exceptions;
 using Offers.Domain.SeedWork;
 using Offers.Domain.TypedIds;
 
@@ -52,9 +53,10 @@ public class OfferPosition : BaseEntity
         _offerItems.Add(offerItem);
     }
 
-    public void AddOfferItems(IEnumerable<OfferItem> offerItems)
+    public void AddOfferItems(List<OfferItem> offerItems)
     {
-        //TODO: Add Domain Error
+        if (!offerItems.Any()) throw new MissingOfferItemsException();
+
         foreach (var item in offerItems)
         {
             AddOfferItem(

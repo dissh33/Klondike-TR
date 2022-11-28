@@ -53,9 +53,9 @@ public class Offer : BaseEntity
         return position.Id;
     }
 
-    public void AddPositions(List<OfferPosition> inputPositions)
+    public void AddPositions(List<OfferPosition> positions)
     {
-        foreach (var position in inputPositions)
+        foreach (var position in positions)
         {
             AddPosition(
                 position.PriceRate,
