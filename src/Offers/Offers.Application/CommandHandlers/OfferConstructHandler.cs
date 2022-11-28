@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 using MediatR;
 using Offers.Api.Commands;
 using Offers.Api.Dtos;
@@ -48,7 +49,7 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
 
         return _mapper.Map<OfferDto>(offerFromDb);
     }
-
+    
     private static Offer ConstructOfferEntity(OfferConstructCommand request)
     {
         var offerStatus = OfferStatus.Draft;
@@ -71,7 +72,17 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         {
             var offerPositionId = new OfferPositionId(Guid.NewGuid());
 
-            var offerItems = ConstructOfferItems(offerPositionDto, offerPositionId);
+            var offerItems = new List<OfferItem>();
+            foreach (var offerItemDto in offerPositionDto.OfferItems)
+            {
+                var currentItem = new OfferItem(
+                    offerPositionId,
+                    offerItemDto.TradableItemId,
+                    offerItemDto.Amount,
+                    (OfferItemType)offerItemDto.Type);
+
+                offerItems.Add(currentItem);
+            }
             
             var currentPosition = new OfferPosition(
                 offer.Id,
@@ -88,25 +99,5 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         offer.AddPositions(offerPositions);
 
         return offer;
-    }
-
-    private static List<OfferItem> ConstructOfferItems(OfferPositionAddDto offerPositionDto, OfferPositionId positionId)
-    {
-        var offerItems = new List<OfferItem>();
-
-        foreach (var offerItemDto in offerPositionDto.OfferItems)
-        {
-            var offerItemType = (OfferItemType) offerItemDto.Type;
-
-            var currentItem = new OfferItem(
-                positionId,
-                offerItemDto.TradableItemId,
-                offerItemDto.Amount,
-                offerItemType);
-
-            offerItems.Add(currentItem);
-        }
-
-        return offerItems;
     }
 }
