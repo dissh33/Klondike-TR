@@ -23,6 +23,11 @@ public static class OfferPositionRepositoryMock
         return data;
     }
 
+    public static void ResetFakeDataSet()
+    {
+        FakeDataSet = InitialFakeDataSet;
+    }
+
     public static List<OfferPosition> InitialFakeDataSet => SeedData();
 
     public static List<OfferPosition> FakeDataSet { get; set; } = SeedData();
@@ -43,7 +48,7 @@ public static class OfferPositionRepositoryMock
 
             FakeDataSet.AddRange(offerPositions);
 
-            return await repository.GetByOffer(offerPositions.First().OfferId?.Value ?? Guid.Empty, CancellationToken.None);
+            return await repository.GetByOffer(offerPositions.FirstOrDefault()?.OfferId?.Value ?? Guid.Empty, CancellationToken.None);
         });
 
         return repository;

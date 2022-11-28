@@ -7,8 +7,6 @@ namespace Offers.Tests.Application.Mocks;
 
 public static class OfferRepositoryMock
 {
-    public static List<Offer> InitialFakeDataSet => SeedData();
-
     private static List<Offer> SeedData()
     {
         var data = new List<Offer>();
@@ -21,6 +19,13 @@ public static class OfferRepositoryMock
 
         return data;
     }
+
+    public static void ResetFakeDataSet()
+    {
+        FakeDataSet = InitialFakeDataSet;
+    }
+
+    public static List<Offer> InitialFakeDataSet => SeedData();
 
     public static List<Offer> FakeDataSet { get; set; } = SeedData();
 

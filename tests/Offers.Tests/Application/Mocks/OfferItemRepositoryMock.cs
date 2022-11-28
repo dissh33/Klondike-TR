@@ -7,8 +7,6 @@ namespace Offers.Tests.Application.Mocks;
 
 public static class OfferItemRepositoryMock
 {
-    public static List<OfferItem> InitialFakeDataSet => SeedData();
-
     private static List<OfferItem> SeedData()
     {
         var data = new List<OfferItem>();
@@ -25,6 +23,13 @@ public static class OfferItemRepositoryMock
         return data;
     }
 
+    public static void ResetFakeDataSet()
+    {
+        FakeDataSet = InitialFakeDataSet;
+    }
+
+    public static List<OfferItem> InitialFakeDataSet => SeedData();
+    
     public static List<OfferItem> FakeDataSet { get; set; } = SeedData();
 
     public static IOfferItemRepository GetRepository()
@@ -43,7 +48,7 @@ public static class OfferItemRepositoryMock
 
             FakeDataSet.AddRange(offerItems);
 
-            return await repository.GetByPosition(offerItems.First().OfferPositionId?.Value ?? Guid.Empty, CancellationToken.None);
+            return await repository.GetByPosition(offerItems.FirstOrDefault()?.OfferPositionId?.Value ?? Guid.Empty, CancellationToken.None);
         });
 
         return repository;

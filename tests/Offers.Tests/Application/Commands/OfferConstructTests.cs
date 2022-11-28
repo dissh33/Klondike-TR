@@ -93,9 +93,19 @@ public class OfferConstructTests
         };
     }
 
+    private static void ResetData()
+    {
+        OfferRepositoryMock.ResetFakeDataSet();
+        OfferPositionRepositoryMock.ResetFakeDataSet();
+        OfferItemRepositoryMock.ResetFakeDataSet();
+    }
+
     [Fact]
     public async Task ShouldAddNewEntitiesToTheirSets()
     {
+        //arrange
+        ResetData();
+
         //act
         await _sut.Handle(_command, CancellationToken.None);
         
@@ -108,6 +118,9 @@ public class OfferConstructTests
     [Fact]
     public async Task ShouldReturnAddedOfferDto()
     {
+        //arrange
+        ResetData();
+
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
 
@@ -125,6 +138,8 @@ public class OfferConstructTests
     public async Task ShouldRollbackAndReturnNull_WhenCantAddOfferEntity()
     {
         //arrange
+        ResetData();
+
         _uow.OfferRepository.Insert(Arg.Any<Offer>(), CancellationToken.None).ReturnsNull();
 
         //act
@@ -144,6 +159,8 @@ public class OfferConstructTests
     public async Task ShouldReturnOfferDto_WithEmptyPositions_WhenPositionsNotSpecified()
     {
         //arrange
+        ResetData();
+
         var specificCommand = _command;
         specificCommand.Positions = new List<OfferPositionAddDto>();
 
@@ -161,6 +178,9 @@ public class OfferConstructTests
     [Fact]
     public async Task ShouldCommitOnce()
     {
+        //arrange
+        ResetData();
+
         //act
         await _sut.Handle(_command, CancellationToken.None);
 

@@ -29,7 +29,8 @@ public class OfferPosition : BaseEntity
         bool withTrader,
         string? message,
         OfferPositionType type,
-        Guid? id = null)
+        Guid? id = null,
+        List<OfferItem>? items = null)
     {
         Id = new OfferPositionId(id);
         OfferId = offerId;
@@ -37,6 +38,8 @@ public class OfferPosition : BaseEntity
         WithTrader = withTrader;
         Message = message;
         Type = type;
+
+        if (items != null) _offerItems = items.ToList();
     }
 
     public void AddOfferItem(
@@ -47,5 +50,18 @@ public class OfferPosition : BaseEntity
     {
         var offerItem = new OfferItem(Id, tradableItemId, amount, type, id);
         _offerItems.Add(offerItem);
+    }
+
+    public void AddOfferItems(IEnumerable<OfferItem> offerItems)
+    {
+        //TODO: Add Domain Error
+        foreach (var item in offerItems)
+        {
+            AddOfferItem(
+                item.TradableItemId,
+                item.Amount,
+                item.Type,
+                item.Id.Value);
+        }
     }
 }

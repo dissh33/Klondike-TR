@@ -44,11 +44,26 @@ public class Offer : BaseEntity
         bool withTrader,
         string? message,
         OfferPositionType type,
-        Guid? id = null)
+        Guid? id = null,
+        List<OfferItem>? items = null)
     {
-        var position = new OfferPosition(Id, priceRate, withTrader, message, type, id);
+        var position = new OfferPosition(Id, priceRate, withTrader, message, type, id, items);
         _positions.Add(position);
 
         return position.Id;
+    }
+
+    public void AddPositions(List<OfferPosition> inputPositions)
+    {
+        foreach (var position in inputPositions)
+        {
+            AddPosition(
+                position.PriceRate,
+                position.WithTrader,
+                position.Message,
+                position.Type,
+                position.Id.Value,
+                position.OfferItems.ToList());
+        }
     }
 }
