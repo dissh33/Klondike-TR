@@ -21,27 +21,27 @@ namespace Items.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CollectionDto>>> Get(CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<CollectionDto>>> GetAll(CancellationToken ct)
         {
             var result = await _mediator.Send(new CollectionGetAllQuery(), ct);
             return new JsonResult(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CollectionDto>> Get(Guid id, CancellationToken ct)
+        public async Task<ActionResult<CollectionDto>> GetById(Guid id, CancellationToken ct)
         {
             var result = await _mediator.Send(new CollectionGetByIdQuery(id), ct);
             return new JsonResult(result);
         }
 
-        [HttpGet("{id}/full")]
+        [HttpGet("GetFull/{id}")]
         public async Task<ActionResult<CollectionFullDto>> GetFull(Guid id, CancellationToken ct)
         {
             var result = await _mediator.Send(new CollectionGetFullQuery(id), ct);
             return new JsonResult(result);
         }
 
-        [HttpGet("filter")]
+        [HttpGet("GetByFilter")]
         public async Task<ActionResult<IEnumerable<CollectionDto>>> GetByFilter([FromQuery] CollectionGetByFilterQuery request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);
@@ -49,13 +49,13 @@ namespace Items.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CollectionDto>> Post([FromForm] CollectionAddCommand request, CancellationToken ct)
+        public async Task<ActionResult<CollectionDto>> Create([FromForm] CollectionAddCommand request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);
             return new JsonResult(result);
         }
 
-        [HttpPost("construct")]
+        [HttpPost("Construct")]
         public async Task<ActionResult<CollectionFullDto>> Construct(
             [FromForm] string jsonInput,
             [FromForm] IEnumerable<IFormFile> files, 
@@ -86,28 +86,28 @@ namespace Items.Admin.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPut("update")]
-        public async Task<ActionResult<CollectionDto>> Put([FromForm] CollectionUpdateCommand request, CancellationToken ct)
+        [HttpPut("")]
+        public async Task<ActionResult<CollectionDto>> Update([FromForm] CollectionUpdateCommand request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);
             return new JsonResult(result);
         }
 
-        [HttpPut("update/name")]
+        [HttpPut("UpdateName")]
         public async Task<ActionResult<CollectionDto>> UpdateName([FromForm] CollectionUpdateNameCommand request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);
             return new JsonResult(result);
         }
 
-        [HttpPut("update/icon")]
+        [HttpPut("UpdateIcon")]
         public async Task<ActionResult<CollectionDto>> UpdateIcon([FromForm] CollectionUpdateIconCommand request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);
             return new JsonResult(result);
         }
 
-        [HttpPut("update/status")]
+        [HttpPut("UpdateStatus")]
         public async Task<ActionResult<CollectionDto>> UpdateStatus([FromForm] CollectionUpdateStatusCommand request, CancellationToken ct)
         {
             var result = await _mediator.Send(request, ct);

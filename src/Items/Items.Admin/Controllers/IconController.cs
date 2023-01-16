@@ -19,20 +19,20 @@ public class IconController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<IconDto>>> Get(CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<IconDto>>> GetAll(CancellationToken ct)
     {
         var result = await _mediator.Send(new IconGetAllQuery(), ct);
         return new JsonResult(result);
     }
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<IconDto>> Get(Guid id, CancellationToken ct)
+    public async Task<ActionResult<IconDto>> GetById(Guid id, CancellationToken ct)
     {
         var result = await _mediator.Send(new IconGetByIdQuery(id), ct);
         return new JsonResult(result);
     }
 
-    [HttpGet("{id}/file")]
+    [HttpGet("GetFile/{id}")]
     public async Task<IActionResult> GetFile(Guid id, CancellationToken ct)
     {
         var result = await _mediator.Send(new IconGetFileQuery(id), ct);
@@ -43,27 +43,27 @@ public class IconController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<IconDto>> Post([FromForm] IconAddCommand request, CancellationToken ct)
+    public async Task<ActionResult<IconDto>> Create([FromForm] IconAddCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 
-    [HttpPut("update")]
-    public async Task<ActionResult<IconDto>> Put([FromForm] IconUpdateCommand request, CancellationToken ct)
+    [HttpPut("")]
+    public async Task<ActionResult<IconDto>> Update([FromForm] IconUpdateCommand request, CancellationToken ct)
     { 
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 
-    [HttpPut("update/title")]
+    [HttpPut("UpdateTitle")]
     public async Task<ActionResult<IconDto>> UpdateTitle([FromForm] IconUpdateTitleCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 
-    [HttpPut("update/file")]
+    [HttpPut("UpdateFile")]
     public async Task<ActionResult<IconDto>> UpdateFile([FromForm] IconUpdateFileCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);

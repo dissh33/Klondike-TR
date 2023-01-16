@@ -30,7 +30,7 @@ public abstract class TypedIdValue : IEquatable<TypedIdValue>
         return Value == other?.Value;
     }
 
-    public static bool operator ==(TypedIdValue obj1, TypedIdValue obj2)
+    public static bool operator ==(TypedIdValue? obj1, TypedIdValue? obj2)
     {
         if (Equals(obj1, null))
         {
@@ -39,7 +39,7 @@ public abstract class TypedIdValue : IEquatable<TypedIdValue>
         return obj1.Equals(obj2);
     }
 
-    public static bool operator !=(TypedIdValue x, TypedIdValue y)
+    public static bool operator !=(TypedIdValue? x, TypedIdValue? y)
     {
         return !(x == y);
     }

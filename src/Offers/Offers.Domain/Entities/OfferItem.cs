@@ -8,7 +8,7 @@ public class OfferItem : BaseEntity
 {
     public OfferItemId Id { get; }
 
-    public OfferPositionId? OfferPositionId { get; }
+    public OfferPositionId? OfferPositionId { get; private set; }
     public Guid TradableItemId { get; }
     
     public int Amount { get; }

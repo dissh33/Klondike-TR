@@ -39,7 +39,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE collection_id = @collectionId",
-            parameters: new { collectionId },
+            parameters: new {positionId = collectionId },
             transaction: Transaction,
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
@@ -64,7 +64,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
     {
         var insertColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
 
-        var subSql = string.Join(", ", collectionItems.Select(x => $"('{x.Name}', '{x.CollectionId}', '{x.IconId}', '{x.Id}')"));
+        var subSql = string.Join(", ", collectionItems.Select(item => $"('{item.Name}', '{item.CollectionId}', '{item.IconId}', '{item.Id}')"));
 
         var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} ({insertColumns}) VALUES {subSql} RETURNING collection_id;";
 

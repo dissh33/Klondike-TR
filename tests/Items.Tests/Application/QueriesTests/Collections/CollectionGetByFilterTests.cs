@@ -5,7 +5,7 @@ using FluentAssertions;
 using Items.Api.Dtos.Collection;
 using Items.Api.Queries.Collection;
 using Items.Application.QueryHandlers.CollectionHandlers;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using NSubstitute;
 using Xunit;
 

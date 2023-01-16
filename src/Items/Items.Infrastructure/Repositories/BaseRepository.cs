@@ -22,8 +22,6 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
 
     protected string TableName { get; }
 
-    protected  List<string> ExcludeProperties = new() { "Icon", "Items", "DomainEvents", "ExternalId"};
-
     static BaseRepository()
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
@@ -38,6 +36,16 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
         Connection = Transaction.Connection;
 
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
+    }
+
+    protected List<string> ExcludeProperties = new() { "Icon", "Items", "DomainEvents", "ExternalId" };
+
+    protected IEnumerable<string> GetColumns()
+    {
+        return typeof(T)
+            .GetProperties()
+            .Where(prop => !ExcludeProperties.Contains(prop.Name))
+            .Select(prop => prop.Name);
     }
 
     protected CommandDefinition GetByIdBaseCommand(Guid id, CancellationToken ct)
@@ -107,15 +115,7 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
     }
-
-    protected IEnumerable<string> GetColumns()
-    {
-        return typeof(T)
-            .GetProperties()
-            .Where(prop => !ExcludeProperties.Contains(prop.Name))
-            .Select(prop => prop.Name);
-    }
-
+    
     protected string InsertUnderscoreBeforeUpperCase(string str)
     {
         var sb = new StringBuilder();

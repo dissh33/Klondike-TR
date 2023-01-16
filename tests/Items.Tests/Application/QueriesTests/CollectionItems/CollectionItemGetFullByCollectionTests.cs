@@ -10,7 +10,7 @@ using Items.Application.QueryHandlers.CollectionItemHandlers;
 using Items.Domain;
 using Items.Domain.Entities;
 using Items.Tests.Application.Mocks;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using NSubstitute;
 using Xunit;
 

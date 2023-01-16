@@ -3,6 +3,7 @@ using App.Metrics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Offers.Application.Contracts;
+using Offers.Infrastructure.Metrics;
 using Serilog;
 
 namespace Offers.Infrastructure.Repositories;
@@ -25,7 +26,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         _connection = new NpgsqlConnection(connectionString);
         _connection.Open();
-        //_metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter); //TODO: Metrics
+        _metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter); //TODO: Metrics
 
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
@@ -33,7 +34,12 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
 
     private IOfferRepository? _offerRepository;
+    private IOfferPositionRepository? _offerPositionRepository;
+    private IOfferItemRepository? _offerItemRepository;
+
     public IOfferRepository OfferRepository => _offerRepository ??= new OfferRepository(_transaction, _logger, _metrics);
+    public IOfferPositionRepository OfferPositionRepository => _offerPositionRepository ??= new OfferPositionRepository(_transaction, _logger, _metrics);
+    public IOfferItemRepository OfferItemRepository => _offerItemRepository ??= new OfferItemRepository(_transaction, _logger, _metrics);
 
     public void Commit()
     {

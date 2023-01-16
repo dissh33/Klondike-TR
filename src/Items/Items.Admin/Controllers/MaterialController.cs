@@ -20,27 +20,27 @@ public class MaterialController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MaterialDto>>> Get(CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<MaterialDto>>> GetAll(CancellationToken ct)
     {
         var result = await _mediator.Send(new MaterialGetAllQuery(), ct);
         return new JsonResult(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<MaterialDto>> Get(Guid id, CancellationToken ct)
+    public async Task<ActionResult<MaterialDto>> GetById(Guid id, CancellationToken ct)
     {
         var result = await _mediator.Send(new MaterialGetByIdQuery(id), ct);
         return new JsonResult(result);
     }
 
-    [HttpGet("{id}/full")]
+    [HttpGet("GetFull/{id}")]
     public async Task<ActionResult<MaterialFullDto>> GetFull(Guid id, CancellationToken ct)
     {
         var result = await _mediator.Send(new MaterialGetFullQuery(id), ct);
         return new JsonResult(result);
     }
 
-    [HttpGet("filter")]
+    [HttpGet("GetByFilter")]
     public async Task<ActionResult<IEnumerable<MaterialDto>>> GetByFilter([FromQuery] MaterialGetByFilterQuery request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
@@ -48,27 +48,27 @@ public class MaterialController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<MaterialDto>> Post([FromForm] MaterialAddCommand request, CancellationToken ct)
+    public async Task<ActionResult<MaterialDto>> Create([FromForm] MaterialAddCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 
-    [HttpPut("update")]
-    public async Task<ActionResult<MaterialDto>> Put([FromForm] MaterialUpdateCommand request, CancellationToken ct)
+    [HttpPut("")]
+    public async Task<ActionResult<MaterialDto>> Update([FromForm] MaterialUpdateCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
     
-    [HttpPut("update/icon")]
+    [HttpPut("UpdateIcon")]
     public async Task<ActionResult<MaterialDto>> UpdateIcon([FromForm] MaterialUpdateIconCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);
         return new JsonResult(result);
     }
 
-    [HttpPut("update/status")]
+    [HttpPut("UpdateStatus")]
     public async Task<ActionResult<MaterialDto>> UpdateStatus([FromForm] MaterialUpdateStatusCommand request, CancellationToken ct)
     {
         var result = await _mediator.Send(request, ct);

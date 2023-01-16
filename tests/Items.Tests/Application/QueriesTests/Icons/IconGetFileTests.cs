@@ -2,12 +2,12 @@
 using Items.Api.Queries.Icon;
 using Items.Application.QueryHandlers.IconHandlers;
 using Items.Domain.Entities;
-using Items.Tests.Application.Setups;
 using NSubstitute;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
 using FluentAssertions;
+using Items.Tests.Application.Setup;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 

@@ -10,7 +10,7 @@ using Xunit;
 using Items.Api.Queries.Material;
 using Items.Application.QueryHandlers.MaterialHandlers;
 using Items.Tests.Application.Mocks;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 
 namespace Items.Tests.Application.CommandsTests.Materials;
 

@@ -1,4 +1,5 @@
 ﻿using Offers.Domain.Enums;
+using Offers.Domain.Exceptions;
 using Offers.Domain.SeedWork;
 using Offers.Domain.TypedIds;
 
@@ -29,7 +30,8 @@ public class OfferPosition : BaseEntity
         bool withTrader,
         string? message,
         OfferPositionType type,
-        Guid? id = null)
+        Guid? id = null,
+        List<OfferItem>? items = null)
     {
         Id = new OfferPositionId(id);
         OfferId = offerId;
@@ -37,6 +39,8 @@ public class OfferPosition : BaseEntity
         WithTrader = withTrader;
         Message = message;
         Type = type;
+
+        if (items != null) _offerItems = items.ToList();
     }
 
     public void AddOfferItem(
@@ -47,5 +51,19 @@ public class OfferPosition : BaseEntity
     {
         var offerItem = new OfferItem(Id, tradableItemId, amount, type, id);
         _offerItems.Add(offerItem);
+    }
+
+    public void AddOfferItems(List<OfferItem> offerItems)
+    {
+        if (!offerItems.Any()) throw new MissingOfferItemsException();
+
+        foreach (var item in offerItems)
+        {
+            AddOfferItem(
+                item.TradableItemId,
+                item.Amount,
+                item.Type,
+                item.Id.Value);
+        }
     }
 }

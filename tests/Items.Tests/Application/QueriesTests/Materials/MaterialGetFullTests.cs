@@ -3,13 +3,13 @@ using Items.Api.Queries.Material;
 using Items.Application.QueryHandlers.MaterialHandlers;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
-using Items.Tests.Application.Setups;
 using NSubstitute;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
 using FluentAssertions;
 using Items.Api.Dtos.Icon;
+using Items.Tests.Application.Setup;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 

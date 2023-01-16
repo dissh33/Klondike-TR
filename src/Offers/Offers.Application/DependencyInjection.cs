@@ -11,7 +11,7 @@ public static class DependencyInjection
         var currentAssembly = Assembly.GetExecutingAssembly();
 
         services.AddMediatR(currentAssembly);
-        //services.AddAutoMapper(currentAssembly);
+        services.AddAutoMapper(currentAssembly);
 
         //services.AddValidatorsFromAssembly(currentAssembly);
 

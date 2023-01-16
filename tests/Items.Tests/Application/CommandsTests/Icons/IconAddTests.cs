@@ -10,7 +10,7 @@ using Items.Api.Queries.Icon;
 using Items.Application.CommandHandlers.IconHandlers;
 using Items.Application.QueryHandlers.IconHandlers;
 using Items.Tests.Application.Mocks;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using Microsoft.AspNetCore.Http.Internal;
 using NSubstitute;
 using Xunit;

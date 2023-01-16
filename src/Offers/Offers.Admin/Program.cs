@@ -15,22 +15,22 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithEnvironmentName()
     .Enrich.FromLogContext()
     .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} {EnvironmentName}] {Message}{NewLine}{Exception}")
-    .WriteTo.Seq(builder.Configuration["Seq"])
+    //.WriteTo.Seq(builder.Configuration["Seq"])
     .CreateLogger();
 
 
 builder.Host.UseSerilog(Log.Logger);
 
-builder.Host
-    .UseMetricsWebTracking()
-    .UseMetrics(options =>
-    {
-        options.EndpointOptions = endpointOptions =>
-        {
-            endpointOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
-            endpointOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
-        };
-    });
+//builder.Host
+//    .UseMetricsWebTracking()
+//    .UseMetrics(options =>
+//    {
+//        options.EndpointOptions = endpointOptions =>
+//        {
+//            endpointOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
+//            endpointOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
+//        };
+//    });
 #endregion
 
 
@@ -56,7 +56,6 @@ var app = builder.Build();
 
 #region Configure pipeline
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -68,7 +67,7 @@ if (app.Environment.IsProduction())
     app.UseHsts();
 }
 
-app.UseSerilogRequestLogging();
+//app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
