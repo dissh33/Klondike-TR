@@ -150,8 +150,7 @@ public class CollectionConstructTests : CollectionTestsSetup
         actual!.Items.Should().BeEquivalentTo(_command.Items, options =>
             options.Excluding(item => item.Icon.FileBinary));
     }
-
-
+    
     [Fact]
     public async Task ShouldReturnAddedCollectionFullDto()
     {

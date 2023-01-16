@@ -14,6 +14,29 @@
           "amount": 200,
           "type": 1,
           "tradableItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        },
+        {
+          "amount": 202,
+          "type": 1,
+          "tradableItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        }
+      ]
+    },
+    {
+      "priceRate": "1to15",
+      "withTrader": true,
+      "message": "string",
+      "type": 0,
+      "offerItems": [
+        {
+          "amount": 202,
+          "type": 1,
+          "tradableItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        },
+        {
+          "amount": 203,
+          "type": 0,
+          "tradableItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         }
       ]
     }

@@ -44,7 +44,8 @@ public static class OfferRepositoryMock
                 offer.Title,
                 offer.Message,
                 offer.Expression,
-                offer.Type, offer.Status,
+                offer.Type, 
+                offer.Status,
                 offer.Id.Value);
 
             FakeDataSet.Add(newOffer);

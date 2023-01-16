@@ -44,11 +44,21 @@ public static class OfferPositionRepositoryMock
 
         repository.BulkInsert(Arg.Any<IEnumerable<OfferPosition>>(), CancellationToken.None).Returns(async call =>
         {
-            var offerPositions = (call.Arg<IEnumerable<OfferPosition>>()).ToList();
+            var offerPositions = call.Arg<IEnumerable<OfferPosition>>().ToList();
 
-            FakeDataSet.AddRange(offerPositions);
+            var newPositions = offerPositions.Select(position => 
+                new OfferPosition(
+                    position.OfferId, 
+                    position.PriceRate, 
+                    position.WithTrader, 
+                    position.Message, 
+                    position.Type, 
+                    position.Id.Value))
+                .ToList();
 
-            return await repository.GetByOffer(offerPositions.FirstOrDefault()?.OfferId?.Value ?? Guid.Empty, CancellationToken.None);
+            FakeDataSet.AddRange(newPositions);
+
+            return await repository.GetByOffer(newPositions.FirstOrDefault()?.OfferId?.Value ?? Guid.Empty, CancellationToken.None);
         });
 
         return repository;

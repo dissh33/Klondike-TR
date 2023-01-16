@@ -44,7 +44,7 @@ public static class OfferItemRepositoryMock
 
         repository.BulkInsert(Arg.Any<IEnumerable<OfferItem>>(), CancellationToken.None).Returns(async call =>
         {
-            var offerItems = (call.Arg<IEnumerable<OfferItem>>()).ToList();
+            var offerItems = call.Arg<IEnumerable<OfferItem>>().ToList();
 
             FakeDataSet.AddRange(offerItems);
 

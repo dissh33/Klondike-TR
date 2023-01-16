@@ -6,6 +6,7 @@ using Offers.Api.Dtos;
 using Offers.Application.Contracts;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
+using Offers.Domain.Exceptions;
 using Offers.Domain.TypedIds;
 
 namespace Offers.Application.CommandHandlers;
@@ -40,7 +41,16 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
             var itemsFromDb = (await _uow.OfferItemRepository.BulkInsert(positionFromDto.OfferItems, ct)).ToList();
             var currentPosition = positionsFromDb.FirstOrDefault(p => p.Id == positionFromDto.Id);
 
-            currentPosition?.AddOfferItems(itemsFromDb);
+            try
+            {
+                currentPosition?.AddOfferItems(itemsFromDb);
+            }
+            catch (MissingOfferItemsException)
+            {
+                _uow.Rollback();
+                throw;
+            }
+            
         }
 
         offerFromDb.AddPositions(positionsFromDb);

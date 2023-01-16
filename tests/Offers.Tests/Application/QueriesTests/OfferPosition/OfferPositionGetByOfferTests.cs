@@ -22,6 +22,7 @@ public class OfferPositionGetByOfferTests : OfferTestsSetup
     internal async Task ShouldReturnListOfOfferPositionDtoFromSet_WhenOfferExists()
     {
         //arrange
+        OfferPositionRepositoryMock.ResetFakeDataSet();
         var offerId = OfferPositionRepositoryMock.FakeDataSet.First().OfferId;
 
         //act

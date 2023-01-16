@@ -3,10 +3,12 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Offers.Api.Commands;
 using Offers.Api.Dtos;
+using Offers.Api.Queries.Offer;
 using Offers.Application.CommandHandlers;
+using Offers.Application.QueryHandlers.OfferHandlers;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
-using Offers.Domain.TypedIds;
+using Offers.Domain.Exceptions;
 using Offers.Tests.Application.Mocks;
 using Offers.Tests.Application.Setup;
 using Xunit;
@@ -16,12 +18,16 @@ namespace Offers.Tests.Application.CommandsTests;
 public class OfferConstructTests : OfferTestsSetup
 {
     private readonly OfferConstructHandler _sut;
+
+    private readonly OfferGetByIdHandler _getById;
     
     private readonly OfferConstructCommand _command;
 
     public OfferConstructTests()
     {
         _sut = new OfferConstructHandler(_uow, _mapper);
+
+        _getById = new OfferGetByIdHandler(_uow, _mapper);
 
         _command = new OfferConstructCommand
         {
@@ -109,9 +115,8 @@ public class OfferConstructTests : OfferTestsSetup
 
         //act
         var actual = await _sut.Handle(_command, CancellationToken.None);
-
-        //TODO: with OfferGetByIdHandler
-        var added = OfferRepositoryMock.FakeDataSet.FirstOrDefault(offer => offer.Id == new OfferId(actual?.Id ?? Guid.Empty));
+        
+        var added = await _getById.Handle(new OfferGetByIdQuery(actual?.Id ?? Guid.Empty), CancellationToken.None);
 
         //assert
         actual.Should().BeOfType<OfferDto>();
@@ -139,6 +144,17 @@ public class OfferConstructTests : OfferTestsSetup
     [Fact]
     internal async Task ShouldReturnOfferDto_WithValuesFromCommand()
     {
+        //arrange
+        ResetData();
+
+        //act
+        var actual = await _sut.Handle(_command, CancellationToken.None);
+
+        //assert
+        actual.Should().BeOfType<OfferDto>();
+        actual.Should().NotBeNull();
+
+        actual!.Should().BeEquivalentTo(_command);
     }
 
     [Fact]
@@ -155,9 +171,18 @@ public class OfferConstructTests : OfferTestsSetup
     }
 
     [Fact]
-    internal async Task ShouldThrow_MissingOfferItemsException_WhenItemsNotSpecified()
+    internal async Task ShouldRollbackAndThrow_MissingOfferItemsException_WhenItemsNotSpecified()
     {
-        //Need this?
+        //arrange
+        ResetData();
+        _uow.OfferItemRepository.GetByPosition(Arg.Any<Guid>(), CancellationToken.None).Returns(Enumerable.Empty<OfferItem>());
+
+        //act
+        var act = () => _sut.Handle(_command, CancellationToken.None);
+
+        //assert
+        await act.Should().ThrowAsync<MissingOfferItemsException>();
+        _uow.Received(1).Rollback();
     }
 
 
