@@ -5,6 +5,7 @@ using Offers.Api.Queries.OfferItem;
 using Offers.Api.Queries.OfferPosition;
 
 namespace Offers.Admin.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class OfferPositionController : ControllerBase

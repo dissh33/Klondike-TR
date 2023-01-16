@@ -3,21 +3,16 @@ using Items.Application.Contracts;
 using Items.Application.Mapping;
 using Items.Tests.Application.Mocks;
 
-namespace Items.Tests.Application.Setups;
+namespace Items.Tests.Application.Setup;
 
-public class MaterialTestsSetup
+public class IconTestsSetup
 {
     protected readonly IMapper _mapper;
     protected readonly IUnitOfWork _uow;
 
-    public MaterialTestsSetup()
+    public IconTestsSetup()
     {
-        var mapperConfig = new MapperConfiguration(configuration =>
-        {
-            configuration.AddProfile<MaterialProfile>();
-            configuration.AddProfile<IconProfile>();
-        });
-
+        var mapperConfig = new MapperConfiguration(configuration => configuration.AddProfile<IconProfile>());
         _mapper = mapperConfig.CreateMapper();
 
         _uow = UnitOfWorkMock.GetUnitOfWork();

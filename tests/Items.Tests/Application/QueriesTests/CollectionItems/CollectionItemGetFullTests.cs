@@ -7,7 +7,7 @@ using Items.Api.Dtos.Icon;
 using Items.Api.Queries.CollectionItem;
 using Items.Application.QueryHandlers.CollectionItemHandlers;
 using Items.Domain.Entities;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;

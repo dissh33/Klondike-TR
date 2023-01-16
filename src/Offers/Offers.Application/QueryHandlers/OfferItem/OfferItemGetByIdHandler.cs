@@ -4,7 +4,7 @@ using Offers.Api.Dtos;
 using Offers.Api.Queries.OfferItem;
 using Offers.Application.Contracts;
 
-namespace Offers.Application.QueriesHandlers.OfferItem;
+namespace Offers.Application.QueryHandlers.OfferItem;
 
 public class OfferItemGetByIdHandler : IRequestHandler<OfferItemGetByIdQuery, OfferItemDto?>
 {

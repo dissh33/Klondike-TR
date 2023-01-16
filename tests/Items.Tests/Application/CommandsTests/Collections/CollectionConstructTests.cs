@@ -20,7 +20,7 @@ using Items.Domain.Entities;
 using Items.Domain.Enums;
 using Items.Domain.Exceptions;
 using Items.Tests.Application.Mocks;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;

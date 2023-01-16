@@ -7,7 +7,7 @@ using Items.Api.Dtos.CollectionItem;
 using Items.Api.Queries.CollectionItem;
 using Items.Application.QueryHandlers.CollectionItemHandlers;
 using Items.Domain;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using NSubstitute;
 using Xunit;
 
@@ -48,7 +48,7 @@ public class CollectionItemGetByCollectionTests : CollectionItemTestsSetup
     }
 
     [Fact]
-    public async Task ShouldReturnNull_WhenCollectionDoesNotExists()
+    public async Task ShouldReturnEmpty_WhenCollectionDoesNotExists()
     {
         //arrange
         var request = new CollectionItemGetByCollectionQuery(Guid.Empty);

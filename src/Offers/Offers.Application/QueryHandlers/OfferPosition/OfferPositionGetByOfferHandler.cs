@@ -4,7 +4,7 @@ using Offers.Api.Dtos;
 using Offers.Api.Queries.OfferPosition;
 using Offers.Application.Contracts;
 
-namespace Offers.Application.QueriesHandlers.OfferPosition;
+namespace Offers.Application.QueryHandlers.OfferPosition;
 
 public class OfferPositionGetByOfferHandler : IRequestHandler<OfferPositionGetByOfferQuery, IEnumerable<OfferPositionDto>>
 {

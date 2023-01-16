@@ -4,6 +4,7 @@ using Offers.Api.Dtos;
 using Offers.Api.Queries.OfferItem;
 
 namespace Offers.Admin.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class OfferItemController : ControllerBase

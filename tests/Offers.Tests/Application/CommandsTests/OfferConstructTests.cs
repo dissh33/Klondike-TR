@@ -1,41 +1,27 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Offers.Api.Commands;
 using Offers.Api.Dtos;
 using Offers.Application.CommandHandlers;
-using Offers.Application.Contracts;
-using Offers.Application.Mapping;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
 using Offers.Domain.TypedIds;
 using Offers.Tests.Application.Mocks;
+using Offers.Tests.Application.Setup;
 using Xunit;
 
-namespace Offers.Tests.Application.Commands;
+namespace Offers.Tests.Application.CommandsTests;
 
-public class OfferConstructTests
+public class OfferConstructTests : OfferTestsSetup
 {
-    private readonly IUnitOfWork _uow;
-
     private readonly OfferConstructHandler _sut;
     
     private readonly OfferConstructCommand _command;
 
     public OfferConstructTests()
     {
-        var mapperConfig = new MapperConfiguration(configuration =>
-        {
-            configuration.AddProfile<OfferProfile>();
-            configuration.AddProfile<OfferPositionProfile>();
-            configuration.AddProfile<OfferItemProfile>();
-        });
-
-        var mapper = mapperConfig.CreateMapper();
-        _uow = UnitOfWorkMock.GetUnitOfWork();
-
-        _sut = new OfferConstructHandler(_uow, mapper);
+        _sut = new OfferConstructHandler(_uow, _mapper);
 
         _command = new OfferConstructCommand
         {
@@ -101,7 +87,7 @@ public class OfferConstructTests
     }
 
     [Fact]
-    public async Task ShouldAddNewEntitiesToTheirSets()
+    internal async Task ShouldAddNewEntitiesToTheirSets()
     {
         //arrange
         ResetData();
@@ -116,7 +102,7 @@ public class OfferConstructTests
     }
 
     [Fact]
-    public async Task ShouldReturnAddedOfferDto() //TODO: DOES NOT WORK YET
+    internal async Task ShouldReturnAddedOfferDto() //TODO: DOES NOT WORK YET
     {
         //arrange
         ResetData();
@@ -135,7 +121,7 @@ public class OfferConstructTests
     }
 
     [Fact]
-    public async Task ShouldRollbackAndReturnNull_WhenCantAddOfferEntity()
+    internal async Task ShouldRollbackAndReturnNull_WhenCantAddOfferEntity()
     {
         //arrange
         ResetData();
@@ -151,12 +137,12 @@ public class OfferConstructTests
     }
 
     [Fact]
-    public async Task ShouldReturnOfferDto_WithValuesFromCommand()
+    internal async Task ShouldReturnOfferDto_WithValuesFromCommand()
     {
     }
 
     [Fact]
-    public async Task ShouldReturnOfferDto_WithEmptyPositions_WhenPositionsNotSpecified()
+    internal async Task ShouldReturnOfferDto_WithEmptyPositions_WhenPositionsNotSpecified()
     {
         //arrange
         ResetData();
@@ -169,14 +155,14 @@ public class OfferConstructTests
     }
 
     [Fact]
-    public async Task ShouldThrow_MissingOfferItemsException_WhenItemsNotSpecified()
+    internal async Task ShouldThrow_MissingOfferItemsException_WhenItemsNotSpecified()
     {
         //Need this?
     }
 
 
     [Fact]
-    public async Task ShouldCommitOnce()
+    internal async Task ShouldCommitOnce()
     {
         //arrange
         ResetData();

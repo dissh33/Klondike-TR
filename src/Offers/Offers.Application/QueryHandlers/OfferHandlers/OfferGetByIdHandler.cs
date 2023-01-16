@@ -4,14 +4,14 @@ using Offers.Api.Dtos;
 using Offers.Api.Queries.Offer;
 using Offers.Application.Contracts;
 
-namespace Offers.Application.QueriesHandlers.OfferHandlers;
+namespace Offers.Application.QueryHandlers.OfferHandlers;
 
-public class OfferItemGetByIdHandler : IRequestHandler<OfferGetByIdQuery, OfferDto?>
+public class OfferGetByIdHandler : IRequestHandler<OfferGetByIdQuery, OfferDto?>
 {
     private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
 
-    public OfferItemGetByIdHandler(IUnitOfWork uow, IMapper mapper)
+    public OfferGetByIdHandler(IUnitOfWork uow, IMapper mapper)
     {
         _uow = uow;
         _mapper = mapper;

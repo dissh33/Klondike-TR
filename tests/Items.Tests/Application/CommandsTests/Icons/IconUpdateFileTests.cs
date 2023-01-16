@@ -9,11 +9,11 @@ using Items.Tests.Application.Mocks;
 using System.Threading.Tasks;
 using System.Threading;
 using FluentAssertions;
-using Items.Tests.Application.Setups;
 using Microsoft.AspNetCore.Http.Internal;
 using NSubstitute;
 using Xunit;
 using System;
+using Items.Tests.Application.Setup;
 
 namespace Items.Tests.Application.CommandsTests.Icons;
 

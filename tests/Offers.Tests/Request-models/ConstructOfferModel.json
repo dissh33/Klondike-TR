@@ -1,0 +1,21 @@
+{
+  "title": "string",
+  "message": "string",
+  "type": 1,
+  "status": 1,
+  "positions": [
+    {
+      "priceRate": "1to4",
+      "withTrader": true,
+      "message": "string",
+      "type": 1,
+      "offerItems": [
+        {
+          "amount": 200,
+          "type": 1,
+          "tradableItemId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        }
+      ]
+    }
+  ]
+}

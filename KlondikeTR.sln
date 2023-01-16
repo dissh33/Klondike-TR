@@ -77,11 +77,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlondikeTR", "src\UI\Klondi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{3186C0C5-59AE-408E-AA82-75B5ECE80DD7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RequestModels", "RequestModels", "{D9091B1A-1BC7-4BB1-8ECA-56007C30D98D}"
-	ProjectSection(SolutionItems) = preProject
-		ConstructOfferModel.json = ConstructOfferModel.json
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,7 +194,6 @@ Global
 		{53208E85-461F-4488-B316-951BB2BCA485} = {8DF8609C-AE74-448B-818E-5DBD7B1178B6}
 		{FF50D247-230F-48EB-8F82-E984F446E7E3} = {3186C0C5-59AE-408E-AA82-75B5ECE80DD7}
 		{3186C0C5-59AE-408E-AA82-75B5ECE80DD7} = {B39FD32F-6BEE-4F23-8C67-64AC64164D45}
-		{D9091B1A-1BC7-4BB1-8ECA-56007C30D98D} = {D5605DEB-38F7-4C22-94F5-E12DC5C25516}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2EB99BF-658B-40A0-BA42-F02D33E92507}

@@ -5,7 +5,7 @@ using FluentAssertions;
 using Items.Api.Dtos.Collection;
 using Items.Api.Queries.Collection;
 using Items.Application.QueryHandlers.CollectionHandlers;
-using Items.Tests.Application.Setups;
+using Items.Tests.Application.Setup;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
@@ -27,9 +27,9 @@ public class CollectionGetByIdTests : CollectionTestsSetup
         //arrange
         var id = Guid.NewGuid();
         var request = new CollectionGetByIdQuery(id);
-        var collectionItemEntity = new Items.Domain.Entities.Collection("n1");
+        var collectionEntity = new Items.Domain.Entities.Collection("n1");
 
-        _uow.CollectionRepository.GetById(id, CancellationToken.None).Returns(collectionItemEntity);
+        _uow.CollectionRepository.GetById(id, CancellationToken.None).Returns(collectionEntity);
 
         //act
         var actual = await _sut.Handle(request, CancellationToken.None);
@@ -38,9 +38,9 @@ public class CollectionGetByIdTests : CollectionTestsSetup
         actual.Should().BeOfType(typeof(CollectionDto));
         actual.Should().NotBeNull();
 
-        actual!.Id.Should().Be(collectionItemEntity.Id);
-        actual.Name.Should().Be(collectionItemEntity.Name);
-        actual.Status.Should().Be((int) collectionItemEntity.Status!);
+        actual!.Id.Should().Be(collectionEntity.Id);
+        actual.Name.Should().Be(collectionEntity.Name);
+        actual.Status.Should().Be((int) collectionEntity.Status!);
     }
 
     [Fact]
