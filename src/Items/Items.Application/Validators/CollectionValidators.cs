@@ -50,9 +50,9 @@ public class CollectionUpdateStatusValidator : AbstractValidator<CollectionUpdat
     }
 }
 
-public class ConstructCollectionValidator : AbstractValidator<CollectionConstructCommand>
+public class CollectionConstructValidator : AbstractValidator<CollectionConstructCommand>
 {
-    public ConstructCollectionValidator()
+    public CollectionConstructValidator()
     {
         RuleFor(command => command.Name).Length(3, 250);
         RuleFor(command => command.Status).InclusiveBetween(0, 2);
