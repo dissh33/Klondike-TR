@@ -23,4 +23,11 @@ public class OfferTestsSetup
 
         _uow = UnitOfWorkMock.GetUnitOfWork();
     }
+
+    protected static void ResetData()
+    {
+        OfferRepositoryMock.ResetFakeDataSet();
+        OfferPositionRepositoryMock.ResetFakeDataSet();
+        OfferItemRepositoryMock.ResetFakeDataSet();
+    }
 }

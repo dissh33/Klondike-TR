@@ -10,7 +10,7 @@ public class OfferItemTests
 {
     [Theory]
     [MemberData(nameof(OfferItemConstructorParameters))]
-    public void OfferItem_ShouldConstruct_WithVariousParameters(
+    internal void OfferItem_ShouldConstruct_WithVariousParameters(
         OfferPositionId? offerPositionId,
         Guid tradableItemId,
         int amount,
@@ -33,7 +33,7 @@ public class OfferItemTests
     }
 
     [Fact]
-    public void OfferItem_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
+    internal void OfferItem_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
         var item1 = new OfferItem(new OfferPositionId(), Guid.Empty, 1, default);
         var item2 = new OfferItem(new OfferPositionId(), Guid.Empty, 1, default);
@@ -42,7 +42,7 @@ public class OfferItemTests
     }
 
     [Fact]
-    public void OfferItem_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
+    internal void OfferItem_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
     {
         var id = new OfferItemId(Guid.NewGuid());
         var offerItem = new OfferItem(new OfferPositionId(), Guid.Empty, 1, default, id.Value);
