@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Offers.Application.Behaviors;
 
 namespace Offers.Application;
 
@@ -15,7 +16,7 @@ public static class DependencyInjection
         services.AddAutoMapper(currentAssembly);
         services.AddValidatorsFromAssembly(currentAssembly);
 
-        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
     }
 }

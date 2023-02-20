@@ -12,7 +12,7 @@ public class ValidationExceptionTests
     [Fact]
     public void DefaultConstructor_ShouldCreatesAnEmptyErrorDictionary()
     {
-        var actual = new ValidationException().Errors;
+        var actual = new RequestValidationException().Errors;
 
         actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
     }
@@ -25,7 +25,7 @@ public class ValidationExceptionTests
                 new("Age", "must be over 18"),
             };
 
-        var actual = new ValidationException(failures).Errors;
+        var actual = new RequestValidationException(failures).Errors;
 
         actual.Keys.Should().BeEquivalentTo(new[] { "Age" });
         actual["Age"].Should().BeEquivalentTo(new[] { "must be over 18" });
@@ -44,7 +44,7 @@ public class ValidationExceptionTests
                 new ("Password", "must contain lower case letter"),
             };
 
-        var actual = new ValidationException(failures).Errors;
+        var actual = new RequestValidationException(failures).Errors;
 
         actual.Keys.Should().BeEquivalentTo(new[] { "Password", "Age" });
 
