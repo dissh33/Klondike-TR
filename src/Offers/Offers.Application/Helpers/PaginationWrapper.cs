@@ -1,6 +1,6 @@
-﻿namespace Offers.Infrastructure.Helpers;
+﻿namespace Offers.Application.Helpers;
 
-internal class PaginationWrapperBase
+public class PaginationWrapperBase
 {
     public int Page { get; set; }
 
@@ -20,16 +20,12 @@ internal class PaginationWrapperBase
     public bool HasNext => Page < TotalPages;
 }
 
-internal class PaginationWrapper<T> : PaginationWrapperBase
-    where T : class, new()
+public class PaginationWrapper<T> : PaginationWrapperBase
+    where T : class
 {
     private IEnumerable<T>? _data;
 
-    public IEnumerable<T>? Data
-    {
-        get => _data ??= new List<T>();
-        set => _data = value;
-    }
+    public IEnumerable<T> Data => _data ??= new List<T>();
 
     public PaginationWrapper(IEnumerable<T> data)
     {
@@ -37,16 +33,12 @@ internal class PaginationWrapper<T> : PaginationWrapperBase
     }
 }
 
-internal class PaginationWrapper<T, TViewModel> : PaginationWrapperBase
-    where T : class, new()
+public class PaginationWrapper<T, TViewModel> : PaginationWrapperBase
+    where T : class
 {
     private IEnumerable<TViewModel>? _data;
 
-    public IEnumerable<TViewModel>? Data
-    {
-        get => _data ??= new List<TViewModel>();
-        set => _data = value;
-    }
+    public IEnumerable<TViewModel> Data => _data ??= new List<TViewModel>();
 
     public PaginationWrapper(PaginationWrapper<T> wrapper, Func<T, TViewModel> converting)
     {

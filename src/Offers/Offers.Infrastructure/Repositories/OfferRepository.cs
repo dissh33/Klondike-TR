@@ -3,6 +3,7 @@ using App.Metrics;
 using Dapper;
 using Offers.Application.Contracts;
 using Offers.Domain.Entities;
+using Offers.Infrastructure.Helpers;
 using Offers.Infrastructure.Logging;
 using Serilog;
 
@@ -24,15 +25,36 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<Offer?> GetByPage(int page, int pageSize, CancellationToken ct)
+    public async Task<long> GetCount(CancellationToken ct)
     {
         var command = GetCountCommand(ct);
 
-        var countQuery = async () => await Connection.ExecuteScalarAsync<long>(command);
-        await Logger.DbCall(countQuery, command, Metrics);
+        var query = async () => await Connection.ExecuteScalarAsync<long>(command);
 
+        return await Logger.DbCall(query, command, Metrics);
+    }
 
-        //var paginationQuery = async () => await ;
+    public async Task<IEnumerable<Offer>?> GetByPage(
+        int page, 
+        int pageSize, 
+        CancellationToken ct, 
+        Dictionary<string, string?>? orderByRequest = null)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var orderByClause = new OrderBy(orderByRequest).GenerateSql();
+
+        var sql = $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName}" +
+                        $"{orderByClause} LIMIT {pageSize} OFFSET {(page - 1) * pageSize}";
+
+        var command = new CommandDefinition(
+            commandText: sql,
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.QueryAsync<Offer>(command);
+
+        return await Logger.DbCall(query, command, Metrics);
     }
 
     public async Task<Offer?> Insert(Offer offer, CancellationToken ct)
