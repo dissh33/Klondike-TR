@@ -24,6 +24,17 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
         return await Logger.DbCall(query, command, Metrics);
     }
 
+    public async Task<Offer?> GetByPage(int page, int pageSize, CancellationToken ct)
+    {
+        var command = GetCountCommand(ct);
+
+        var countQuery = async () => await Connection.ExecuteScalarAsync<long>(command);
+        await Logger.DbCall(countQuery, command, Metrics);
+
+
+        //var paginationQuery = async () => await ;
+    }
+
     public async Task<Offer?> Insert(Offer offer, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
