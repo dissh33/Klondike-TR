@@ -1,4 +1,4 @@
-﻿namespace Offers.Application.Helpers;
+﻿namespace Offers.Api.Helpers;
 
 public class PaginationWrapperBase
 {
@@ -30,22 +30,5 @@ public class PaginationWrapper<T> : PaginationWrapperBase
     public PaginationWrapper(IEnumerable<T> data)
     {
         _data = data;
-    }
-}
-
-public class PaginationWrapper<T, TViewModel> : PaginationWrapperBase
-    where T : class
-{
-    private IEnumerable<TViewModel>? _data;
-
-    public IEnumerable<TViewModel> Data => _data ??= new List<TViewModel>();
-
-    public PaginationWrapper(PaginationWrapper<T> wrapper, Func<T, TViewModel> converting)
-    {
-        Page = wrapper.Page;
-        PageSize = wrapper.PageSize;
-        TotalItems = wrapper.TotalItems;
-
-        _data = wrapper.Data?.Select(converting);
     }
 }
