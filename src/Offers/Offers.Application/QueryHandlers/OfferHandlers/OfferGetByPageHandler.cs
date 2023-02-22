@@ -24,13 +24,29 @@ public class OfferGetByPageHandler : IRequestHandler<OfferGetByPageQuery, Pagina
 
         if (countResult == 0) return null;
 
-        var paginationResult = await _uow.OfferRepository.GetByPage(
+        var paginationResult = (await _uow.OfferRepository.GetByPage(
             request.Page, 
             request.PageSize, 
             ct, 
-            request.OrderBy);
+            request.OrderBy))?.ToList();
 
         if (paginationResult is null) return null;
+
+        var positions = (await _uow.OfferPositionRepository.GetByOffers(paginationResult.Select(offer => offer.Id.Value), ct)).ToList();
+        var items = (await _uow.OfferItemRepository.GetByPositions(positions.Select(position => position.Id.Value), ct)).ToList();
+
+        foreach (var offer in paginationResult)
+        {
+            var currentPositions = positions.Where(position => position.OfferId == offer.Id).ToList();
+
+            foreach (var currentPosition in currentPositions)
+            {
+                var currentItems = items.Where(item => item.OfferPositionId == currentPosition.Id).ToList();
+                currentPosition.AddOfferItems(currentItems);
+            }
+
+            offer.AddPositions(currentPositions);
+        }
 
         var offerDtos = paginationResult.Select(offer => _mapper.Map<OfferDto>(offer));
 

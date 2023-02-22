@@ -40,6 +40,22 @@ public class OfferItemRepository : BaseRepository<OfferItem>, IOfferItemReposito
         return await Logger.DbCall(query, command, Metrics);
     }
 
+    public async Task<IEnumerable<OfferItem>> GetByPositions(IEnumerable<Guid> offerPositionIds, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var offerPositionIdsSql = string.Join(", ", offerPositionIds.Select(id => $"'{id}'"));
+
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE offer_position_id IN ({offerPositionIdsSql})",
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.QueryAsync<OfferItem>(command);
+
+        return await Logger.DbCall(query, command, Metrics);
+    }
+
     public async Task<OfferItem?> Insert(OfferItem offerItem, CancellationToken ct)
     {
         var command = InsertBaseCommand(offerItem, ct);
