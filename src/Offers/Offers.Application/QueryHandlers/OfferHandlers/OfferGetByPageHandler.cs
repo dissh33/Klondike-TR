@@ -30,7 +30,7 @@ public class OfferGetByPageHandler : IRequestHandler<OfferGetByPageQuery, Pagina
             ct, 
             request.OrderBy))?.ToList();
 
-        if (paginationResult is null) return null;
+        if (paginationResult is null || !paginationResult.Any()) return null;
 
         var positions = (await _uow.OfferPositionRepository.GetByOffers(paginationResult.Select(offer => offer.Id.Value), ct)).ToList();
         var items = (await _uow.OfferItemRepository.GetByPositions(positions.Select(position => position.Id.Value), ct)).ToList();

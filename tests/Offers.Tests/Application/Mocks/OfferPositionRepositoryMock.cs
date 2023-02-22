@@ -2,6 +2,7 @@
 using Offers.Application.Contracts;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
+using System.Linq;
 
 namespace Offers.Tests.Application.Mocks;
 
@@ -41,6 +42,9 @@ public static class OfferPositionRepositoryMock
 
         repository.GetByOffer(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
             FakeDataSet.Where(fake => fake.OfferId?.Value == call.Arg<Guid>()));
+
+        repository.GetByOffers(Arg.Any<IEnumerable<Guid>>(), CancellationToken.None).Returns(call =>
+            FakeDataSet.Where(fake => call.Arg<IEnumerable<Guid>>().ToList().Contains(fake.OfferId?.Value ?? Guid.NewGuid())));
 
         repository.BulkInsert(Arg.Any<IEnumerable<OfferPosition>>(), CancellationToken.None).Returns(async call =>
         {
