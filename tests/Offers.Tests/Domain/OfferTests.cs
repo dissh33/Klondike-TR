@@ -10,7 +10,7 @@ public class OfferTests
 {
     [Theory]
     [MemberData(nameof(OfferConstructorParameters))]
-    public void Offer_ShouldConstruct_WithVariousParameters(
+    internal void Offer_ShouldConstruct_WithVariousParameters(
         string? title,
         string? message,
         string? expression,
@@ -35,7 +35,7 @@ public class OfferTests
     }
 
     [Fact]
-    public void Offer_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
+    internal void Offer_ShouldConstruct_EveryTimeWithNewGuid_WhenIdNotSpecified()
     {
         var offer1 = new Offer("t1", "msg", "expression");
         var offer2 = new Offer("t2", "msg", "expression");
@@ -44,7 +44,7 @@ public class OfferTests
     }
 
     [Fact]
-    public void Offer_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
+    internal void Offer_ShouldConstruct_WithSpecifiedId_WhenIdPassed()
     {
         var id = new OfferId(Guid.NewGuid());
         var offer = new Offer("t1", "msg", "expression", id: id.Value);
@@ -53,7 +53,7 @@ public class OfferTests
     }
 
     [Fact]
-    public void AddPosition_ShouldAddOneOfferPositionToOffer_AndReturnAddedOfferPositionId()
+    internal void AddPosition_ShouldAddOneOfferPositionToOffer_AndReturnAddedOfferPositionId()
     {
         var offer = new Offer("t1", "msg", "expression");
 
@@ -66,7 +66,7 @@ public class OfferTests
     }
 
     [Fact]
-    public void AddPosition_ShouldAddOneOfferPosition_WithSpecifiedId_WhenOfferPositionIdPassed()
+    internal void AddPosition_ShouldAddOneOfferPosition_WithSpecifiedId_WhenOfferPositionIdPassed()
     {
         var offer = new Offer("t1", "msg", "expression");
 
@@ -75,5 +75,24 @@ public class OfferTests
 
         offer.Positions.Should().HaveCount(1);
         offer.Positions[0].Id.Should().Be(offerPositionId);
+    }
+
+    [Fact]
+    internal void AddOfferPositions_ShouldAddProvidedOfferPositionsList()
+    {
+        var offerId = new OfferId(Guid.NewGuid());
+        var offer = new Offer("t", "msg", "expr", default, default, offerId.Value);
+
+        var offerPositions = new List<OfferPosition>
+        {
+            new(null, "1to1", true, "m-1", default, offerId.Value),
+            new(null, "1to2", true, "m-2", default, offerId.Value),
+            new(null, "1to3", true, "m-3", default, offerId.Value),
+        };
+
+        offer.AddPositions(offerPositions);
+
+        offer.Positions.Should().HaveCount(3);
+        offer.Positions.Select(item => item.OfferId).Should().AllBeEquivalentTo(offerId);
     }
 }

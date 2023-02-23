@@ -1,5 +1,7 @@
 using App.Metrics.AspNetCore;
 using App.Metrics.Formatters.Prometheus;
+using FluentValidation.AspNetCore;
+using Offers.Admin.Filters;
 using Offers.Application;
 using Offers.Infrastructure;
 using Serilog;
@@ -41,8 +43,9 @@ builder.Services.RegisterInfrastructureServices();
 builder.Services.RegisterApplicationServices();
 
 builder.Services.AddControllers();
-//builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
-//    .AddFluentValidation(options => options.AutomaticValidationEnabled = false); //TODO: Add validation and filter
+
+builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
+    .AddFluentValidation(configuration => configuration.AutomaticValidationEnabled = false);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

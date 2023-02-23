@@ -5,6 +5,7 @@ using Items.Api.Queries.Collection;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
+using Items.Infrastructure.Filters;
 using Items.Infrastructure.Logging;
 using Serilog;
 
@@ -39,7 +40,7 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
     public async Task<IEnumerable<Collection>> GetAllAvailable(CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
-        var activeStatus = (int) ItemStatus.Available;
+        const int activeStatus = (int) ItemStatus.Available;
 
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE status='{activeStatus}'",
@@ -52,10 +53,10 @@ public class CollectionRepository : BaseRepository<Collection>, ICollectionRepos
         return await Logger.DbCall(query, command, Metrics);
     }
 
-    public async Task<IEnumerable<Collection>> GetByFilter(CollectionGetByFilterQuery filter, CancellationToken ct)
+    public async Task<IEnumerable<Collection>> GetByFilter(CollectionGetByFilterQuery request, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
-        var whereClause = filter.GenerateSql();
+        var whereClause = (request as CollectionFilter)?.GenerateSql();
 
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} {whereClause}",

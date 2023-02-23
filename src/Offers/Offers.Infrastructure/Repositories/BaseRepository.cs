@@ -11,7 +11,8 @@ using Offers.Domain.TypedIds;
 
 namespace Offers.Infrastructure.Repositories;
 
-public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : BaseEntity
+public abstract class BaseRepository<T> : IBaseGenericRepository<T> 
+    where T : BaseEntity
 {
     protected const int SQL_TIMEOUT = 3600;
     protected const string SCHEMA_NAME = "public";
@@ -52,6 +53,17 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T> where T : Ba
             .GetProperties()
             .Where(prop => !ExcludeProperties.Contains(prop.Name))
             .Select(prop => prop.Name);
+    }
+
+    protected CommandDefinition GetCountCommand(CancellationToken ct)
+    {
+        var sql = $"SELECT COUNT(*) FROM {SCHEMA_NAME}.{TableName}";
+
+        return new CommandDefinition(
+            commandText: sql,
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
     }
 
     protected CommandDefinition GetByIdBaseCommand(Guid id, CancellationToken ct)

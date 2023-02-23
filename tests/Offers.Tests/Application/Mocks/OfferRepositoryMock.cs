@@ -2,6 +2,8 @@
 using Offers.Application.Contracts;
 using Offers.Domain.Entities;
 using Offers.Domain.Enums;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Offers.Tests.Application.Mocks;
 
@@ -32,9 +34,37 @@ public static class OfferRepositoryMock
     public static IOfferRepository GetRepository()
     {
         var repository = Substitute.For<IOfferRepository>();
-        
+
+        repository.GetCount(CancellationToken.None)!.Returns(call => FakeDataSet.Count);
+
         repository.GetById(Arg.Any<Guid>(), CancellationToken.None)!.Returns(call =>
             FakeDataSet.FirstOrDefault(fake => fake.Id.Value == call.Arg<Guid>()));
+
+        repository.GetByPage(Arg.Any<int>(), Arg.Any<int>(), CancellationToken.None, Arg.Any<Dictionary<string, string?>?>())
+            .Returns(call =>
+            {
+                var page = call.ArgAt<int>(0);
+                var pageSize = call.ArgAt<int>(1);
+                var orderBy = call.Arg<Dictionary<string, string?>?>();
+
+                if (orderBy is not null && orderBy.ContainsKey("title"))
+                {
+                    return FakeDataSet.OrderBy(offer => offer.Title).Skip((page - 1) * pageSize).Take(pageSize);
+                }
+
+                if (orderBy is not null && orderBy.ContainsKey("type"))
+                {
+                    return FakeDataSet.OrderBy(offer => offer.Type).Skip((page - 1) * pageSize).Take(pageSize);
+                }
+
+                if (orderBy is not null && orderBy.ContainsKey("status"))
+                {
+                    return FakeDataSet.OrderBy(offer => offer.Status).Skip((page - 1) * pageSize).Take(pageSize);
+                }
+
+                return FakeDataSet.Skip((page -1) * pageSize).Take(pageSize);
+            });
+            
 
         repository.Insert(Arg.Any<Offer>(), CancellationToken.None).Returns(async call =>
         {

@@ -42,6 +42,9 @@ public static class OfferItemRepositoryMock
         repository.GetByPosition(Arg.Any<Guid>(), CancellationToken.None).Returns(call =>
             FakeDataSet.Where(fake => fake.OfferPositionId?.Value == call.Arg<Guid>()));
 
+        repository.GetByPositions(Arg.Any<IEnumerable<Guid>>(), CancellationToken.None).Returns(call =>
+            FakeDataSet.Where(fake => call.Arg<IEnumerable<Guid>>().ToList().Contains(fake.OfferPositionId?.Value ?? Guid.NewGuid())));
+
         repository.BulkInsert(Arg.Any<IEnumerable<OfferItem>>(), CancellationToken.None).Returns(async call =>
         {
             var offerItems = call.Arg<IEnumerable<OfferItem>>().ToList();

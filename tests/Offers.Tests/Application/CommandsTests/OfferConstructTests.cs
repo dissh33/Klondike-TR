@@ -15,6 +15,7 @@ using Xunit;
 
 namespace Offers.Tests.Application.CommandsTests;
 
+[Collection("OfferSequentially")]
 public class OfferConstructTests : OfferTestsSetup
 {
     private readonly OfferConstructHandler _sut;
@@ -84,14 +85,7 @@ public class OfferConstructTests : OfferTestsSetup
             },
         };
     }
-
-    private static void ResetData()
-    {
-        OfferRepositoryMock.ResetFakeDataSet();
-        OfferPositionRepositoryMock.ResetFakeDataSet();
-        OfferItemRepositoryMock.ResetFakeDataSet();
-    }
-
+    
     [Fact]
     internal async Task ShouldAddNewEntitiesToTheirSets()
     {

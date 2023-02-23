@@ -43,7 +43,7 @@ builder.Services.RegisterInfrastructureServices();
 builder.Services.RegisterApplicationServices();
 
 builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
-                .AddFluentValidation(options => options.AutomaticValidationEnabled = false);
+                .AddFluentValidation(configuration => configuration.AutomaticValidationEnabled = false);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

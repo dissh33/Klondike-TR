@@ -5,6 +5,7 @@ using Offers.Api.Queries.OfferPosition;
 using Offers.Application.QueryHandlers.OfferPosition;
 using Offers.Domain.Enums;
 using Offers.Domain.TypedIds;
+using Offers.Tests.Application.Mocks;
 using Offers.Tests.Application.Setup;
 using Xunit;
 

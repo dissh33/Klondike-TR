@@ -5,6 +5,7 @@ using Offers.Application.Contracts;
 using Offers.Domain.Entities;
 using Dapper;
 using Offers.Infrastructure.Logging;
+using Offers.Domain.TypedIds;
 
 namespace Offers.Infrastructure.Repositories;
 
@@ -31,6 +32,22 @@ public class OfferPositionRepository : BaseRepository<OfferPosition>, IOfferPosi
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE offer_id = @offerId",
             parameters: new { offerId },
+            transaction: Transaction,
+            commandTimeout: SQL_TIMEOUT,
+            cancellationToken: ct);
+
+        var query = async () => await Connection.QueryAsync<OfferPosition>(command);
+
+        return await Logger.DbCall(query, command, Metrics);
+    }
+
+    public async Task<IEnumerable<OfferPosition>> GetByOffers(IEnumerable<Guid> offerIds, CancellationToken ct)
+    {
+        var selectColumns = string.Join(", ", GetColumns().Select(InsertUnderscoreBeforeUpperCase));
+        var offerIdsSql = string.Join(", ", offerIds.Select(id => $"'{id}'"));
+
+        var command = new CommandDefinition(
+            commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE offer_id IN ({offerIdsSql})",
             transaction: Transaction,
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
