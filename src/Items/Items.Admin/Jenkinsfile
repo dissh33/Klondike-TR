@@ -31,11 +31,22 @@ pipeline {
       }
     }
 
+    stage('Clone') {
+      steps {
+        container('docker') {
+          git 
+          branch: 'dev', 
+          changelog: false, 
+          poll: false, 
+          url: 'https://github.com/dissh33/Klondike-TR'
+        }
+      }
+    }
+
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh 'docker help'
-          sh 'pwd'
+          sh 'docker version'
         }
       }
     }
