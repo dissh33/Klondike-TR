@@ -8,10 +8,10 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /bld
 COPY ["Items.Admin.csproj", "bld/Items/Items.Admin/"]
-COPY ["./Items.Api/Items.Api.csproj", "bld/Items/Items.Api/"]
-COPY ["./Items.Infrastructure/Items.Infrastructure.csproj", "bld/Items/Items.Infrastructure/"]
-COPY ["./Items.Application/Items.Application.csproj", "bld/Items/Items.Application/"]
-COPY ["./Items.Domain/Items.Domain.csproj", "bld/Items/Items.Domain/"]
+COPY ["../Items.Api/Items.Api.csproj", "bld/Items/Items.Api/"]
+COPY ["../Items.Infrastructure/Items.Infrastructure.csproj", "bld/Items/Items.Infrastructure/"]
+COPY ["../Items.Application/Items.Application.csproj", "bld/Items/Items.Application/"]
+COPY ["../Items.Domain/Items.Domain.csproj", "bld/Items/Items.Domain/"]
 RUN dotnet restore "Items/Items.Admin/Items.Admin.csproj"
 COPY . .
 WORKDIR "/bld/Items/Items.Admin"
