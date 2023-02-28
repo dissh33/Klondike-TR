@@ -43,7 +43,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'pwd'
-          sh 'docker build -f "KlondikeTR/src/Items/Items.Admin/Dockerfile" -t dissh33/items-sevice'
+          sh 'docker buildx build -f "KlondikeTR/src/Items/Items.Admin/Dockerfile" -t dissh33/items-sevice'
           sh 'pwd'
         }
       }
