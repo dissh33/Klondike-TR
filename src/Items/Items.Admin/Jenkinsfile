@@ -11,7 +11,7 @@ pipeline {
 
     stage ('Docker Build') {
       steps { 
-        docker build -t dissh33/items-sevice .
+        sh "docker build -t dissh33/items-sevice ."
       }
     }
 
