@@ -1,5 +1,5 @@
 pipeline {
-  
+
   agent {
     kubernetes {
       yaml '''
@@ -34,7 +34,7 @@ pipeline {
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh "docker build -t dissh33/items-sevice ."
+          sh "docker help"
         }
       }
     }
