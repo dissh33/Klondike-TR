@@ -35,7 +35,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker help'
-          sh 'ls'
+          sh 'tree -d ./'
         }
       }
     }
