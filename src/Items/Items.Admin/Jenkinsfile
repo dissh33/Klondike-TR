@@ -35,6 +35,8 @@ pipeline {
       steps {
         container('docker') {
           git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
+          sh 'pwd'
+          sh 'ls'
         }
       }
     }
