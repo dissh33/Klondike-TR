@@ -42,7 +42,8 @@ pipeline {
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh 'docker help'
+          sh 'pwd'
+          sh 'docker build -f "KlondikeTR/src/Items/Items.Admin/Dockerfile" --force-rm -t dissh33/items-sevice'
           sh 'pwd'
         }
       }
