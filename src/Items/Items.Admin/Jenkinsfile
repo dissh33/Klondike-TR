@@ -34,8 +34,8 @@ pipeline {
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh "docker help dev/null"
-          ls
+          sh 'docker help'
+          sh 'ls'
         }
       }
     }
