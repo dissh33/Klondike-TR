@@ -37,7 +37,10 @@ pipeline {
           git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
           sh 'pwd'
           sh 'ls'
-          sh 'docker build "./src/Items/Items.Admin/Dockerfile" -t dissh33/items-sevice'
+          sh 'cd src/Items/Items.Admin/Dockerfile'
+          sh 'pwd'
+          sh 'ls'
+          sh 'docker build src/Items/Items.Admin/Dockerfile -t dissh33/items-sevice'
           sh 'pwd'
           sh 'ls'
         }
