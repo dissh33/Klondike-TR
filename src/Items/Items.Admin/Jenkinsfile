@@ -43,6 +43,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker help'
+          sh 'pwd'
         }
       }
     }
