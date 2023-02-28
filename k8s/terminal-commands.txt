@@ -1,8 +1,6 @@
 ﻿
 docker build -t dissh33/items-sevice .
 
-docker build -f "src/Items/Items.Admin/Dockerfile" --force-rm -t dissh33/items-sevice
-
 docker build -f "F:\[DATA]\[PROGECTS]\KlondikeTR\src\Items\Items.Admin\Dockerfile" --force-rm -t dissh33/items-sevice "F:\[DATA]\[PROGECTS]\KlondikeTR"
 docker push dissh33/items-sevice
 
@@ -98,7 +96,8 @@ helm upgrade -f jenkins-values.yaml my-jenkins jenkinsci/jenkins -n jenkins
 
 helm uninstall my-jenkins -n jenkins
 
-
+#Jenkins build
+docker build "/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Admin" --force-rm -t dissh33/items-sevice
 
 
 
