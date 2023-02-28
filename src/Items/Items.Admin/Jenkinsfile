@@ -10,8 +10,10 @@ pipeline {
     }
 
     stage ('Docker Build') {
-      steps { 
-        sh "docker build -t dissh33/items-sevice ."
+      steps {
+        container('docker') {
+          sh "docker build -t dissh33/items-sevice ."
+        }
       }
     }
 
