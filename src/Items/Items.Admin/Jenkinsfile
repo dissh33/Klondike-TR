@@ -43,8 +43,8 @@ pipeline {
       steps {
         container('docker') {
           sh 'pwd'
-          sh 'docker buildx build -t dissh33/items-sevice'
-          sh 'pwd'
+          sh 'cd /var/run/docker.sock'
+          sh 'ls'
         }
       }
     }
