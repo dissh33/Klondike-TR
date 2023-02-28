@@ -1,10 +1,19 @@
 pipeline {
   agent any
+  
   stages {
-    stage ('Initialize') {
+
+    stage ('Clean workspace') {
       steps {
+        cleanWs()
+      }
+    }
+
+    stage ('Initialize') {
+      steps { 
         echo 'Placeholder.'
       }
     }
+    
   }
 }
