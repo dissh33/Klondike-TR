@@ -33,10 +33,9 @@ pipeline {
 
     stage('Clone') {
       steps {
-        git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
-        sh 'pwd'
-        sh 'cd /var/run/docker.sock'
-        sh 'ls'
+        container('docker') {
+          git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
+        }
       }
     }
 
@@ -44,7 +43,8 @@ pipeline {
       steps {
         container('docker') {
           sh 'pwd'
-          sh 'ls'
+          sh 'docker build -t dissh33/items-sevice .'
+          sh 'pwd'
         }
       }
     }
