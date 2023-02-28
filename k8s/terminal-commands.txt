@@ -1,8 +1,8 @@
 ﻿
-docker build -t dissh33/itemmanagementserviceadmin .
+docker build -t dissh33/items-sevice .
 
-docker build -f "F:\[DATA]\[PROGECTS]\KlondikeTR\ItemManagementService.Admin\Dockerfile" --force-rm -t dissh33/itemmanagementserviceadmin "F:\[DATA]\[PROGECTS]\KlondikeTR"
-docker push dissh33/itemmanagementserviceadmin
+docker build -f "F:\[DATA]\[PROGECTS]\KlondikeTR\src\Items\Items.Admin\Dockerfile" --force-rm -t dissh33/items-sevice "F:\[DATA]\[PROGECTS]\KlondikeTR"
+docker push dissh33/items-sevice
 
 docker run -dt 
 	-v "C:\Users\Dis\vsdbg\vs2017u5:/remote_debugger:rw" 
@@ -22,12 +22,17 @@ docker run -dt
 
 docker run -dt -P --name ItemManagementService.Admin --entrypoint tail dissh33/itemmanagementserviceadmin -f /dev/null
 
-docker run -e "ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true" -e "ASPNETCORE_ENVIRONMENT=Development" -e "ASPNETCORE_URLS=https://+:443;http://+:80" -e "DOTNET_USE_POLLING_FILE_WATCHER=1" -e "NUGET_PACKAGES=/root/.nuget/fallbackpackages" -e "NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages"  -dt -P --name ItemManagementService.Admin --entrypoint tail dissh33/itemmanagementserviceadmin -f /dev/null
+docker run -e "ASPNETCORE_ENVIRONMENT=Development" -e "ASPNETCORE_URLS=https://+:443;http://+:80" -e "DOTNET_USE_POLLING_FILE_WATCHER=1" -e "NUGET_PACKAGES=/root/.nuget/fallbackpackages" -e "NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages"  -dt -P --name Items.Admin --entrypoint tail dissh33/items-sevice -f /dev/null
 
 
 ##### ##### ##### ##### #####
 
+#loacations
+cd F:\[DATA]\[PROGECTS]\KlondikeTR\src\Items\Items.Admin
+cd F:\[DATA]\[PROGECTS]\KlondikeTR\k8s
 
+
+#Deploy
 kubectl delete deployment items-depl
 kubectl apply -f items-depl.yaml
 
@@ -37,7 +42,9 @@ kubectl create secret tls items-tls --cert=tls.crt --key=tls.key
 
 
 #Nginx
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/aws/deploy.yaml 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f ingress.yaml
+kubectl delete all --all -n ingress-nginx
 
 
 #CertManager
@@ -56,19 +63,19 @@ c:\windows\system32\drivers\etc\hosts
 
 #Helm
 https://github.com/helm/helm/releases
+helm uninstall [RELEASE_NAME]
 
 
 #Seq
 helm repo add datalust https://helm.datalust.co
 helm repo update
 helm install my-seq datalust/seq
-helm upgrade -f seq-config.yaml my-seq datalust/seq
+helm upgrade -f seq-values.yaml my-seq datalust/seq
 
 
 #Monitoring
 kubectl create namespace monitoring
 kubectl get all -n monitoring
-
 
 #Prometheus with Helm
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -76,13 +83,18 @@ helm install my-prometheus prometheus-community/prometheus -n monitoring
 helm get values my-prometheus -n monitoring
 helm upgrade -f prometheus-values.yaml my-prometheus prometheus-community/prometheus -n monitoring
 
+#Grafana
+kubectl apply -f grafana.yaml
+
 
 #Jenkins
 kubectl create namespace jenkins
 helm repo add jenkinsci https://charts.jenkins.io
 helm install my-jenkins -n jenkins jenkinsci/jenkins
-kubectl exec --namespace jenkins -it svc/my-jenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
+kubectl exec --namespace jenkins -it svc/my-jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
 helm upgrade -f jenkins-values.yaml my-jenkins jenkinsci/jenkins -n jenkins
+
+helm uninstall my-jenkins -n jenkins
 
 
 

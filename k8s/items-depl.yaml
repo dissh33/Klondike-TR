@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: itemsadmin
-          image: dissh33/itemmanagementserviceadmin:latest
+          image: dissh33/items-sevice:latest
 
 ---
 
