@@ -3,17 +3,17 @@ pipeline {
   
   stages {
 
-    stage ('Clean workspace') {
+    stage ('Clean Workspace') {
       steps {
         cleanWs()
       }
     }
 
-    stage ('Initialize') {
+    stage ('Docker Build') {
       steps { 
-        echo 'Placeholder.'
+        docker build -t dissh33/items-sevice .
       }
     }
-    
+
   }
 }
