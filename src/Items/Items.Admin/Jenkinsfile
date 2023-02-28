@@ -37,6 +37,9 @@ pipeline {
           git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
           sh 'pwd'
           sh 'ls'
+          sh 'docker build -f "src/Items/Items.Admin/Dockerfile" --force-rm -t dissh33/items-sevice'
+          sh 'pwd'
+          sh 'ls'
         }
       }
     }
@@ -44,8 +47,6 @@ pipeline {
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh 'pwd'
-          sh 'docker build -t dissh33/items-sevice .'
           sh 'pwd'
         }
       }
