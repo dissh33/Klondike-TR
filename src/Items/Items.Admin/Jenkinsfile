@@ -33,12 +33,13 @@ pipeline {
 
     stage('Clone') {
       steps {
-        git 
-        branch: 'dev', 
-        changelog: false, 
-        poll: false, 
-        url: 'https://github.com/dissh33/Klondike-TR'
-     }      
+        container('docker') {
+          git 
+          changelog: false, 
+          poll: false, 
+          url: 'https://github.com/dissh33/Klondike-TR'
+        }
+      }
     }
 
     stage ('Docker Build') {
