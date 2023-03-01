@@ -6,12 +6,6 @@ pipeline {
         apiVersion: v1
         kind: Pod
         spec:
-         env:
-         - name: DOCKER_PASSWORD
-            valueFrom:
-            secretKeyRef:
-              name: docker-for-jenkins-secret
-              key: DOCKER_PASSWORD
           containers:
           - name: dotnet
             image: mcr.microsoft.com/dotnet/sdk:6.0
