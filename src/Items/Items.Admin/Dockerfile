@@ -7,14 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Items/Items.Admin/*.csproj", "src/Items/Items.Admin/"]
+COPY ["Items/Items.Admin/Items.Admin.csproj", "src/Items/Items.Admin/"]
 COPY ["Items/Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
 COPY ["Items/Items.Infrastructure/Items.Infrastructure.csproj", "src/Items/Items.Infrastructure/"]
 COPY ["Items/Items.Application/Items.Application.csproj", "src/Items/Items.Application/"]
 COPY ["Items/Items.Domain/Items.Domain.csproj", "src/Items/Items.Domain/"]
-RUN dotnet restore "Items/Items.Admin/Items.Admin.csproj"
+RUN dotnet restore "src/Items/Items.Admin/Items.Admin.csproj"
 COPY . .
-WORKDIR "/bld/Items/Items.Admin"
+WORKDIR "/src/Items/Items.Admin"
 RUN dotnet build "Items.Admin.csproj" -c Release -o /app/build
 
 FROM build AS publish
