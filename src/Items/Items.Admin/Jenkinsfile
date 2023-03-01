@@ -24,12 +24,6 @@ pipeline {
           - name: docker-sock
             hostPath:
               path: /var/run/docker.sock
-          env:
-            - name: DOCKER_PASSWORD
-              valueFrom:
-              secretKeyRef:
-                name: docker-for-jenkins-secret
-                key: DOCKER_PASSWORD  
         '''
     }
   }
