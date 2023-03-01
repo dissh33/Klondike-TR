@@ -12,7 +12,7 @@ COPY ["src/Items/Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
 COPY ["src/Items/Items.Infrastructure/Items.Infrastructure.csproj", "src/Items/Items.Infrastructure/"]
 COPY ["src/Items/Items.Application/Items.Application.csproj", "src/Items/Items.Application/"]
 COPY ["src/Items/Items.Domain/Items.Domain.csproj", "src/Items/Items.Domain/"]
-RUN dotnet restore "src/src/Items/Items.Admin/Items.Admin.csproj"
+RUN dotnet restore "src/Items/Items.Admin/Items.Admin.csproj"
 COPY . .
 WORKDIR "src/Items/Items.Admin"
 RUN dotnet build "Items.Admin.csproj" -c Release -o /app/build
