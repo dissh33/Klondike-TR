@@ -47,6 +47,9 @@ pipeline {
     stage('Test') {
       steps {
         container('dotnet') {
+          sh 'dotnet --version'
+          sh 'dotnet restore "/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Admin/Items.Admin.csproj"'
+          sh 'dotnet build "/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Admin/Items.Admin.csproj" -c Release'
           sh 'dotnet test "/home/jenkins/agent/workspace/items_build_test/tests/Items.Tests"'
         }
       }
