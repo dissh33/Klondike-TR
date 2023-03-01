@@ -7,11 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["*.csproj", "src/Items/Items.Admin/"]
-COPY ["../Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Infrastructure/Items.Infrastructure.csproj", "src/Items/Items.Infrastructure/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Application/Items.Application.csproj", "src/Items/Items.Application/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Domain/Items.Domain.csproj", "src/Items/Items.Domain/"]
+COPY ["*.csproj", "Items/Items.Admin/"]
+COPY ["Items.Api/*.csproj", "Items/Items.Api/"]
+COPY ["Items.Infrastructure/Items.Infrastructure.csproj", "Items/Items.Infrastructure/"]
+COPY ["Items/Items.Application/Items.Application.csproj", "Items/Items.Application/"]
+COPY ["Items/Items.Domain/Items.Domain.csproj", "Items/Items.Domain/"]
 RUN dotnet restore "Items/Items.Admin/Items.Admin.csproj"
 COPY . .
 WORKDIR "/bld/Items/Items.Admin"
