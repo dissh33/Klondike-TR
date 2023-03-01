@@ -54,7 +54,6 @@ public class IconTests
         icon.Id.Should().Be(id);
         icon1.Id.Should().Be(id);
 
-        //wrong case for testing
         icon1.Id.Should().NotBe(id);
     }
 }

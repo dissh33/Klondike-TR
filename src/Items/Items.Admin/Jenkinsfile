@@ -30,7 +30,7 @@ pipeline {
   
   stages {
 
-    stage ('Clean Workspace') {
+    stage ('Clean') {
       steps {
         cleanWs()
       }
@@ -47,7 +47,6 @@ pipeline {
     stage('Test') {
       steps {
         container('dotnet') {
-          sh 'dotnet --version'
           sh 'dotnet test "/home/jenkins/agent/workspace/items_build_test/tests/Items.Tests/Items.Tests.csproj" -l:trx'
         }
       }
