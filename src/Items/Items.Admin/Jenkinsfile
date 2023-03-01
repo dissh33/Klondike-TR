@@ -61,7 +61,7 @@ pipeline {
     stage ('Docker Push') {
       steps{
         container('docker'){
-          sh 'docker login -u dissh33 -password-stdin Qwaszx7772155$'
+          sh 'docker login -u dissh33 -p Qwaszx7772155$'
           sh 'docker push dissh33/items-sevice'
         }
       }
