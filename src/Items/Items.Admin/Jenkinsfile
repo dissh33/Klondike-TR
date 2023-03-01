@@ -64,7 +64,6 @@ pipeline {
       }
       steps{
         container('docker'){
-          echo 'hi $DOCKER_PASSWORD'
           sh 'docker login -u dissh33 -p $DOCKER_PASSWORD'
           sh 'docker push dissh33/items-sevice'
         }
