@@ -7,22 +7,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Items/Items.Admin/Items.Admin.csproj", "src/Items/Items.Admin/"]
-COPY ["Items/Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
-COPY ["Items/Items.Infrastructure/Items.Infrastructure.csproj", "src/Items/Items.Infrastructure/"]
-COPY ["Items/Items.Application/Items.Application.csproj", "src/Items/Items.Application/"]
-COPY ["Items/Items.Domain/Items.Domain.csproj", "src/Items/Items.Domain/"]
-RUN dotnet restore "src/Items/Items.Admin/Items.Admin.csproj"
+COPY ["src/Items/Items.Admin/Items.Admin.csproj", "src/Items/Items.Admin/"]
+COPY ["src/Items/Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
+COPY ["src/Items/Items.Infrastructure/Items.Infrastructure.csproj", "src/Items/Items.Infrastructure/"]
+COPY ["src/Items/Items.Application/Items.Application.csproj", "src/Items/Items.Application/"]
+COPY ["src/Items/Items.Domain/Items.Domain.csproj", "src/Items/Items.Domain/"]
+RUN dotnet restore "src/src/Items/Items.Admin/Items.Admin.csproj"
 COPY . .
-WORKDIR "/src/Items/Items.Admin"
+WORKDIR "src/Items/Items.Admin"
 RUN dotnet build "Items.Admin.csproj" -c Release -o /app/build
 
-FROM build AS testrunner
-WORKDIR "/app/tests/Items.Tests"
-CMD ["dotnet", "test", "--logger:trx"]
-
-FROM build AS tests
-WORKDIR "/app/tests/Items.Tests"
+FROM build AS test
+WORKDIR "/app/test"
+COPY ["tests", .]
 RUN dotnet test "Items.Tests.csproj" --logger:trx
 
 FROM build AS publish
