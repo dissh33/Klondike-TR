@@ -60,5 +60,13 @@ pipeline {
       }
     }
 
+    stage ('Docker Push') {
+      steps{
+        container('docker'){
+          sh 'docker push dissh33/items-sevice'
+        }
+      }
+    }
+
   }
 }
