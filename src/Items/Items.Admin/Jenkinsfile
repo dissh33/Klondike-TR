@@ -7,6 +7,11 @@ pipeline {
         kind: Pod
         spec:
           containers:
+          - name: dotnet
+            image: mcr.microsoft.com/dotnet/sdk:6.0
+            command:
+            - cat
+            tty: true
           - name: docker
             image: docker:latest
             command:
@@ -39,15 +44,18 @@ pipeline {
       }
     }
 
+    stage('Test') {
+      steps {
+        container('dotnet') {
+          sh 'dotnet test "/home/jenkins/agent/workspace/items_build_test/tests/Items.Tests"'
+        }
+      }
+    }
+
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh 'pwd'
-          sh 'ls'
-          sh 'docker --version'
           sh 'docker build "/home/jenkins/agent/workspace/items_build_test/" -f "/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Admin/Dockerfile" -t dissh33/items-sevice'
-          sh 'pwd'
-          sh 'ls'
         }
       }
     }

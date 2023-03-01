@@ -17,11 +17,6 @@ COPY . .
 WORKDIR "src/Items/Items.Admin"
 RUN dotnet build "Items.Admin.csproj" -c Release -o /app/build
 
-FROM build AS test
-WORKDIR "/app/test"
-COPY ["tests", .]
-RUN dotnet test "Items.Tests.csproj" --logger:trx
-
 FROM build AS publish
 RUN dotnet publish "Items.Admin.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
