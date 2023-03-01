@@ -16,20 +16,20 @@ pipeline {
             image: docker:latest
             command:
             - cat
-            tty: true
-            env:
-            - name: DOCKER_PASSWORD
-              valueFrom:
-              secretKeyRef:
-                name: docker-for-jenkins-secret
-                key: DOCKER_PASSWORD
+            tty: true            
             volumeMounts:
              - mountPath: /var/run/docker.sock
                name: docker-sock
           volumes:
           - name: docker-sock
             hostPath:
-              path: /var/run/docker.sock    
+              path: /var/run/docker.sock
+          env:
+            - name: DOCKER_PASSWORD
+              valueFrom:
+              secretKeyRef:
+                name: docker-for-jenkins-secret
+                key: DOCKER_PASSWORD  
         '''
     }
   }
@@ -67,8 +67,8 @@ pipeline {
     stage ('Docker Push') {
       steps{
         container('docker'){
-          echo '${env.DOCKER_PASSWORD}'
-          sh 'docker login -u dissh33 -p "${env.DOCKER_PASSWORD}"'
+          echo '${DOCKER_PASSWORD}'
+          sh 'docker login -u dissh33 -p "${DOCKER_PASSWORD}"'
           sh 'docker push dissh33/items-sevice'
         }
       }
