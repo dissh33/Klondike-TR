@@ -23,7 +23,7 @@ CMD ["dotnet", "test", "--logger:trx"]
 
 FROM build AS tests
 WORKDIR "/app/tests/Items.Tests"
-RUN dotnet test
+RUN dotnet test --logger:trx
 
 FROM build AS publish
 RUN dotnet publish "Items.Admin.csproj" -c Release -o /app/publish /p:UseAppHost=false
