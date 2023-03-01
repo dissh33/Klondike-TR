@@ -38,9 +38,7 @@ pipeline {
 
     stage('Clone') {
       steps {
-        container('docker') {
-          git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
-        }
+        git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
       }
     }
 
@@ -63,10 +61,20 @@ pipeline {
     stage ('Docker Push') {
       steps{
         container('docker'){
+          sh 'docker login -u dissh33 -p Qwaszx7772155$'
           sh 'docker push dissh33/items-sevice'
         }
       }
     }
 
   }
+
+  post {
+    always {
+      container('docker') {
+        sh 'docker logout'
+      }
+    }
+  }
+
 }
