@@ -6,12 +6,12 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /bld
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Admin/Items.Admin.csproj", "bld/Items/Items.Admin/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Api/Items.Api.csproj", "bld/Items/Items.Api/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Infrastructure/Items.Infrastructure.csproj", "bld/Items/Items.Infrastructure/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Application/Items.Application.csproj", "bld/Items/Items.Application/"]
-COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Domain/Items.Domain.csproj", "bld/Items/Items.Domain/"]
+WORKDIR /src
+COPY ["*.csproj", "src/Items/Items.Admin/"]
+COPY ["../Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
+COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Infrastructure/Items.Infrastructure.csproj", "src/Items/Items.Infrastructure/"]
+COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Application/Items.Application.csproj", "src/Items/Items.Application/"]
+COPY ["/home/jenkins/agent/workspace/items_build_test/src/Items/Items.Domain/Items.Domain.csproj", "src/Items/Items.Domain/"]
 RUN dotnet restore "Items/Items.Admin/Items.Admin.csproj"
 COPY . .
 WORKDIR "/bld/Items/Items.Admin"
