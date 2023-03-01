@@ -11,9 +11,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{30C8F395-DC7A-4061-964B-85618B0058EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{EE6A981B-504B-4A2F-A440-BF0021785C4F}"
-	ProjectSection(SolutionItems) = preProject
-		src\Items\Items.Admin\Dockerfile = src\Items\Items.Admin\Dockerfile
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forecast", "Forecast", "{E0D79CA4-1047-4C6B-80D5-BCDCBEBA7267}"
 EndProject
