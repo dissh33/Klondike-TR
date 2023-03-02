@@ -21,7 +21,7 @@ pipeline {
              - mountPath: /var/run/docker.sock
                name: docker-sock
           - name: kube
-            image: bitnami/kubectl
+            image: portainer/kubectl-shell
             command:
             - cat
             tty: true
