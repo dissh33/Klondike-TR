@@ -20,6 +20,11 @@ pipeline {
             volumeMounts:
              - mountPath: /var/run/docker.sock
                name: docker-sock
+          - name: kube
+            image: bitnami/kubectl
+            command:
+            - cat
+            tty: true
           volumes:
           - name: docker-sock
             hostPath:
@@ -66,6 +71,14 @@ pipeline {
         container('docker'){
           sh 'docker login -u dissh33 -p $DOCKER_PASSWORD'
           sh 'docker push dissh33/items-sevice'
+        }
+      }
+    }
+
+    stage ('K8s') {
+      steps {
+        container('kube') {
+          sh 'kubectl --help'
         }
       }
     }
