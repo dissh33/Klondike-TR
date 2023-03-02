@@ -78,7 +78,7 @@ pipeline {
     stage ('K8s') {
       steps {
         container('kube') {
-          kubectl
+          sh 'pwd'
         }
       }
     }
