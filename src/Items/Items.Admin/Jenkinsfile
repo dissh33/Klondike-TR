@@ -78,7 +78,8 @@ pipeline {
     stage ('K8s') {
       steps {
         container('kube') {
-          bat 'pwd'
+          sh 'ls'
+          sh 'pwd'
         }
       }
     }
