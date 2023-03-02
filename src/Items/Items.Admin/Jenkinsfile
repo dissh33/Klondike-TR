@@ -21,7 +21,7 @@ pipeline {
              - mountPath: /var/run/docker.sock
                name: docker-sock
           - name: kube
-            image: rancher/kubectl
+            image: bitnami/kubectl
             command:
             - cat
             tty: true
@@ -78,7 +78,7 @@ pipeline {
     stage ('K8s') {
       steps {
         container('kube') {
-          sh 'pwd'
+          echo 'hi'
         }
       }
     }
