@@ -78,8 +78,7 @@ pipeline {
     stage ('K8s') {
       steps {
         container('kube') {
-          sh 'ls'
-          sh 'pwd'
+          sh 'kubectl --help'
         }
       }
     }
