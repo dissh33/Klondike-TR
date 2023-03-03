@@ -78,7 +78,7 @@ pipeline {
     stage ('K8s') {
       steps {
         container('kube') {
-          sh 'kubectl auth can-i "*" "*"'
+          sh 'kubectl auth can-i --list'
         }
       }
     }
