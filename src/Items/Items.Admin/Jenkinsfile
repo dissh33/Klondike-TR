@@ -75,10 +75,10 @@ pipeline {
       }
     }
 
-    stage ('K8s') {
+    stage ('Deploy to k8s') {
       steps {
         container('kube') {
-          sh 'kubectl cluster-info dump'
+          sh 'kubectl apply -f /home/jenkins/agent/workspace/items_build_test/k8s/items-depl.yaml'
         }
       }
     }
