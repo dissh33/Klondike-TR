@@ -78,7 +78,6 @@ pipeline {
     stage ('Deploy to k8s') {
       steps {
         container('kube') {
-          sh 'kubectl delete deployment offers-depl -n default'
           sh 'kubectl apply -f /home/jenkins/agent/workspace/offers_build_test/k8s/offers-depl.yaml -n default'
         }
       }
