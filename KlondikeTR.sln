@@ -57,6 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{8DF8609C-AE7
 		k8s\grafana.yaml = k8s\grafana.yaml
 		k8s\ingress.yaml = k8s\ingress.yaml
 		k8s\items-depl.yaml = k8s\items-depl.yaml
+		k8s\jenkins-role.yaml = k8s\jenkins-role.yaml
 		k8s\jenkins-values.yaml = k8s\jenkins-values.yaml
 		k8s\local-pvc.yaml = k8s\local-pvc.yaml
 		k8s\postgres-statefulset.yaml = k8s\postgres-statefulset.yaml
