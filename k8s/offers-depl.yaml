@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: items-depl
+  name: offers-depl
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: items
+      app: offers
   template:
     metadata:
       labels:
-        app: items
+        app: offers
     spec:
       containers:
-        - name: items
+        - name: offers
           image: dissh33/items-sevice:latest
 
 ---
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: items-clusterip-srv
+  name: offers-clusterip-srv
   namespace: default
   annotations:
     prometheus.io/scrape: 'true'
@@ -30,26 +30,26 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: items
+    app: offers
   ports:
-  - name: items
+  - name: offers
     protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 180
+    targetPort: 180
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: items-np-srv
+  name: offers-np-srv
   namespace: default
 spec:
   type: NodePort
   selector:
-    app: items
+    app: offers
   ports:
-    - name: items
+    - name: offers
       protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 180
+      targetPort: 180
