@@ -59,18 +59,16 @@ var app = builder.Build();
 
 #region Configure pipeline
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
 
-//app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
