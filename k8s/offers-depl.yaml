@@ -34,8 +34,8 @@ spec:
   ports:
   - name: offers
     protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 180
+    targetPort: 180
 
 ---
 
@@ -51,5 +51,5 @@ spec:
   ports:
     - name: offers
       protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 180
+      targetPort: 180
