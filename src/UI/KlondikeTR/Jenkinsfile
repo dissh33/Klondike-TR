@@ -1,0 +1,89 @@
+pipeline {
+
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: dotnet
+            image: mcr.microsoft.com/dotnet/sdk:6.0
+            command:
+            - cat
+            tty: true
+          - name: docker
+            image: docker:latest
+            command:
+            - cat
+            tty: true            
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
+          - name: kube
+            image: portainer/kubectl-shell
+            command:
+            - cat
+            tty: true
+          volumes:
+          - name: docker-sock
+            hostPath:
+              path: /var/run/docker.sock
+        '''
+    }
+  }
+  
+  stages {
+
+    stage ('Clean') {
+      steps {
+        cleanWs()
+      }
+    }
+
+    stage('Clone') {
+      steps {
+        git branch: 'dev', changelog: false, poll: false, url: 'https://github.com/dissh33/Klondike-TR'
+      }
+    }
+
+    stage ('Docker Build') {
+      steps {
+        container('docker') {
+          sh 'docker build "/home/jenkins/agent/workspace/ui_build_test/" -f "/home/jenkins/agent/workspace/ui_build_test/src/UI/KlondikeTR/Dockerfile" -t dissh33/klondikeTR-ui-sevice'
+        }
+      }
+    }
+
+    stage ('Docker Push') {
+      environment{
+        DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')
+      }
+      steps{
+        container('docker') {
+          sh 'docker login -u dissh33 -p $DOCKER_PASSWORD'
+          sh 'docker push klondikeTR-ui-sevice'
+        }
+      }
+    }
+
+    stage ('Deploy to k8s') {
+      steps {
+        container('kube') {
+          sh 'kubectl delete deployment ui-depl -n default'
+          sh 'kubectl apply -f /home/jenkins/agent/workspace/ui_build_test/k8s/ui-depl.yaml -n default'
+        }
+      }
+    }
+
+  }
+
+  post {
+    always {
+      container('docker') {
+        sh 'docker logout'
+      }
+    }
+  }
+
+}
