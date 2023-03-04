@@ -64,7 +64,8 @@ pipeline {
 
     stage ('Deploy to k8s') {
       steps {
-        container('kube') {
+        container('kube') {            
+          sh 'kubectl delete deployment ui-depl -n default'
           sh 'kubectl apply -f /home/jenkins/agent/workspace/ui_build_test/k8s/ui-depl.yaml -n default'
         }
       }
