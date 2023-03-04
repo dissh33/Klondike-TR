@@ -12,7 +12,7 @@ COPY ["src/Items/Items.Api/Items.Api.csproj", "src/Items/Items.Api/"]
 COPY ["src/Offers/Offers.Api/Offers.Api.csproj", "src/Offers/Offers.Api/"]
 RUN dotnet restore "src/UI/KlondikeTR/KlondikeTR.csproj"
 COPY . .
-WORKDIR "/src/UI/KlondikeTR"
+WORKDIR "src/UI/KlondikeTR"
 RUN dotnet build "KlondikeTR.csproj" -c Release -o /app/build
 
 FROM build AS publish
