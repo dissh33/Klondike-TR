@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Offers.Tests.Application.CommandsTests;
 
-[Collection("OfferSequentially")]
+[Collection("Offer-Sequentially")]
 public class OfferConstructTests : OfferTestsSetup
 {
     private readonly OfferConstructHandler _sut;

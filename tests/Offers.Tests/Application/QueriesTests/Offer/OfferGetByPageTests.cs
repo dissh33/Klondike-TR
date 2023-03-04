@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Offers.Tests.Application.QueriesTests.Offer;
 
-[Collection("OfferSequentially")]
+[Collection("Offer-Sequentially")]
 public class OfferGetByPageTests : OfferTestsSetup
 {
     private readonly OfferGetByPageHandler _sut;
