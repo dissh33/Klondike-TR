@@ -8,17 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: klondike-items.ru
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: items-clusterip-srv
-                port:
-                  number: 80
-    - host: klondike-ui.ru
+    - host: klondike.trade.ru
       http:
         paths:
           - path: /
@@ -28,10 +18,14 @@ spec:
                 name: ui-clusterip-srv
                 port:
                   number: 80
-    - host: klondike-offers.ru
-      http:
-        paths:
-          - path: /
+          - path: /items
+            pathType: Prefix
+            backend:
+              service:
+                name: items-clusterip-srv
+                port:
+                  number: 80
+          - path: /offers
             pathType: Prefix
             backend:
               service:
