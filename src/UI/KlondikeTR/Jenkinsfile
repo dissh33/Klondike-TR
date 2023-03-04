@@ -7,11 +7,6 @@ pipeline {
         kind: Pod
         spec:
           containers:
-          - name: dotnet
-            image: mcr.microsoft.com/dotnet/sdk:6.0
-            command:
-            - cat
-            tty: true
           - name: docker
             image: docker:latest
             command:
@@ -50,7 +45,7 @@ pipeline {
     stage ('Docker Build') {
       steps {
         container('docker') {
-          sh 'docker build "/home/jenkins/agent/workspace/ui_build_test/" -f "/home/jenkins/agent/workspace/ui_build_test/src/UI/KlondikeTR/Dockerfile" -t dissh33/klondikeTR-ui-sevice'
+          sh 'docker build "/home/jenkins/agent/workspace/ui_build_test/" -f "/home/jenkins/agent/workspace/ui_build_test/src/UI/KlondikeTR/Dockerfile" -t dissh33/klondiketr-ui'
         }
       }
     }
@@ -62,7 +57,7 @@ pipeline {
       steps{
         container('docker') {
           sh 'docker login -u dissh33 -p $DOCKER_PASSWORD'
-          sh 'docker push klondikeTR-ui-sevice'
+          sh 'docker push klondiketr-ui'
         }
       }
     }
@@ -70,7 +65,6 @@ pipeline {
     stage ('Deploy to k8s') {
       steps {
         container('kube') {
-          sh 'kubectl delete deployment ui-depl -n default'
           sh 'kubectl apply -f /home/jenkins/agent/workspace/ui_build_test/k8s/ui-depl.yaml -n default'
         }
       }
