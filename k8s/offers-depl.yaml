@@ -34,8 +34,8 @@ spec:
   ports:
   - name: offers
     protocol: TCP
-    port: 180
-    targetPort: 180
+    port: 801
+    targetPort: 80
 
 ---
 
