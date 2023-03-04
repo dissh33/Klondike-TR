@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: offers
-          image: dissh33/items-sevice:latest
+          image: dissh33/offers-sevice:latest
 
 ---
 
@@ -34,7 +34,7 @@ spec:
   ports:
   - name: offers
     protocol: TCP
-    port: 801
+    port: 80
     targetPort: 80
 
 ---
@@ -51,5 +51,5 @@ spec:
   ports:
     - name: offers
       protocol: TCP
-      port: 180
-      targetPort: 180
+      port: 80
+      targetPort: 80
