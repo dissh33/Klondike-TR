@@ -21,4 +21,5 @@ RUN dotnet publish "KlondikeTR.csproj" -c Release -o /app/publish /p:UseAppHost=
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_ENVIRONMENT=k8s
 ENTRYPOINT ["dotnet", "KlondikeTR.dll"]
