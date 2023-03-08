@@ -75,7 +75,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
+        //_groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
         _test = await ItemsService.GetAllAvailableItemsTest(_cts.Token);
     }
 
