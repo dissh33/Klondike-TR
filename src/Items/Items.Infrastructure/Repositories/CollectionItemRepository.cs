@@ -39,7 +39,7 @@ public class CollectionItemRepository : BaseRepository<CollectionItem>, ICollect
 
         var command = new CommandDefinition(
             commandText: $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE collection_id = @collectionId",
-            parameters: new {positionId = collectionId },
+            parameters: new { collectionId },
             transaction: Transaction,
             commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
