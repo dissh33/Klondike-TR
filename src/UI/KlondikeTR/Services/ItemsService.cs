@@ -20,19 +20,23 @@ public class ItemsService : IItemsService
 
     public async Task<GroupedTradableItemsDto> GetAllAvailableItems(CancellationToken ct)
     {
-        //var result = await _memoryCache.GetOrCreateAsync("all_items", 
-        //    async cacheEntry =>
-        //    {
-        //        cacheEntry.AbsoluteExpirationRelativeToNow = _itemsCacheAge;
-        //        return await _itemsClient.GetFromJsonAsync<GroupedTradableItemsDto>("Item", ct);
-        //    });
+        var result = await _memoryCache.GetOrCreateAsync("all_items",
+            async cacheEntry =>
+            {
+                cacheEntry.AbsoluteExpirationRelativeToNow = _itemsCacheAge;
+                return await _itemsClient.GetFromJsonAsync<GroupedTradableItemsDto>("Item", ct);
+            });
 
-        //return result ?? new GroupedTradableItemsDto();
-        var str =  await _itemsClient.GetStringAsync("Item", ct);
+        return result ?? new GroupedTradableItemsDto();
+    }
+
+    public async Task<string> GetAllAvailableItemsTest(CancellationToken ct)
+    {
+        var str = await _itemsClient.GetStringAsync("Item", ct);
 
         Console.WriteLine(str);
 
-        return new GroupedTradableItemsDto();
+        return str;
     }
 
     public async Task<IEnumerable<CollectionItemDto>> GetCollectionItems(Guid collectionId, CancellationToken ct)

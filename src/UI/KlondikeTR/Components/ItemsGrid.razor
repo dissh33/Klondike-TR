@@ -36,6 +36,7 @@
 
         <p class="text-light fs-5 m-1 mt-3 mb-0">Collections</p>
         <div class="d-flex flex-row">
+            <p>_test</p>
             @foreach (var item in _groupedItems.Collections)
             {
                 <Item ItemDto="@item" OnSelect="@PushSelectedItem"/>
@@ -65,6 +66,8 @@
 
     private GroupedTradableItemsDto _groupedItems = new();
 
+    private string _test = "";
+
     private string _searchText = "";
     private List<TradableItemDto> FilteredItems => Search();
 
@@ -73,6 +76,7 @@
     protected override async Task OnInitializedAsync()
     {
         _groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
+        _test = await ItemsService.GetAllAvailableItemsTest(_cts.Token);
     }
 
     List<TradableItemDto> Search()
