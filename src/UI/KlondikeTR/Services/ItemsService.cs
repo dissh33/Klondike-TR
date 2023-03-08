@@ -28,7 +28,11 @@ public class ItemsService : IItemsService
         //    });
 
         //return result ?? new GroupedTradableItemsDto();
-        return await _itemsClient.GetFromJsonAsync<GroupedTradableItemsDto>("Item", ct) ?? new GroupedTradableItemsDto();
+        var str =  await _itemsClient.GetStringAsync("Item", ct);
+
+        Console.WriteLine(str);
+
+        return new GroupedTradableItemsDto();
     }
 
     public async Task<IEnumerable<CollectionItemDto>> GetCollectionItems(Guid collectionId, CancellationToken ct)
