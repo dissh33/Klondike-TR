@@ -32,11 +32,11 @@ public class ItemsService : IItemsService
 
     public async Task<string> GetAllAvailableItemsTest(CancellationToken ct)
     {
-        var str = await _itemsClient.GetStringAsync("Item", ct);
+        var str = await _itemsClient.GetAsync("Item", ct);
 
         Console.WriteLine(str);
 
-        return str;
+        return str.RequestMessage?.RequestUri?.AbsoluteUri ?? "";
     }
 
     public async Task<IEnumerable<CollectionItemDto>> GetCollectionItems(Guid collectionId, CancellationToken ct)
