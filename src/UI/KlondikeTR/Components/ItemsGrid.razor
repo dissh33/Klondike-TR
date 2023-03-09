@@ -20,7 +20,7 @@
     </div>
 
     <hr class="bg-light m-1 mt-0"/>
-    <p class="text-light">@_test</p>
+
     @if (_groupedItems.Collections.Any() || _groupedItems.Materials.Any())
     {
         @if (FilteredItems.Any())
@@ -64,9 +64,7 @@
     private TradableItemDto _selectedItem = new();
 
     private GroupedTradableItemsDto _groupedItems = new();
-
-    private string _test = "";
-
+    
     private string _searchText = "";
     private List<TradableItemDto> FilteredItems => Search();
 
@@ -74,8 +72,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //_groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
-        _test = await ItemsService.GetAllAvailableItemsTest(_cts.Token);
+        _groupedItems = await ItemsService.GetAllAvailableItems(_cts.Token);
     }
 
     List<TradableItemDto> Search()
