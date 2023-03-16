@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Components
+@using KlondikeTR.Enums
+
+
+<div class="col-auto m-auto oi oi-circle-x fs-4 text-secondary p-0"></div>
+<div class="col-auto m-auto">
+    <select class="form-select mb-1" aria-label="Select Amount" @bind="_amountType">
+        <option selected value="@AmountType.Exact.ToString()" alt="Exact amount">Amount</option>
+        <option value="@AmountType.Indefinite.ToString()" alt="Indefinite amount">Indefinite</option>
+    </select>
+    @if (_amountType == AmountType.Exact.ToString())
+    {
+        <input type="number" class="form-control" @bind="_amount" />
+    }
+</div>
+
+@code {
+    private int _amount = 1;
+
+    private string _amountType = AmountType.Exact.ToString();
+}

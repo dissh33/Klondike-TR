@@ -1,0 +1,75 @@
+﻿@using KlondikeTR.Components.Item
+@using Offers.Api.Dtos
+@using Items.Api.Dtos
+@using KlondikeTR.Enums
+
+
+<div class="container mt-2 p-2">
+    <div class="row justify-content-start">
+
+        @if (_plusVisible)
+        {
+            <div type="button" @onclick="SwitchItemsGridVisibility" class="mt-3 p-2">
+                <span class="fs-1 text-light p-3 border border-1 border-dark bg-success rounded oi oi-plus text-center" aria-hidden="true"></span>
+            </div>
+        }
+        else
+        {
+            <div class="col-auto"><TradableItem ItemDto="@_tradableItem" /></div>
+            <OfferItemPart />
+        }
+
+        <div class="col m-auto text-center">
+            <span class="oi m-auto oi-arrow-circle-right fs-1 text-primary"></span>
+        </div>
+
+@*        @if (_rightPlusVisible && !_plusVisible)
+        {
+            <div type="button" @onclick="SwitchItemsGridVisibility" class="mt-3 p-2">
+                <span class="fs-1 text-light p-3 border border-1 border-dark bg-success rounded oi oi-plus text-center" aria-hidden="true"></span>
+            </div>
+        }
+        else
+        {
+            <div class="col-auto"><TradableItem ItemDto="@_tradableItem" /></div>
+            <OfferItemPart />
+        }*@
+
+    </div>
+</div>
+
+@if (_gridVisible)
+{
+    <ItemsGrid OnSelectItem="@AddToOfferItem"/>
+}
+
+
+@code {
+    [Parameter]
+    public OfferItemDto OfferItemDto { get; set; } = new();
+
+    [Parameter]
+    public Action<OfferItemDto>? OnAddOfferItem { get; set; }
+
+    private TradableItemDto? _tradableItem;
+
+    private bool _gridVisible = false;
+    private bool _plusVisible = true;
+
+    void SwitchItemsGridVisibility()
+    {
+        _gridVisible = !_gridVisible;
+    }
+
+    void AddToOfferItem(TradableItemDto tradableItem)
+    {
+        _tradableItem = tradableItem;
+
+        OfferItemDto.TradableItemId = tradableItem.Id;
+        OnAddOfferItem?.Invoke(OfferItemDto);
+
+        _plusVisible = false;
+        SwitchItemsGridVisibility();
+        StateHasChanged();
+    }
+}

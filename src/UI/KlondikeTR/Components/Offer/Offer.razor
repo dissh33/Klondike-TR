@@ -1,0 +1,57 @@
+﻿@using Offers.Api.Dtos
+@using Items.Api.Dtos
+@using Microsoft.AspNetCore.Components
+
+<div class="border border-1 border-secondary bg-light p-2 ps-0 pe-0">
+    
+    <div class="d-flex flex-row border-bottom border-1 border-secondary p-2 pb-4">
+        <input class="form-control form-control-lg text-dark w-25" type="text" placeholder="Offer Title" @bind="_offerTitle">
+    </div>
+    
+    @foreach (var position in _offerPositions)
+    {
+        <OfferPosition PositionNumber="_positionNumber" OnAddOfferPosition="AddPositionToOffer"/>
+        _positionNumber++;
+    }
+
+    <div type="button" @onclick="AddEmptyOfferPosition" class="mt-4 border border-1 border-light rounded bg-secondary m-2 ms-4 me-4 text-center">
+        <span class="fs-5 text-light p-3 pe-2 oi oi-plus" aria-hidden="true"></span>
+        <span class="fs-5 text-light p-3 ps-0"> Add new Position</span>
+    </div>
+
+</div>
+
+<div class="d-flex flex-row-reverse">
+    <button type="button" class="btn btn-lg btn-primary m-2 me-0">Save</button>
+    <button type="button" class="btn btn-lg btn-danger m-2 me-0">Cancel</button>
+</div>
+
+@code {
+    private List<OfferPositionDto> _offerPositions = new();
+
+    private TradableItemDto? _tradableItem;
+
+    private string? _offerTitle;
+    private int _positionNumber = 1;
+
+    private bool _positionsVisible;
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _positionNumber = 1;
+    }
+
+    void AddEmptyOfferPosition()
+    {
+        var position = new OfferPositionDto();
+        
+        _offerPositions.Add(position);
+    }
+
+    void AddPositionToOffer(OfferPositionDto offerPosition)
+    {
+        _offerPositions.Add(offerPosition);
+        
+        StateHasChanged();
+    }
+}
