@@ -6,9 +6,14 @@
     <div class="d-flex flex-row mt-2">
         <h3 class="text-secondary font-monospace p-1 m-1">@PositionNumber</h3>
         
-        <select class="form-select m-1 ms-2 w-50" aria-label="Select Amount">
-            <option selected value="@AmountType.Exact.ToString()" alt="Exact amount">Amount</option>
-            <option value="@AmountType.Indefinite.ToString()" alt="Indefinite amount">Indefinite</option>
+        <select class="form-select m-1 ms-2 w-50" aria-label="Select Position Type" @bind="_offerPositionType">
+            <option selected value="@OfferPositionType.WithPriceRate.ToString()">With Price Rate</option>
+            <option value="@OfferPositionType.WithoutPriceRate.ToString()">Without Price Rate</option>
+            <option value="@OfferPositionType.Selling.ToString()">Selling</option>
+            <option value="@OfferPositionType.Buying.ToString()">Buying</option>
+            <option value="@OfferPositionType.ByCollectionItems.ToString()">By CollectionItems with Price Rate</option>
+            <option value="@OfferPositionType.ByCollectionItemsWithoutPriceRate.ToString()">By CollectionItems without Price Rate</option>
+            <option value="@OfferPositionType.ExactOffer.ToString()">Exact Offer</option>
         </select>
         
         <button type="button" class="btn-close ms-auto m-1" aria-label="Close"></button>
@@ -44,6 +49,7 @@
     [Parameter]
     public int PositionNumber { get; set; }
 
+    private string? _offerPositionType;
     private string? _offerPositionMessage;
 
     private OfferPositionDto _offerPosition = new();

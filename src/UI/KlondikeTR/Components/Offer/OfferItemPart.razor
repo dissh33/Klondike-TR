@@ -5,8 +5,8 @@
 <div class="col-auto m-auto oi oi-circle-x fs-4 text-secondary p-0"></div>
 <div class="col-auto m-auto">
     <select class="form-select mb-1" aria-label="Select Amount" @bind="_amountType">
-        <option selected value="@AmountType.Exact.ToString()" alt="Exact amount">Amount</option>
-        <option value="@AmountType.Indefinite.ToString()" alt="Indefinite amount">Indefinite</option>
+        <option selected value="@AmountType.Exact.ToString()" alt="Exact amount">Exact Amount</option>
+        <option value="@AmountType.Indefinite.ToString()" alt="Indefinite amount">Indefinite Amount</option>
     </select>
     @if (_amountType == AmountType.Exact.ToString())
     {
