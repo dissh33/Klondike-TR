@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Offers.Tests.Application.QueriesTests.OfferPosition;
 
+[Collection("Offer-Sequentially")]
 public class OfferPositionGetByOfferTests : OfferTestsSetup
 {
     private readonly OfferPositionGetByOfferHandler _sut;

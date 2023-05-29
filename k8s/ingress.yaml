@@ -6,18 +6,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: 12m
 spec:
   rules:
-    - host: klondike-items.ru
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: items-clusterip-srv
-                port:
-                  number: 80
     - host: klondike-ui.ru
       http:
         paths:
@@ -26,6 +17,16 @@ spec:
             backend:
               service:
                 name: ui-clusterip-srv
+                port:
+                  number: 80
+    - host: klondike-items.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: items-clusterip-srv
                 port:
                   number: 80
     - host: klondike-offers.ru

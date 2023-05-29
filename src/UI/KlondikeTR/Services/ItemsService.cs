@@ -20,7 +20,7 @@ public class ItemsService : IItemsService
 
     public async Task<GroupedTradableItemsDto> GetAllAvailableItems(CancellationToken ct)
     {
-        var result = await _memoryCache.GetOrCreateAsync("all_items", 
+        var result = await _memoryCache.GetOrCreateAsync("all_items",
             async cacheEntry =>
             {
                 cacheEntry.AbsoluteExpirationRelativeToNow = _itemsCacheAge;
@@ -28,6 +28,15 @@ public class ItemsService : IItemsService
             });
 
         return result ?? new GroupedTradableItemsDto();
+    }
+
+    public async Task<string> GetAllAvailableItemsTest(CancellationToken ct)
+    {
+        var str = await _itemsClient.GetStringAsync("Item", ct);
+
+        Console.WriteLine(str);
+
+        return str;
     }
 
     public async Task<IEnumerable<CollectionItemDto>> GetCollectionItems(Guid collectionId, CancellationToken ct)

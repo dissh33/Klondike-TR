@@ -1,13 +1,36 @@
 ﻿@page "/market"
 
-@using KlondikeTR.Components
+@using KlondikeTR.Components.Offer
 
 
-<h1>Market</h1>
+<p class="display-2">Market</p>
 
-<Offer></Offer>
+<div class="">
+    <div class="mt-4">
+        
+        @if (!_offerFormVisible)
+        {
+            <span type="button" @onclick="ShowOfferForm" class="m-1 bg-primary rounded">
+                <div class="fs-4 text-light p-3 pb-4 oi oi-plus w-auto" aria-hidden="true"> Add new Offer</div>
+            </span>
+        }
+        else
+        {
+            <Offer></Offer>
+        }
 
+    </div>
+
+    <div class="mt-4">
+        <h3>Active offers</h3>
+    </div>
+</div>
 
 @code {
+    private bool _offerFormVisible;
 
+    void ShowOfferForm()
+    {
+        _offerFormVisible = true;
+    }
 }

@@ -1,0 +1,65 @@
+﻿@using Offers.Api.Dtos
+@using KlondikeTR.Enums
+
+<div class="border-bottom border-1 border-secondary bg-light p-2">
+    
+    <div class="d-flex flex-row mt-2">
+        <h3 class="text-secondary font-monospace p-1 m-1">@PositionNumber</h3>
+        
+        <select class="form-select m-1 ms-2 w-50" aria-label="Select Position Type" @bind="_offerPositionType">
+            <option selected value="@OfferPositionType.WithPriceRate.ToString()">With Price Rate</option>
+            <option value="@OfferPositionType.WithoutPriceRate.ToString()">Without Price Rate</option>
+            <option value="@OfferPositionType.Selling.ToString()">Selling</option>
+            <option value="@OfferPositionType.Buying.ToString()">Buying</option>
+            <option value="@OfferPositionType.ByCollectionItems.ToString()">By CollectionItems with Price Rate</option>
+            <option value="@OfferPositionType.ByCollectionItemsWithoutPriceRate.ToString()">By CollectionItems without Price Rate</option>
+            <option value="@OfferPositionType.ExactOffer.ToString()">Exact Offer</option>
+        </select>
+        
+        <button type="button" class="btn-close ms-auto m-1" aria-label="Close"></button>
+    </div>
+    
+    <div class="mt-2">
+        <div class="d-flex flex-row">
+            <p class="flex-fill w-50 m-0 ms-1 align-text-bottom fs-5 font-monospace text-dark">Sell:</p>
+            <p class="flex-fill w-50 m-0 ms-1 align-text-bottom fs-5 font-monospace text-dark">Buy:</p>
+        </div>
+        
+        <div class="d-flex flex-row">
+            <div class="p-2 flex-fill border">Sell Content</div>
+            <div class="p-2 flex-fill border">Buy Content</div>
+        </div>
+    </div>
+
+    <OfferItem OnAddOfferItem="AddItemToOfferPosition"/>
+
+    @foreach (var item in _offerItems)
+    {
+        <OfferItem OfferItemDto="item" OnAddOfferItem="AddItemToOfferPosition"/>
+    }
+
+    <textarea class="form-control form-control-sm text-dark" rows="2" placeholder="Enter message for this Offer Position" @bind="_offerPositionMessage"></textarea>
+
+</div>
+
+@code {
+    [Parameter]
+    public Action<OfferPositionDto>? OnAddOfferPosition { get; set; }
+
+    [Parameter]
+    public int PositionNumber { get; set; }
+
+    private string? _offerPositionType;
+    private string? _offerPositionMessage;
+
+    private OfferPositionDto _offerPosition = new();
+    private readonly List<OfferItemDto> _offerItems = new();
+
+    private void AddItemToOfferPosition(OfferItemDto offerItem)
+    {
+        _offerItems.Add(offerItem);
+
+        _offerPosition.OfferItems = _offerItems;
+        StateHasChanged();
+    }
+}

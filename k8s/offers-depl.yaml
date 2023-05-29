@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: offers
-          image: dissh33/items-sevice:latest
+          image: dissh33/offers-sevice:latest
 
 ---
 
