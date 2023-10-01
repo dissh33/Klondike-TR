@@ -3,8 +3,8 @@
 
 
 <div type="button" @onclick="@Select" class="d-flex flex-column m-1">
-     <img class="item-img border border-1 border-secondary rounded" src="@ItemDto.Icon?.FileBinary.ToImgSrc()" alt="@ItemDto.Name?[..6]"/>
-     <div class="item-name badge bg-secondary text-wrap text-break mt-1"><small>@ItemDto.Name</small></div>
+    <div class="item-width badge bg-secondary text-wrap text-break">@ItemName(ItemDto.Name)</div>
+    <img class="item-size border border-1 border-secondary rounded mt-1" src="@ItemDto.Icon?.FileBinary.ToImgSrc()" alt="@ItemDto.Name" />
 </div>
 
 
@@ -19,5 +19,11 @@
     void Select()
     {
         OnSelect?.Invoke(ItemDto);
+    }
+
+    string? ItemName(string? input)
+    {
+        const int maxNameLength = 17;
+        return input?.Length < maxNameLength ? input : input?[..maxNameLength];
     }
 }

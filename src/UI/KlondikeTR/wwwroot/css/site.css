@@ -63,13 +63,13 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
-.item-img {
-    width: 90px;
-    height: 90px;
+.item-size {
+    width: 120px;
+    height: 120px;
 }
 
-.item-name {
-    width: 90px;
+.item-width {
+    width: 120px;
 }
 
 .item-search {

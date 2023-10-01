@@ -5,7 +5,7 @@
 
 
 <div class="container mt-2 p-2">
-    <div class="row justify-content-start">
+    <div class="col justify-content-start">
 
         @if (_plusVisible)
         {
@@ -15,28 +15,8 @@
         }
         else
         {
-            <div class="col-auto"><TradableItem ItemDto="@_tradableItem" /></div>
-            
-            <div class="col-auto m-auto oi oi-circle-x fs-4 text-secondary p-0"></div>
-            <div class="col-auto m-auto" style="width: 115px">
-
-                @if (_isAmountIndefinite)
-                {
-                    <input type="number" class="form-control" value="" disabled/>
-                }
-                else
-                {
-                    <input type="number" class="form-control" @bind="_amount"/>
-                }
-
-                <div class="col-auto m-auto mt-2">
-                    <input class="form-check-input" type="checkbox" @bind="_isAmountIndefinite" id="AmountIndefiniteCheckbox">
-                    <label class="form-check-label" for="AmountIndefiniteCheckbox">
-                        Indefinite
-                    </label>
-                </div>
-
-            </div>
+            <div class=""><TradableItem ItemDto="@_tradableItem" /></div>
+            <input type="number" class="item-width m-1" placeholder="Amount" @bind="_amount" />
         }
 
     </div>
@@ -55,10 +35,11 @@
     [Parameter]
     public Action<OfferItemDto>? OnAddOfferItem { get; set; }
 
-    private TradableItemDto? _tradableItem;
-
     private int? _amount = null;
-    private bool _isAmountIndefinite = true;
+
+    private string TypeOfAmount => _amount is null ? AmountType.Indefinite.ToString() : AmountType.Exact.ToString();
+
+    private TradableItemDto? _tradableItem;
 
     private bool _gridVisible = false;
     private bool _plusVisible = true;
