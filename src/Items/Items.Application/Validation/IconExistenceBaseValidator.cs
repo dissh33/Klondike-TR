@@ -2,7 +2,7 @@
 using Items.Api.Commands;
 using Items.Application.Contracts;
 
-namespace Items.Application.Validators;
+namespace Items.Application.Validation;
 
 public class IconExistenceBaseValidator<T> : AbstractValidator<T> where T : IHaveIcon
 {

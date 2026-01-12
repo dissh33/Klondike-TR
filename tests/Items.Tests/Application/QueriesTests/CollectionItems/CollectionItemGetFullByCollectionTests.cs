@@ -32,7 +32,7 @@ public class CollectionItemGetFullByCollectionTests : CollectionItemTestsSetup
         var all = _getAll.Handle(new CollectionItemGetAllQuery(), CancellationToken.None).GetAwaiter().GetResult().ToList();
         _collectionId = all.First().CollectionId ?? Guid.Empty;
         
-        _icons = IconRepositoryMock.GetRepository().GetAll(CancellationToken.None).GetAwaiter().GetResult().Take(Constants.COLLECTION_ITEM_NUMBER);
+        _icons = IconRepositoryMock.GetRepository().GetAll(CancellationToken.None).GetAwaiter().GetResult().Take(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
 
         IconRepositoryMock.GetRepository().GetRange(Arg.Any<IEnumerable<Guid>>(), CancellationToken.None).Returns(_icons);
     }
@@ -51,7 +51,7 @@ public class CollectionItemGetFullByCollectionTests : CollectionItemTestsSetup
 
         //assert
         actual.Should().AllBeOfType(typeof(CollectionItemFullWithFileDto));
-        actual.Should().HaveCount(Constants.COLLECTION_ITEM_NUMBER);
+        actual.Should().HaveCount(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
 
         actual.Select(fullDto => fullDto.Icon).Should().BeEquivalentTo(_icons, 
         options => options.Excluding(icon => icon.Id)

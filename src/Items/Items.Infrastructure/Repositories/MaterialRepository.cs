@@ -1,31 +1,26 @@
-﻿using System.Data;
-using App.Metrics;
-using Dapper;
+﻿using Dapper;
 using Items.Api.Queries.Material;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
 using Items.Domain.Enums;
 using Items.Infrastructure.Filters;
 using Items.Infrastructure.Logging;
+using Items.Infrastructure.Metrics;
 using Serilog;
+using System.Data;
 
 namespace Items.Infrastructure.Repositories;
 
-public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
+public class MaterialRepository(IDbTransaction transaction, ILogger logger, DbMetrics metrics) 
+    : BaseRepository<Material>(transaction, logger, metrics), IMaterialRepository
 {
-    public MaterialRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
-        : base(transaction, logger, metrics)
-    {
-
-    }
-
     public async Task<Material?> GetById(Guid id, CancellationToken ct)
     {
         var command = GetByIdBaseCommand(id, ct);
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Material>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<IEnumerable<Material>> GetAll(CancellationToken ct)
@@ -50,7 +45,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.QueryAsync<Material>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<IEnumerable<Material>> GetByFilter(MaterialGetByFilterQuery request, CancellationToken ct)
@@ -66,7 +61,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.QueryAsync<Material>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<Material?> Insert(Material material, CancellationToken ct)
@@ -75,7 +70,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command, Metrics);
+        var id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -86,7 +81,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command, Metrics);
+        var id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -101,7 +96,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command, Metrics);
+        id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -116,7 +111,7 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command, Metrics);
+        id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -127,6 +122,6 @@ public class MaterialRepository : BaseRepository<Material>, IMaterialRepository
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 }

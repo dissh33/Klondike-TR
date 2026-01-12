@@ -1,4 +1,8 @@
 ﻿
+dotnet dev-certs https   --- локальный SSL сертификат 
+
+
+
 docker build -t dissh33/items-sevice .
 
 docker build -f "F:\[DATA]\[PROGECTS]\KlondikeTR\src\Items\Items.Admin\Dockerfile" --force-rm -t dissh33/items-sevice "F:\[DATA]\[PROGECTS]\KlondikeTR"

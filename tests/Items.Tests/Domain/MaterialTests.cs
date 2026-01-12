@@ -23,7 +23,7 @@ public class MaterialTests
         material.Should().BeOfType(typeof(Material));
     }
 
-    private static IEnumerable<object?[]> MaterialConstructorParameters()
+    public static IEnumerable<object?[]> MaterialConstructorParameters()
     {
         return new List<object?[]>
         {

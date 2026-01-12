@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Offers.Api.Commands;
 using Offers.Api.Dtos;
@@ -11,16 +10,10 @@ using Offers.Domain.TypedIds;
 
 namespace Offers.Application.CommandHandlers;
 
-public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, OfferDto?>
+public class OfferConstructHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<OfferConstructCommand, OfferDto?>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public OfferConstructHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<OfferDto?> Handle(OfferConstructCommand request, CancellationToken ct)
     {
@@ -39,7 +32,7 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
         foreach (var positionFromDto in offer.Positions)
         {
             var itemsFromDb = (await _uow.OfferItemRepository.BulkInsert(positionFromDto.OfferItems, ct)).ToList();
-            var currentPosition = positionsFromDb.FirstOrDefault(p => p.Id == positionFromDto.Id);
+            var currentPosition = positionsFromDb.FirstOrDefault(position => position.Id == positionFromDto.Id);
 
             try
             {
@@ -63,10 +56,11 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
     private static Offer ConstructOfferEntity(OfferConstructCommand request)
     {
         var offerStatus = OfferStatus.Draft;
+        var offerType = OfferType.Default;
+
         if (request.Status != null) 
             offerStatus = (OfferStatus)request.Status;
 
-        var offerType = OfferType.Default;
         if (request.Type != null) 
             offerType = (OfferType)request.Type;
 
@@ -78,22 +72,19 @@ public class OfferConstructHandler : IRequestHandler<OfferConstructCommand, Offe
             offerStatus);
 
         var offerPositions = new List<OfferPosition>();
+
         foreach (var offerPositionDto in request.Positions)
         {
             var offerPositionId = new OfferPositionId(Guid.NewGuid());
 
-            var offerItems = new List<OfferItem>();
-            foreach (var offerItemDto in offerPositionDto.OfferItems)
-            {
-                var currentItem = new OfferItem(
-                    offerPositionId,
-                    offerItemDto.TradableItemId,
-                    offerItemDto.Amount,
-                    (OfferItemType)offerItemDto.Type);
+            var offerItems = offerPositionDto.OfferItems.Select(offerItemDto => 
+                new OfferItem(
+                    offerPositionId, 
+                    offerItemDto.TradableItemId, 
+                    offerItemDto.Amount, 
+                    (OfferItemType) offerItemDto.Type))
+                .ToList();
 
-                offerItems.Add(currentItem);
-            }
-            
             var currentPosition = new OfferPosition(
                 offer.Id,
                 offerPositionDto.PriceRate,

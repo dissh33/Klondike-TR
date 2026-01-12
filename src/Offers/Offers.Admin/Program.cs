@@ -1,9 +1,9 @@
-using App.Metrics.AspNetCore;
-using App.Metrics.Formatters.Prometheus;
 using FluentValidation.AspNetCore;
 using Offers.Admin.Filters;
 using Offers.Application;
 using Offers.Infrastructure;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using Serilog;
 
 
@@ -17,40 +17,38 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithEnvironmentName()
     .Enrich.FromLogContext()
     .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} {EnvironmentName}] {Message}{NewLine}{Exception}")
-    .WriteTo.Seq(builder.Configuration["Seq"])
+    .WriteTo.Seq(builder.Configuration["Seq"] ?? string.Empty)
     .CreateLogger();
-
 
 builder.Host.UseSerilog(Log.Logger);
 
-builder.Host
-    .UseMetricsWebTracking()
-    .UseMetrics(options =>
-    {
-        options.EndpointOptions = endpointOptions =>
-        {
-            endpointOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
-            endpointOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
-        };
-    });
 #endregion
 
 
 #region Add services
 
 builder.Services.RegisterInfrastructureServices();
-
-builder.Services.RegisterApplicationServices();
+builder.Services.RegisterApplicationServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
-builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
-    .AddFluentValidation(configuration => configuration.AutomaticValidationEnabled = false);
+builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>());
+//builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+
+builder.Services.AddOpenTelemetry()
+                .ConfigureResource(resource =>
+                {
+                    resource.AddService(serviceName: builder.Environment.ApplicationName);
+                })
+                .WithMetrics(metrics =>
+                {
+                    metrics.AddAspNetCoreInstrumentation();
+                    metrics.AddPrometheusExporter();
+                });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMetrics();
 #endregion
 
 
@@ -58,7 +56,6 @@ var app = builder.Build();
 
 
 #region Configure pipeline
-
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -74,8 +71,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapPrometheusScrapingEndpoint();
 
 #endregion
-
 
 app.Run();

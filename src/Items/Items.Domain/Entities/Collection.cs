@@ -7,11 +7,11 @@ public class Collection : BaseEntity, ITradableItem
 {
     public string? Name { get; }
 
-    private readonly List<CollectionItem> _items = new();
+    private readonly List<CollectionItem> _items = [];
     public IReadOnlyList<CollectionItem> Items => _items;
 
     public Icon? Icon { get; private set; }
-    public Guid IconId { get; private set; }
+    public Guid? IconId { get; private set; }
 
     public ItemStatus? Status { get; }
     public DateTime DateAdded { get; }
@@ -68,7 +68,7 @@ public class Collection : BaseEntity, ITradableItem
     {
         var collectionItems = items.ToList();
 
-        if (collectionItems.Count != Constants.COLLECTION_ITEM_NUMBER)
+        if (collectionItems.Count != DomainConstants.ITEMS_NUMBER_IN_COLLECTION)
             throw new WrongCollectionItemsNumberException(collectionItems.Count);
 
         _items.AddRange(collectionItems);

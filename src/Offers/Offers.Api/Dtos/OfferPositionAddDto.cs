@@ -8,5 +8,5 @@ public record OfferPositionAddDto
 
     public int Type { get; init; }
 
-    public IEnumerable<OfferItemAddDto> OfferItems { get; init; } = Enumerable.Empty<OfferItemAddDto>();
+    public IEnumerable<OfferItemAddDto> OfferItems { get; init; } = [];
 }

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using App.Metrics;
 using Dapper;
 using Items.Infrastructure.Metrics;
 using Serilog;
@@ -19,13 +18,15 @@ public static class LogEventsDefinitions
 
         var result = await action();
 
-        logger.Information("Sql-query executed in {time} ({ms} ms)", timer.Elapsed, timer.Elapsed.TotalMilliseconds);
+        logger.Information("Sql-query executed in {time} ({ms} ms)", timer.Elapsed, timer.Elapsed.TotalMilliseconds); 
         
         return result;
     }
 
-    public static async Task<T> DbCall<T>(this ILogger logger, Func<Task<T>> query, CommandDefinition cmd, IMetrics metrics)
+    public static async Task<T> DbCall<T>(this ILogger logger, Func<Task<T>> query, CommandDefinition cmd, DbMetrics metrics)
     {
+        metrics.DbCallsCounter.Add(1);
+
         if (!logger.IsEnabled(LogEventLevel.Information)) return await query();
 
         logger.Information("\n\t Executing Sql-query \n\t {sql}\n\t with parameters \n\t {parameters}", cmd.CommandText, cmd.Parameters);
@@ -34,7 +35,6 @@ public static class LogEventsDefinitions
 
         var result = await query();
 
-        metrics.Measure.Counter.Increment(MetricsRegistry.DbCallsCounter);
         logger.Information("Sql-query executed in {time} ({ms} ms)", timer.Elapsed, timer.Elapsed.TotalMilliseconds);
 
         return result;

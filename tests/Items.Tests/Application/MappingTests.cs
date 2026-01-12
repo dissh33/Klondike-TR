@@ -18,14 +18,13 @@ public class MappingTests
 
     public MappingTests()
     {
-
         _autoMapperConfiguration = new MapperConfiguration(config =>
         {
             config.AddProfile<IconProfile>();
             config.AddProfile<MaterialProfile>();
             config.AddProfile<CollectionProfile>();
             config.AddProfile<CollectionItemProfile>();
-        });
+        }, null);
 
         _mapper = _autoMapperConfiguration.CreateMapper();
     }

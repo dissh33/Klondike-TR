@@ -15,7 +15,7 @@ public class Offer : BaseEntity
     public OfferType Type { get; }
     public OfferStatus Status { get; }
 
-    private readonly List<OfferPosition> _positions = new();
+    private readonly List<OfferPosition> _positions = [];
     public IReadOnlyList<OfferPosition> Positions => _positions;
 
     private Offer()

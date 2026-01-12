@@ -21,7 +21,7 @@ public class CollectionItemTests
         collectionItem.Should().BeOfType(typeof(CollectionItem));
     }
 
-    private static IEnumerable<object?[]> CollectionItemConstructorParameters()
+    public static IEnumerable<object?[]> CollectionItemConstructorParameters()
     {
         return new List<object?[]>
         {

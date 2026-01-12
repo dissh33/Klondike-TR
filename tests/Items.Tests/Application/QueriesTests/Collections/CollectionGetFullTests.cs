@@ -37,7 +37,7 @@ public class CollectionGetFullTests : CollectionTestsSetup
         _collectionId = Guid.NewGuid();
 
         _collectionItemsEntities = new List<CollectionItem>();
-        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER; i++)
+        for (int i = 0; i < DomainConstants.ITEMS_NUMBER_IN_COLLECTION; i++)
         {
             var item = new CollectionItem($"full-name-{i}", _collectionId);
             _collectionItemsEntities.Add(item);
@@ -46,7 +46,7 @@ public class CollectionGetFullTests : CollectionTestsSetup
         _collectionEntity = new Collection("n1", status: ItemStatus.Disabled, id: _collectionId);
         _collectionIcon = new Icon("collection-icon", Array.Empty<byte>(), "fn-collection");
         
-        var iconEntities = IconRepositoryMock.InitialFakeDataSet.Take(Constants.COLLECTION_ITEM_NUMBER);
+        var iconEntities = IconRepositoryMock.InitialFakeDataSet.Take(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
         _uow.IconRepository.GetRange(Arg.Any<IEnumerable<Guid>>(), CancellationToken.None).Returns(iconEntities);
         _uow.IconRepository.GetById(_collectionIcon.Id, CancellationToken.None).Returns(_collectionIcon);
 
@@ -76,7 +76,7 @@ public class CollectionGetFullTests : CollectionTestsSetup
             options => options.Excluding(icon => icon.ExternalId).Excluding(icon => icon.FileBinary));
 
         actual.Items.Should().AllBeOfType(typeof(CollectionItemFullDto));
-        actual.Items.Should().HaveCount(Constants.COLLECTION_ITEM_NUMBER);
+        actual.Items.Should().HaveCount(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
         actual.Items!.Select(item => item.Icon).Should().NotBeNull();
         actual.Items.Should().BeEquivalentTo(_collectionItemsEntities, 
         options => options
@@ -136,7 +136,7 @@ public class CollectionGetFullTests : CollectionTestsSetup
         actual.Status.Should().Be((int)_collectionEntity.Status!);
 
         actual.Items.Should().AllBeOfType(typeof(CollectionItemFullDto));
-        actual.Items.Should().HaveCount(Constants.COLLECTION_ITEM_NUMBER);
+        actual.Items.Should().HaveCount(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
 
         actual.Icon.Should().BeNull();
     }
@@ -166,7 +166,7 @@ public class CollectionGetFullTests : CollectionTestsSetup
             options => options.Excluding(icon => icon.Id).Excluding(icon => icon.ExternalId).Excluding(icon => icon.FileBinary));
 
         actual.Items.Should().AllBeOfType(typeof(CollectionItemFullDto));
-        actual.Items.Should().HaveCount(Constants.COLLECTION_ITEM_NUMBER);
+        actual.Items.Should().HaveCount(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
         actual.Items.Should().BeEquivalentTo(_collectionItemsEntities,
             options => options
                 .Excluding(item => item.Id)

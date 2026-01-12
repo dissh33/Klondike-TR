@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Items.Api.Commands.Icon;
 
-namespace Items.Application.Validators;
+namespace Items.Application.Validation;
 
 public class IconAddValidator : AbstractValidator<IconAddCommand>
 {

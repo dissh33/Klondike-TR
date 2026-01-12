@@ -16,7 +16,7 @@ public class MaterialTestsSetup
         {
             configuration.AddProfile<MaterialProfile>();
             configuration.AddProfile<IconProfile>();
-        });
+        }, null);
 
         _mapper = mapperConfig.CreateMapper();
 

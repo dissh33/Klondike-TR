@@ -17,7 +17,7 @@ public class OfferTestsSetup
             configuration.AddProfile<OfferProfile>();
             configuration.AddProfile<OfferPositionProfile>();
             configuration.AddProfile<OfferItemProfile>();
-        });
+        }, null);
 
         _mapper = mapperConfig.CreateMapper();
 

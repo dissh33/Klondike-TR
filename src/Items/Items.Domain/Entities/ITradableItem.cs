@@ -6,7 +6,7 @@ public interface ITradableItem
     public string? Name { get; }
 
     public Icon? Icon { get; }  
-    public Guid IconId { get; }
+    public Guid? IconId { get; }
 
     void AddIcon(
         string? title,

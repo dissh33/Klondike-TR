@@ -3,14 +3,9 @@ using Serilog;
 
 namespace Items.Application.Behaviors;
 
-public class LoggingBehavior<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
+public class LoggingBehavior<TRequest>(ILogger logger) : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
-    private readonly ILogger _logger;
-
-    public LoggingBehavior(ILogger logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger _logger = logger;
 
     public Task Process(TRequest request, CancellationToken ct)
     {

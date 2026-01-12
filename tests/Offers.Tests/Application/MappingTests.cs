@@ -14,13 +14,12 @@ public class MappingTests
 
     public MappingTests()
     {
-
         _autoMapperConfiguration = new MapperConfiguration(config =>
         {
             config.AddProfile<OfferProfile>();
             config.AddProfile<OfferPositionProfile>();
             config.AddProfile<OfferItemProfile>();
-        });
+        }, null);
 
         _mapper = _autoMapperConfiguration.CreateMapper();
     }
@@ -47,7 +46,14 @@ public class MappingTests
         if (type.GetConstructor(Type.EmptyTypes) != null)
             return Activator.CreateInstance(type)!;
 
-        // Type without parameterless constructor
-        return FormatterServices.GetUninitializedObject(type);
+        var ctor = type.GetConstructors()
+            .OrderBy(c => c.GetParameters().Length)
+            .FirstOrDefault() ?? throw new InvalidOperationException($"No public constructors found for type {type.FullName}.");
+
+        var parameters = ctor.GetParameters()
+            .Select(p => p.ParameterType.IsValueType ? Activator.CreateInstance(p.ParameterType) : null)
+            .ToArray();
+
+        return ctor.Invoke(parameters);
     }
 }

@@ -25,7 +25,7 @@ public class CollectionTests
         collection.Should().BeOfType(typeof(Collection));
     }
 
-    private static IEnumerable<object?[]> CollectionConstructorParameters()
+    public static IEnumerable<object?[]> CollectionConstructorParameters()
     {
         return new List<object?[]>
         {
@@ -70,7 +70,7 @@ public class CollectionTests
         var collectionId = Guid.NewGuid();
         var items = new List<CollectionItem>();
 
-        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER; i++)
+        for (int i = 0; i < DomainConstants.ITEMS_NUMBER_IN_COLLECTION; i++)
         {
             var item = new CollectionItem("N", collectionId);
             items.Add(item);
@@ -123,7 +123,7 @@ public class CollectionTests
         var collection = new Collection("N", id: collectionId);
         var items = new List<CollectionItem>();
 
-        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER; i++)
+        for (int i = 0; i < DomainConstants.ITEMS_NUMBER_IN_COLLECTION; i++)
         {
             var item = new CollectionItem("N", collectionId);
             items.Add(item);
@@ -142,7 +142,7 @@ public class CollectionTests
         var collection = new Collection("N", id: collectionId);
         var items = new List<CollectionItem>();
 
-        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER - 1; i++)
+        for (int i = 0; i < DomainConstants.ITEMS_NUMBER_IN_COLLECTION - 1; i++)
         {
             var item = new CollectionItem("N", collectionId);
             items.Add(item);
@@ -161,7 +161,7 @@ public class CollectionTests
         var collection = new Collection("N", id: collectionId);
         var items = new List<CollectionItem>();
 
-        for (int i = 0; i < Constants.COLLECTION_ITEM_NUMBER + 1; i++)
+        for (int i = 0; i < DomainConstants.ITEMS_NUMBER_IN_COLLECTION + 1; i++)
         {
             var item = new CollectionItem("N", collectionId);
             items.Add(item);

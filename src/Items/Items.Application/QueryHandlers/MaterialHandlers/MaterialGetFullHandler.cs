@@ -6,16 +6,10 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.MaterialHandlers;
 
-public class MaterialGetFullHandler : IRequestHandler<MaterialGetFullQuery, MaterialFullDto?>
+public class MaterialGetFullHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<MaterialGetFullQuery, MaterialFullDto?>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public MaterialGetFullHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<MaterialFullDto?> Handle(MaterialGetFullQuery request, CancellationToken ct)
     {
