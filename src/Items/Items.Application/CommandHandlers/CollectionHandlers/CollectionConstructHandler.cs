@@ -9,16 +9,10 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.CollectionHandlers;
 
-public class CollectionConstructHandler : IRequestHandler<CollectionConstructCommand, CollectionFullDto?>
+public class CollectionConstructHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<CollectionConstructCommand, CollectionFullDto?>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public CollectionConstructHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<CollectionFullDto?> Handle(CollectionConstructCommand request, CancellationToken ct)
     {

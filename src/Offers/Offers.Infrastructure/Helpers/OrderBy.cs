@@ -1,14 +1,8 @@
-﻿
-namespace Offers.Infrastructure.Helpers;
+﻿namespace Offers.Infrastructure.Helpers;
 
-internal class OrderBy
+internal class OrderBy(Dictionary<string, string?>? orderByRequest)
 {
-    public Dictionary<string, string?>? Conditions { get; set; }
-
-    public OrderBy(Dictionary<string, string?>? orderByRequest)
-    {
-        Conditions = orderByRequest;
-    }
+    public Dictionary<string, string?>? Conditions { get; set; } = orderByRequest;
 
     public string GenerateSql(bool snakeCase = true)
     {

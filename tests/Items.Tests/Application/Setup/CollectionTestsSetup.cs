@@ -17,7 +17,7 @@ public class CollectionTestsSetup
             configuration.AddProfile<CollectionProfile>();
             configuration.AddProfile<CollectionItemProfile>();
             configuration.AddProfile<IconProfile>();
-        });
+        }, null);
 
         _mapper = mapperConfig.CreateMapper();
 

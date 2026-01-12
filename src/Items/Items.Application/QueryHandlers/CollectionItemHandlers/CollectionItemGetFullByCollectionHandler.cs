@@ -6,22 +6,16 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.CollectionItemHandlers;
 
-public class CollectionItemGetFullByCollectionHandler : IRequestHandler<CollectionItemGetFullByCollectionQuery, IEnumerable<CollectionItemFullWithFileDto>>
+public class CollectionItemGetFullByCollectionHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<CollectionItemGetFullByCollectionQuery, IEnumerable<CollectionItemFullWithFileDto>>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public CollectionItemGetFullByCollectionHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<IEnumerable<CollectionItemFullWithFileDto>> Handle(CollectionItemGetFullByCollectionQuery request, CancellationToken ct)
     {
         var collectionItems = (await _uow.CollectionItemRepository.GetByCollection(request.CollectionId, ct)).ToList();
 
-        if (collectionItems.Count == 0) return Enumerable.Empty<CollectionItemFullWithFileDto>();
+        if (collectionItems.Count == 0) return [];
         
         var iconsIds = collectionItems.Select(item => item.IconId);
         var icons = (await _uow.IconRepository.GetRange(iconsIds, ct)).ToList();

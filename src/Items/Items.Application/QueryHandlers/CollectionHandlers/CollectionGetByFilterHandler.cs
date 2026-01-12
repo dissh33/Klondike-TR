@@ -6,16 +6,10 @@ using MediatR;
 
 namespace Items.Application.QueryHandlers.CollectionHandlers;
 
-public class CollectionGetByFilterHandler : IRequestHandler<CollectionGetByFilterQuery, IEnumerable<CollectionDto>>
+public class CollectionGetByFilterHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<CollectionGetByFilterQuery, IEnumerable<CollectionDto>>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public CollectionGetByFilterHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<IEnumerable<CollectionDto>> Handle(CollectionGetByFilterQuery request, CancellationToken ct)
     {

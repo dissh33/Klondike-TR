@@ -127,8 +127,8 @@ public class CollectionConstructTests : CollectionTestsSetup
         
         //assert
         allCollections.Should().HaveCount(CollectionRepositoryMock.InitialFakeDataSet.Count() + 1);
-        allIcons.Should().HaveCount(IconRepositoryMock.InitialFakeDataSet.Count() + Constants.COLLECTION_ITEM_NUMBER + 1); //+1 for collection entity
-        allItems.Should().HaveCount(CollectionItemRepositoryMock.InitialFakeDataSet.Count() + Constants.COLLECTION_ITEM_NUMBER);
+        allIcons.Should().HaveCount(IconRepositoryMock.InitialFakeDataSet.Count() + DomainConstants.ITEMS_NUMBER_IN_COLLECTION + 1); //+1 for collection entity
+        allItems.Should().HaveCount(CollectionItemRepositoryMock.InitialFakeDataSet.Count() + DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
     }
     
     [Fact]

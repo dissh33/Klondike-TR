@@ -1,6 +1,4 @@
-﻿using Items.Domain.Events;
-
-namespace Items.Domain;
+﻿namespace Items.Domain.Events;
 
 public interface IDomainEvents
 {

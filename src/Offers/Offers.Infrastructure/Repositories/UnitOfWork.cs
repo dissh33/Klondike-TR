@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using App.Metrics;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Offers.Application.Contracts;
@@ -11,13 +10,13 @@ namespace Offers.Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly ILogger _logger;
-    private readonly IMetrics _metrics;
+    private readonly DbMetrics _metrics;
 
     private readonly IDbConnection _connection;
     private IDbTransaction _transaction;
     private Guid _transactionId;
 
-    public UnitOfWork(IConfiguration configuration, ILogger logger, IMetrics metrics)
+    public UnitOfWork(IConfiguration configuration, ILogger logger, DbMetrics metrics)
     {
         _logger = logger;
         _metrics = metrics;
@@ -26,7 +25,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         _connection = new NpgsqlConnection(connectionString);
         _connection.Open();
-        _metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter); //TODO: Metrics
+        _metrics.DbConnectionsCounter.Add(1);
 
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
@@ -59,10 +58,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         {
             _transaction.Dispose();
 
-            _transactionId = Guid.NewGuid();
-            _transaction = _connection.BeginTransaction();
-            _logger.Information("Begin transaction {@id}", _transactionId);
-
+            StartNewTransaction();
             ResetRepositories();
         }
     }
@@ -74,11 +70,15 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         _transaction.Dispose();
 
+        StartNewTransaction();
+        ResetRepositories();
+    }
+
+    private void StartNewTransaction()
+    {
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();
         _logger.Information("Begin transaction {@id}", _transactionId);
-
-        ResetRepositories();
     }
 
     public void Dispose()
@@ -96,6 +96,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
             _transaction.Dispose();
             _logger.Information("Dispose transaction {@id}", _transactionId);
+            _connection.Dispose();
 
             _disposed = true;
         }

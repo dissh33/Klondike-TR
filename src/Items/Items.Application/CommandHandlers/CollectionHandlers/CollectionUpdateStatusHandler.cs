@@ -6,16 +6,10 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.CollectionHandlers;
 
-public class CollectionUpdateStatusHandler : IRequestHandler<CollectionUpdateStatusCommand, CollectionDto?>
+public class CollectionUpdateStatusHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<CollectionUpdateStatusCommand, CollectionDto?>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public CollectionUpdateStatusHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<CollectionDto?> Handle(CollectionUpdateStatusCommand request, CancellationToken ct)
     {

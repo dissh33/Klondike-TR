@@ -24,7 +24,7 @@ public class OfferPositionTests
         offerPosition.Should().BeOfType(typeof(OfferPosition));
     }
 
-    private static IEnumerable<object?[]> OfferPositionConstructorParameters()
+    public static IEnumerable<object?[]> OfferPositionConstructorParameters()
     {
         return new List<object?[]>
         {

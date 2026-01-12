@@ -12,7 +12,7 @@ public class IconTestsSetup
 
     public IconTestsSetup()
     {
-        var mapperConfig = new MapperConfiguration(configuration => configuration.AddProfile<IconProfile>());
+        var mapperConfig = new MapperConfiguration(configuration => configuration.AddProfile<IconProfile>(), null);
         _mapper = mapperConfig.CreateMapper();
 
         _uow = UnitOfWorkMock.GetUnitOfWork();

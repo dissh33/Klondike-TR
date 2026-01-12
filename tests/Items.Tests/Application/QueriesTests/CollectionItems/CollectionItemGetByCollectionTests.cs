@@ -43,7 +43,7 @@ public class CollectionItemGetByCollectionTests : CollectionItemTestsSetup
 
         //assert
         actual.Should().AllBeOfType(typeof(CollectionItemDto));
-        actual.Should().HaveCount(Constants.COLLECTION_ITEM_NUMBER);
+        actual.Should().HaveCount(DomainConstants.ITEMS_NUMBER_IN_COLLECTION);
         actual.Should().BeEquivalentTo(itemsByCollection);
     }
 

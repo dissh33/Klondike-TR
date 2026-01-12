@@ -7,16 +7,10 @@ using Offers.Application.Contracts;
 
 namespace Offers.Application.QueryHandlers.OfferHandlers;
 
-public class OfferGetByPageHandler : IRequestHandler<OfferGetByPageQuery, PaginationWrapper<OfferDto>?>
+public class OfferGetByPageHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<OfferGetByPageQuery, PaginationWrapper<OfferDto>?>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public OfferGetByPageHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<PaginationWrapper<OfferDto>?> Handle(OfferGetByPageQuery request, CancellationToken ct)
     {
@@ -30,7 +24,7 @@ public class OfferGetByPageHandler : IRequestHandler<OfferGetByPageQuery, Pagina
             ct, 
             request.OrderBy))?.ToList();
 
-        if (paginationResult is null || !paginationResult.Any()) return null;
+        if (paginationResult is null || paginationResult.Count == 0) return null;
 
         var positions = (await _uow.OfferPositionRepository.GetByOffers(paginationResult.Select(offer => offer.Id.Value), ct)).ToList();
         var items = (await _uow.OfferItemRepository.GetByPositions(positions.Select(position => position.Id.Value), ct)).ToList();

@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using App.Metrics;
 using Items.Application.Contracts;
 using Items.Infrastructure.Metrics;
 using Microsoft.Extensions.Configuration;
@@ -11,14 +10,14 @@ namespace Items.Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly ILogger _logger;
-    private readonly IMetrics _metrics;
+    private readonly DbMetrics _metrics;
     private readonly IConfiguration _configuration;
 
     private IDbConnection _connection;
     private IDbTransaction _transaction;
     private Guid _transactionId;
 
-    public UnitOfWork(IConfiguration configuration, ILogger logger, IMetrics metrics)
+    public UnitOfWork(IConfiguration configuration, ILogger logger, DbMetrics metrics)
     {
         _logger = logger;
         _metrics = metrics;
@@ -26,7 +25,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         CreateConnection();
         _connection!.Open();
-        _metrics.Measure.Counter.Increment(MetricsRegistry.DbConnectionsCounter);
+        _metrics.DbConnectionsCounter.Add(1);
 
         _transactionId = Guid.NewGuid();
         _transaction = _connection.BeginTransaction();

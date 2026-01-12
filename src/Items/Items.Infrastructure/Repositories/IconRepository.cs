@@ -1,21 +1,15 @@
-﻿using App.Metrics;
-using Dapper;
+﻿using Dapper;
 using Items.Application.Contracts;
 using Items.Domain.Entities;
-using Items.Infrastructure.Logging;
+using Items.Infrastructure.Metrics;
 using Serilog;
 using System.Data;
 
 namespace Items.Infrastructure.Repositories;
 
-public class IconRepository : BaseRepository<Icon>, IIconRepository
+public class IconRepository(IDbTransaction transaction, ILogger logger, DbMetrics metrics) 
+    : BaseRepository<Icon>(transaction, logger, metrics), IIconRepository
 {
-    public IconRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
-    : base(transaction, logger, metrics)
-    {
-
-    }
-
     public async Task<Icon?> GetById(Guid id, CancellationToken ct)
     {
         var selectColumns = string.Join(", ", GetColumns().Where(col => col != "FileBinary").Select(InsertUnderscoreBeforeUpperCase));
@@ -29,7 +23,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<Icon?> GetFile(Guid id, CancellationToken ct)
@@ -38,7 +32,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<IEnumerable<Icon>> GetAll(CancellationToken ct)
@@ -53,7 +47,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<IEnumerable<Icon>> GetRange(IEnumerable<Guid> ids, CancellationToken ct)
@@ -69,7 +63,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.QueryAsync<Icon>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<Icon?> Insert(Icon icon, CancellationToken ct)
@@ -78,7 +72,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command, Metrics);
+        var id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -101,7 +95,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        await Logger.DbCall(query, command, Metrics);
+        await DbCall(query, command);
 
         return await GetRange(collectionItemsList.Select(icon => icon.Id), ct);
     }
@@ -112,7 +106,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command, Metrics);
+        var id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -127,7 +121,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command, Metrics);
+        id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -142,7 +136,7 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        id = await Logger.DbCall(query, command, Metrics);
+        id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -153,6 +147,6 @@ public class IconRepository : BaseRepository<Icon>, IIconRepository
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 }

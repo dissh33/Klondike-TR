@@ -1,13 +1,13 @@
-﻿using App.Metrics;
-using Dapper;
-using Serilog;
-using System.Data;
-using System.Reflection;
-using System.Text;
+﻿using Dapper;
 using Newtonsoft.Json;
 using Offers.Application.Contracts;
 using Offers.Domain.SeedWork;
 using Offers.Domain.TypedIds;
+using Offers.Infrastructure.Logging;
+using Offers.Infrastructure.Metrics;
+using Serilog;
+using System.Data;
+using System.Text;
 
 namespace Offers.Infrastructure.Repositories;
 
@@ -16,12 +16,13 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T>
 {
     protected const int SQL_TIMEOUT = 3600;
     protected const string SCHEMA_NAME = "public";
+    protected List<string> ExcludeProperties = ["DomainEvents", "OfferItems", "Positions", "Expression"];
 
     protected IDbTransaction Transaction { get; }
     protected ILogger Logger { get; }
-    protected IMetrics Metrics { get; }
+    protected DbMetrics Metrics { get; }
 
-    protected IDbConnection? Connection { get; }
+    protected IDbConnection Connection { get; }
 
     protected string TableName { get; }
     
@@ -34,19 +35,38 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T>
         SqlMapper.AddTypeHandler(typeof(OfferItemId), new TypedIdHandler());
     }
 
-    protected BaseRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics)
+    protected BaseRepository(IDbTransaction transaction, ILogger logger, DbMetrics metrics)
     {
         Transaction = transaction;
         Logger = logger;
         Metrics = metrics;
 
-        Connection = Transaction.Connection;
+        Connection = Transaction.Connection!;
 
         TableName = InsertUnderscoreBeforeUpperCase(typeof(T).Name);
     }
 
-    protected List<string> ExcludeProperties = new() {  "DomainEvents", "OfferItems", "Positions", "Expression"};
-    
+    protected Task<TQuery> DbCall<TQuery>(Func<Task<TQuery>> query, CommandDefinition command)
+    {
+        Metrics.DbCallsCounter.Add(1);
+        return Logger.DbCall(query, command);
+    }
+
+    protected CommandDefinition CreateCommand(
+        string commandText,
+        object? parameters = null,
+        CancellationToken cancellationToken = default,
+        IDbTransaction? transaction = null,
+        int? commandTimeout = null)
+    {
+        return new CommandDefinition(
+            commandText: commandText,
+            parameters: parameters,
+            cancellationToken: cancellationToken,
+            transaction: transaction ?? Transaction,
+            commandTimeout: commandTimeout ?? SQL_TIMEOUT);
+    }
+
     protected IEnumerable<string> GetColumns()
     {
         return typeof(T)
@@ -59,11 +79,7 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T>
     {
         var sql = $"SELECT COUNT(*) FROM {SCHEMA_NAME}.{TableName}";
 
-        return new CommandDefinition(
-            commandText: sql,
-            transaction: Transaction,
-            commandTimeout: SQL_TIMEOUT,
-            cancellationToken: ct);
+        return CreateCommand(sql, cancellationToken: ct);
     }
 
     protected CommandDefinition GetByIdBaseCommand(Guid id, CancellationToken ct)
@@ -72,12 +88,7 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T>
 
         var sql = $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName} WHERE id = @id";
 
-        return new CommandDefinition(
-            commandText: sql,
-            parameters: new { id },
-            transaction: Transaction,
-            commandTimeout: SQL_TIMEOUT,
-            cancellationToken: ct);
+        return CreateCommand(sql, new { id }, ct);
     }
 
     protected CommandDefinition InsertBaseCommand(T entity, CancellationToken ct)
@@ -87,23 +98,14 @@ public abstract class BaseRepository<T> : IBaseGenericRepository<T>
 
         var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
         
-        return new CommandDefinition(
-            commandText: sql,
-            transaction: Transaction,
-            commandTimeout: SQL_TIMEOUT,
-            cancellationToken: ct);
+        return CreateCommand(sql, entity, ct);
     }
 
     protected CommandDefinition DeleteBaseCommand(Guid id, CancellationToken ct)
     {
         var sql = $"DELETE FROM {SCHEMA_NAME}.{TableName} WHERE id = @id";
 
-        return new CommandDefinition(
-            commandText: sql,
-            parameters: new { id },
-            transaction: Transaction,
-            commandTimeout: SQL_TIMEOUT,
-            cancellationToken: ct);
+        return CreateCommand(sql, new { id }, ct);
     }
     
     protected string InsertUnderscoreBeforeUpperCase(string str)

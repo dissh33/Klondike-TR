@@ -22,7 +22,7 @@ public class IconTests
         icon.Should().BeOfType(typeof(Icon));
     }
 
-    private static IEnumerable<object?[]> IconConstructorParameters()
+    public static IEnumerable<object?[]> IconConstructorParameters()
     {
         return new List<object?[]>
         {

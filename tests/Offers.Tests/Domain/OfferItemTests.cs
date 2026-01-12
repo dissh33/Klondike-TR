@@ -22,7 +22,7 @@ public class OfferItemTests
         offerItem.Should().BeOfType(typeof(OfferItem));
     }
 
-    private static IEnumerable<object?[]> OfferItemConstructorParameters()
+    public static IEnumerable<object?[]> OfferItemConstructorParameters()
     {
         return new List<object?[]>
         {

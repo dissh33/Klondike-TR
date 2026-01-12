@@ -4,14 +4,9 @@ using MediatR;
 
 namespace Items.Application.CommandHandlers.CollectionHandlers;
 
-public class CollectionDeleteHandler : IRequestHandler<DeleteByIdCommand, int>
+public class CollectionDeleteHandler(IUnitOfWork uow) : IRequestHandler<DeleteByIdCommand, int>
 {
-    private readonly IUnitOfWork _uow;
-
-    public CollectionDeleteHandler(IUnitOfWork uow)
-    {
-        _uow = uow;
-    }
+    private readonly IUnitOfWork _uow = uow;
 
     public async Task<int> Handle(DeleteByIdCommand request, CancellationToken ct)
     {

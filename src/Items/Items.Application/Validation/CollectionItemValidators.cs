@@ -2,7 +2,7 @@
 using Items.Api.Commands.CollectionItem;
 using Items.Application.Contracts;
 
-namespace Items.Application.Validators;
+namespace Items.Application.Validation;
 
 public class CollectionItemAddValidator : IconExistenceBaseValidator<CollectionItemAddCommand>
 {
@@ -11,7 +11,7 @@ public class CollectionItemAddValidator : IconExistenceBaseValidator<CollectionI
         RuleFor(collectionItem => collectionItem.Name).Length(3, 250);
 
         RuleFor(command => command.CollectionId)
-            .MustAsync(async (iconId, ct) => (await uow.CollectionRepository.GetById(iconId, ct)) != null)
+            .MustAsync(async (collectionId, ct) => (await uow.CollectionRepository.GetById(collectionId, ct)) != null)
             .WithMessage((_, id) => $"Collection with id [{id}] doesn't exist.");
     }
 }
@@ -24,7 +24,7 @@ public class CollectionItemUpdateValidator : IconExistenceBaseValidator<Collecti
         RuleFor(collectionItem => collectionItem.Name).Length(3, 250);
 
         RuleFor(command => command.CollectionId)
-            .MustAsync(async (iconId, ct) => (await uow.CollectionRepository.GetById(iconId, ct)) != null)
+            .MustAsync(async (collectionId, ct) => (await uow.CollectionRepository.GetById(collectionId, ct)) != null)
             .WithMessage((_, id) => $"Collection with id [{id}] doesn't exist.");
     }
 }

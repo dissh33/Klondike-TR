@@ -20,23 +20,58 @@
     </div>
     
     <div class="mt-2">
-        <div class="d-flex flex-row">
-            <p class="flex-fill w-50 m-0 ms-1 align-text-bottom fs-5 font-monospace text-dark">Sell:</p>
-            <p class="flex-fill w-50 m-0 ms-1 align-text-bottom fs-5 font-monospace text-dark">Buy:</p>
-        </div>
         
         <div class="d-flex flex-row">
-            <div class="p-2 flex-fill border">Sell Content</div>
-            <div class="p-2 flex-fill border">Buy Content</div>
+
+            <div class="m-2 p-2 border" style="width: 582px">
+                
+                @for (var rowIndex = 0; rowIndex < _offerItemsBuy.Count + MAX_ITEMS_IN_ROW; rowIndex += MAX_ITEMS_IN_ROW)
+                {
+                    <div class="d-flex flex-row">
+
+                        @if (_offerItemsBuy.Count == 0)
+                        {
+                            <OfferItem OnAddOfferItem="AddItemToBuyOfferPosition"/>
+                        }
+                        else
+                        {
+                            foreach (var item in GetItemsForRow(_offerItemsBuy, rowIndex))
+                            {
+                                <OfferItem OfferItemDto="item" OnAddOfferItem="AddItemToBuyOfferPosition" />
+                            }
+                        }
+
+                    </div>
+                }
+
+            </div>
+
+            
+            <div class="m-2 p-2 border" style="width: 582px">
+
+                @for (var rowIndex = 0; rowIndex < _offerItemsSell.Count + MAX_ITEMS_IN_ROW; rowIndex += MAX_ITEMS_IN_ROW)
+                {
+                    <div class="d-flex flex-row">
+
+                        @if (_offerItemsSell.Count == 0)
+                        {
+                            <OfferItem OnAddOfferItem="AddItemToSellOfferPosition"/>
+                        }
+                        else
+                        {
+                            foreach (var item in GetItemsForRow(_offerItemsSell, rowIndex))
+                            {
+                                <OfferItem OfferItemDto="item" OnAddOfferItem="AddItemToSellOfferPosition"/>
+                            }
+                        }
+
+                    </div>
+                }
+
+            </div>
+
         </div>
     </div>
-
-    <OfferItem OnAddOfferItem="AddItemToOfferPosition"/>
-
-    @foreach (var item in _offerItems)
-    {
-        <OfferItem OfferItemDto="item" OnAddOfferItem="AddItemToOfferPosition"/>
-    }
 
     <textarea class="form-control form-control-sm text-dark" rows="2" placeholder="Enter message for this Offer Position" @bind="_offerPositionMessage"></textarea>
 
@@ -53,13 +88,30 @@
     private string? _offerPositionMessage;
 
     private OfferPositionDto _offerPosition = new();
-    private readonly List<OfferItemDto> _offerItems = new();
 
-    private void AddItemToOfferPosition(OfferItemDto offerItem)
+    private readonly List<OfferItemDto> _offerItemsBuy = new();
+    private readonly List<OfferItemDto> _offerItemsSell = new();
+
+    private const int MAX_ITEMS_IN_ROW = 5;
+
+    private void AddItemToBuyOfferPosition(OfferItemDto offerItem)
     {
-        _offerItems.Add(offerItem);
+        _offerItemsBuy.Add(offerItem);
 
-        _offerPosition.OfferItems = _offerItems;
+        _offerPosition.OfferItems = _offerItemsBuy;
         StateHasChanged();
+    }
+
+    private void AddItemToSellOfferPosition(OfferItemDto offerItem)
+    {
+        _offerItemsSell.Add(offerItem);
+
+        _offerPosition.OfferItems = _offerItemsSell;
+        StateHasChanged();
+    }
+
+    private List<OfferItemDto> GetItemsForRow(List<OfferItemDto> items, int rowIndex)
+    {
+        return items.Skip(rowIndex).Take(MAX_ITEMS_IN_ROW).ToList();
     }
 }

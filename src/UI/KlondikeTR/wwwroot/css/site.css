@@ -63,13 +63,18 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
-.item-size {
-    width: 120px;
-    height: 120px;
+.item-img-size {
+    width: 105px;
+    height: 105px;
+}
+
+.item-name-size {
+    width: 105px;
+    height: 30px;
 }
 
 .item-width {
-    width: 120px;
+    width: 105px;
 }
 
 .item-search {

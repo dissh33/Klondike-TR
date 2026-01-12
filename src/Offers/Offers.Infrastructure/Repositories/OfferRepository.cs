@@ -1,28 +1,24 @@
-﻿using System.Data;
-using App.Metrics;
-using Dapper;
+﻿using Dapper;
 using Offers.Application.Contracts;
 using Offers.Domain.Entities;
 using Offers.Infrastructure.Helpers;
 using Offers.Infrastructure.Logging;
+using Offers.Infrastructure.Metrics;
 using Serilog;
+using System.Data;
 
 namespace Offers.Infrastructure.Repositories;
 
-public class OfferRepository : BaseRepository<Offer>, IOfferRepository
+public class OfferRepository(IDbTransaction transaction, ILogger logger, DbMetrics metrics) 
+    : BaseRepository<Offer>(transaction, logger, metrics), IOfferRepository
 {
-    public OfferRepository(IDbTransaction transaction, ILogger logger, IMetrics metrics) 
-        : base(transaction, logger, metrics)
-    {
-    }
-
     public async Task<Offer?> GetById(Guid id, CancellationToken ct)
     {
         var command = GetByIdBaseCommand(id, ct);
 
         var query = async () => await Connection.QueryFirstOrDefaultAsync<Offer>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<long> GetCount(CancellationToken ct)
@@ -31,7 +27,7 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
 
         var query = async () => await Connection.ExecuteScalarAsync<long>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<IEnumerable<Offer>?> GetByPage(
@@ -46,15 +42,13 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
         var sql = $"SELECT {selectColumns} FROM {SCHEMA_NAME}.{TableName}" +
                         $"{orderByClause} LIMIT {pageSize} OFFSET {(page - 1) * pageSize}";
 
-        var command = new CommandDefinition(
+        var command = CreateCommand(
             commandText: sql,
-            transaction: Transaction,
-            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
 
         var query = async () => await Connection.QueryAsync<Offer>(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 
     public async Task<Offer?> Insert(Offer offer, CancellationToken ct)
@@ -64,16 +58,14 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
 
         var sql = $"INSERT INTO {SCHEMA_NAME}.{TableName} {insertColumns} RETURNING id";
         
-        var command = new CommandDefinition(
+        var command = CreateCommand(
             commandText: sql,
             parameters: offer,
-            transaction: Transaction,
-            commandTimeout: SQL_TIMEOUT,
             cancellationToken: ct);
         
         var query = async () => await Connection.ExecuteScalarAsync<Guid>(command);
 
-        var id = await Logger.DbCall(query, command, Metrics);
+        var id = await DbCall(query, command);
 
         return await GetById(id, ct);
     }
@@ -84,6 +76,6 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
 
         var query = async () => await Connection.ExecuteAsync(command);
 
-        return await Logger.DbCall(query, command, Metrics);
+        return await DbCall(query, command);
     }
 }

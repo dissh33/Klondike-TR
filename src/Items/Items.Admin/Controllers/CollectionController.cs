@@ -73,6 +73,8 @@ namespace Items.Admin.Controllers
 
             foreach (var icon in fileList.Skip(1))
             {
+                ct.ThrowIfCancellationRequested();
+
                 var fileStream = new MemoryStream();
                 await icon.CopyToAsync(fileStream, ct);
                 var binary = fileStream.GetBuffer();

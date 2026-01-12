@@ -6,16 +6,10 @@ using Offers.Application.Contracts;
 
 namespace Offers.Application.QueryHandlers.OfferPosition;
 
-public class OfferPositionGetByIdHandler : IRequestHandler<OfferPositionGetByIdQuery, OfferPositionDto?>
+public class OfferPositionGetByIdHandler(IUnitOfWork uow, IMapper mapper) : IRequestHandler<OfferPositionGetByIdQuery, OfferPositionDto?>
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public OfferPositionGetByIdHandler(IUnitOfWork uow, IMapper mapper)
-    {
-        _uow = uow;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<OfferPositionDto?> Handle(OfferPositionGetByIdQuery request, CancellationToken ct)
     {
